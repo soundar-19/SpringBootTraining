@@ -1,86 +1,66 @@
 # 🎟️ Ticket Issue Java App
 
-A comprehensive Java-based ticket management application designed with modular phases. It follows object-oriented principles and is built to scale with Spring Boot integration. Initially started as **Phase 1 of Project 1**, the project is structured for progressive enhancement through additional phases and features.
+A comprehensive **Java-based Ticket Management Application** designed with a progressive, modular structure. This project demonstrates core **Object-Oriented Programming (OOP)** principles in each phase and is structured for future enhancement with technologies like **Spring Boot**, **REST APIs**, and **databases**.
+
+Initially developed as a series of hands-on OOP exercises, it now forms a complete mini-project showcasing real-world design, scalability, and clean code practices.
 
 ---
 
-## 📦 Project Structure
+## 📆 Phased Project Structure
 
 ```text
-project-root/
-├── .gitignore
-├── .vscode/
-├── pom.xml
-├── README.md
-├── src/
-│   ├── main/
-│   │   └── java/com/ticketapp/
-│   │       ├── App.java
-│   │       ├── Ticket.java
-│   │       ├── User.java
-│   │       ├── TicketService.java
-│   │       └── UserService.java
-│   └── test/
-│       └── java/com/ticketapp/
-│           └── AppTest.java
+Ticket-Issue-Java-App/
+├── day1proj1/                # Phase 1: Basic OOP, single service
+├── day2proj2phase1/         # Phase 2.1: Helpdesk with user-ticket mapping
+├── day2proj1/               # Phase 2.2: TicketService and user association
+├── README.md                # General project overview (this file)
+└── ...                      # Future enhancements
 ```
+
+Each subfolder contains a separate Java module/project for a specific learning goal or system component.
 
 ---
 
-## 🚀 Key Features
+## 🚀 Features Across Phases
 
-* Create and manage tickets
-* Assign tickets to users
-* CRUD operations for both tickets and users
-* RESTful API endpoints using Spring Boot (planned)
-* In-memory data handling (can be replaced with databases later)
-* Modular architecture for future expansion
+* Ticket creation and user assignment
+* Console-based interaction for displaying details
+* Encapsulation, constructors, and class interactions
+* Service layer abstraction for handling logic
+* Maven-based structure and builds
+* Future-ready for REST APIs and Spring Boot integration
 
 ---
 
 ## 🛠️ Technologies Used
 
-* Java 21
-* Spring Boot
+* Java 21 
 * Maven
-* JUnit 5
-* (Planned) H2 or MySQL for persistence
+* JUnit (where applicable)
+* Spring Boot (planned)
+* (Planned) H2 / MySQL
 
 ---
 
-## 📄 Class Overview
+## 📅 Future Enhancements
 
-### `App.java`
-
-* Main launcher for the application.
-
-### `Ticket.java`
-
-* Ticket entity: ID, title, status, and related user.
-
-### `User.java`
-
-* User entity: ID, name, and ticket ownership.
-
-### `TicketService.java`
-
-* Handles business logic for ticket operations.
-
-### `UserService.java`
-
-* Handles business logic for user operations.
-
-* REST API controllers (planned for future phase).
+* [ ] RESTful API layer using Spring Boot
+* [ ] Integration with relational database (H2 or MySQL)
+* [ ] Web-based frontend
+* [ ] Exception handling and input validation
+* [ ] Dockerization
+* [ ] Authentication with JWT / OAuth
 
 ---
 
-## 🧪 Running the Application
+## 🖊️ How to Run (Maven)
 
-To build and run:
+To build and run any module (e.g., `day2proj2phase1`):
 
 ```bash
+cd day2proj2phase1
 mvn clean install
-java -cp target/ticket-app-1.0-SNAPSHOT.jar com.ticketapp.App
+mvn exec:java -Dexec.mainClass="com.day2proj2phase1.Main"
 ```
 
 To run tests:
@@ -91,18 +71,11 @@ mvn test
 
 ---
 
-## 🧱 Planned Enhancements
+## 👨‍💻 Author
 
-* Add Spring Boot REST controllers
-* Integrate with H2/MySQL database
-* Add exception handling and validations
-* Create a web-based frontend interface
-* Dockerize the application
-* Add authentication (e.g., JWT)
+- **Soundar Raja B**
+- GitHub: [soundar-19](https://github.com/soundar-19)
 
 ---
 
-## 👨‍💻 Author
-
-* Soundar Raja B
-* GitHub: [soundar-19](https://github.com/soundar-19)
+> This app is a work in progress, evolving through hands-on implementation and clean coding practices. Ideal for learning and demonstrating Java OOP and backend service design.
