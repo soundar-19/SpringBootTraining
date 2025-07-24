@@ -1,0 +1,158 @@
+# Ticketing System – Day 2 Project 2 (Phase 1)
+
+## 📋 Project Description
+
+This project is a simple **Helpdesk Ticketing System** built using Java and Object-Oriented Programming principles. It models two main entities: **User** and **Ticket**. Each ticket is associated with a user, demonstrating class composition and encapsulation.
+
+The application demonstrates:
+- Use of encapsulation and constructor logic
+- Class composition (Ticket has a User)
+- Clean package structure (`com.day2proj2phase1`)
+- Console-based data display using `displayDetails()` methods
+
+The main application creates user and ticket objects, links tickets to users, and displays their details in the console.
+
+---
+
+## Project's Structure :
+```
+day2proj2phase1/
+├── src/
+│   └── main/
+│       └── java/
+│           └── com/
+│               └── day2proj2phase1/
+│                   ├── App.java
+│                   ├── Ticket.java
+│                   └── User.java
+│   └── test/
+│       └── java/
+│           └── com/
+│               └── day2proj2phase1/
+│                   └── AppTest.java
+├── pom.xml
+├── .gitignore
+├── README.md
+└── day2proj2 Notes.md
+```
+
+---
+
+## App.java:
+```java
+package com.day2proj2phase1;
+
+public class App 
+{
+    public static void main( String[] args )
+    {
+        //creating users
+        User user1 = new User(1, "Soundar", "Soundar@gmail.com");
+        User user2 = new User(2,"Raja","raja@gmail.com");
+
+        //creating tickets
+        Ticket ticket1 = new Ticket(1,"Network Issue","Experiencing Slow Network",user1);
+        Ticket ticket2 = new Ticket(2,"Software Issue","Too Many Bugs in the App",user2);
+        Ticket ticket3 = new Ticket(3,"Hardware Issue","Device Malfunction",user1);
+        
+        //Displaying Ticket Details
+        ticket1.displayDetails();
+        ticket2.displayDetails();
+        ticket3.displayDetails();
+    }
+}
+```
+
+---
+
+## com.day2proj2phase1/User.java:
+```java
+package com.day2proj2phase1;
+
+public class User {
+    //properties
+    private int userId;
+    private String userName;
+    private String email;
+
+    //constructor
+    User(int userId, String userName, String email){
+        this.userId = userId;
+        this.userName = userName;
+        this.email = email;
+    }
+
+    //getters
+    public int getId() {
+        return userId;
+    }
+
+    public String getName() {
+        return userName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+    public void displayDetails(){
+        System.out.println("User Details");
+        System.out.println("UserId : "+userId);
+        System.out.println("UserName : "+userName);
+        System.out.println("UserEmail : "+email);
+        System.out.println();
+    }
+}
+```
+
+---
+
+## com.day2proj2phase1/Ticket.java:
+```java
+package com.day2proj2phase1;
+
+public class Ticket {
+    //properties
+    private int ticketId;
+    private String title;
+    private String description;
+    private String status;
+    private User user;
+
+    //constructor
+    Ticket(int ticketId, String title, String description, User user){
+        this.ticketId = ticketId;
+        this.title = title;
+        this.user = user;
+        this.description = description;
+        this.status = "Open"; //default status
+    }
+    //getters
+    public int getId() {
+        return ticketId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+    public String getDescription(){
+        return description;
+    }
+    private User getUser(){
+        return user;
+    }
+    public void closeTicket(){
+        this.status = "Closed";
+    }
+    public void displayDetails(){
+        System.out.println("Ticket Information");
+        System.out.println("Id : "+ticketId);
+        System.out.println("Title : "+title);
+        System.out.println("Description : "+description);
+        System.out.println("Status : "+status);
+    }
+}
+```
