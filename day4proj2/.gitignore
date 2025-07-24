@@ -1,0 +1,33 @@
+# Java and Maven
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+# Maven-specific files
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# IntelliJ IDEA
+*.iml
+.idea/
+out/
+
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+
+# Logs
+logs/
+*.log
+
+# Environment files
+.env

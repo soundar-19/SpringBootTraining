@@ -1,0 +1,363 @@
+# 🚄 Ticket Booking System – Day 4 Project 2
+GitHub Repo Link: [day4proj2](https://github.com/soundar-19/SpringBootTraining/tree/main/day4proj2)
+
+## 📋 Project Description
+
+This project is a console-based **Ticket Booking System** built in Java, demonstrating Object-Oriented Programming, custom exception handling, and error logging. Users can book tickets by providing their details; the system validates input, handles errors gracefully, and logs issues for audit.
+
+**Key Concepts:**
+- Encapsulation and inheritance (`Ticket` extends `User`)
+- Service layer for business logic (`TicketService`)
+- Custom exceptions for validation (`InvalidAgeException`, `EmptyFieldException`)
+- Utility class for error logging (`Logger`)
+- Interactive menu-driven console application
+
+---
+
+## 🗂️ Project Structure
+
+```
+day4proj2/
+├── README.md
+├── pom.xml
+├── .gitignore
+├── src/
+│   └── main/
+│       └── java/
+│           ├── main/
+│           │   └── Main.java
+│           ├── models/
+│           │   ├── Ticket.java
+│           │   └── User.java
+│           ├── services/
+│           │   └── TicketService.java
+│           ├── exceptions/
+│           │   ├── InvalidAgeException.java
+│           │   └── EmptyFieldException.java
+│           └── utils/
+│               └── Logger.java
+│   └── test/
+│       └── java/
+│           └── com/
+│               └── day4proj2/
+│                   └── AppTest.java
+```
+
+---
+
+## 🚀 How to Run
+
+1. **Build the project:**
+   ```bash
+   mvn clean install
+   ```
+2. **Run the application:**
+   ```bash
+   mvn exec:java -Dexec.mainClass="main.Main"
+   ```
+   Or run `Main.java` directly from your IDE.
+
+---
+
+## 🧩 Key Classes
+
+- **models.User**  
+  Encapsulates user properties (`userName`, `age`).
+
+- **models.Ticket**  
+  Inherits from `User`, adds `source` and `destination`, and provides a method to display ticket info.
+
+- **services.TicketService**  
+  Handles ticket booking and listing. Validates input and throws custom exceptions for invalid data.
+
+- **exceptions.InvalidAgeException & EmptyFieldException**  
+  Custom exceptions for age and empty field validation.
+
+- **utils.Logger**  
+  Logs errors to `error.log` with timestamp and ticket details.
+
+- **main.Main**  
+  Main class. Handles user input, ticket booking, error handling, and menu navigation.
+
+---
+
+## 📝 Example Output
+
+```
+Choose an option:
+1. Add Ticket
+2. List Tickets
+3. Exit
+1
+Enter username: John
+Enter age: 17
+Enter source: Chennai
+Enter destination: Bangalore
+Booking failed. User must be at least 18 years old
+(Logged to error.log)
+
+Choose an option:
+1. Add Ticket
+2. List Tickets
+3. Exit
+1
+Enter username: Alice
+Enter age: 25
+Enter source: Mumbai
+Enter destination: Pune
+Ticket booked succesfully for user: Alice
+
+Choose an option:
+1. Add Ticket
+2. List Tickets
+3. Exit
+2
+Ticket Information
+UserName: Alice
+Age: 25
+Source: Mumbai
+Destination: Pune
+```
+
+---
+Project Files:
+
+src/main/java/main/Main.java:
+
+package main;
+
+import utils.Logger;
+import models.Ticket;
+import services.TicketService;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args){
+        //Initializing Ticket Service
+        TicketService ticketService = new TicketService();
+        
+        //Initializing Scanner class
+        Scanner sc = new Scanner(System.in);
+
+        //Logger initialization
+        Logger logger = new Logger("error.log");
+
+        do{
+            System.out.println("Choose an option:");
+            System.out.println("1. Add Ticket");
+            System.out.println("2. List Tickets");
+            System.out.println("3. Exit");
+
+            int choice = sc.nextInt();
+            sc.nextLine(); //consuming newLine
+
+            switch (choice) {
+                case 1:
+                    //Input for Ticket
+                    System.out.print("Enter username: ");
+                    String userName = sc.nextLine();
+                    System.out.print("Enter age: ");
+                    if(!sc.hasNextInt()) {
+                        System.out.println("Invalid input. Age must be a number.");
+                        sc.nextLine(); // consume invalid input
+                        continue; // skip to next iteration
+                    }
+                    int age = sc.nextInt();
+                    sc.nextLine(); //consuming newLine
+                    System.out.print("Enter source: ");
+                    String source = sc.nextLine();
+                    System.out.print("Enter destination: ");
+                    String destination = sc.nextLine();
+
+                    //Creating Ticket object
+                    Ticket ticket = new Ticket(userName, age, source, destination);
+                    try{
+                        ticketService.bookTicket(ticket);
+                    }
+                    catch(Exception e){
+
+                        //Logging the error
+                        logger.log(ticket,e.getMessage());
+                        System.out.println(e.getMessage());
+
+                    }
+                    break;
+                case 2:
+                    ticketService.displayAllTickets();
+                    break;
+                case 3:
+                    System.out.println("Exitting....");
+                    return;
+                default:
+                    System.out.println("Invalid Choice.");
+                    break;
+            }
+
+        }while(true);
+
+    }
+}
+---
+src/main/java/models/Ticket.java:
+
+package models;
+
+public class Ticket extends User {
+    //properties
+    private String source;
+    private String destination;
+
+    //constructor
+    public Ticket(String userName, int age, String source, String destination) {
+        super(userName, age);
+        this.source = source;
+        this.destination = destination;
+    }
+
+    //getters
+    public String getSource() {
+        return source;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void displayTicket() {
+        System.out.println("Ticket Information");
+        System.out.println("UserName: " + getUserName());
+        System.out.println("Age: " + getAge());
+        System.out.println("Source: " + source);
+        System.out.println("Destination: " + destination);
+        System.out.println();
+    }
+
+}
+---
+src/main/java/models/User.java:
+package models;
+
+public class User {
+
+    //properties
+    private String userName;
+    private int age;
+
+    //constructor
+    public User(String userName, int age) {
+        this.userName = userName;
+        this.age = age;
+    }
+
+    //getters
+    public String getUserName() {
+        return userName;
+    }
+
+    public int getAge() {
+        return age;
+    }
+    
+}
+---
+src/main/java/services/TicketService.java:
+
+package services;
+
+import models.Ticket;
+import exceptions.InvalidAgeException;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.List;
+
+import exceptions.EmptyFieldException;
+
+public class TicketService {
+    private List<Ticket> tickets;
+    public TicketService(){
+        tickets = new ArrayList<>();
+    }
+    public void bookTicket(Ticket ticket) throws InvalidAgeException, EmptyFieldException {
+        // Exception handling for ticket booking
+        if(ticket.getAge()<18) throw new InvalidAgeException( "Booking failed. User must be at least 18 years old");
+        if(ticket.getUserName() == null || ticket.getUserName().isEmpty()) throw new EmptyFieldException("Booking failed. UserName cannot be empty");
+        if(ticket.getSource().isEmpty() || ticket.getDestination().isEmpty()) throw new EmptyFieldException("Booking failed. Source and Destination cannot be empty");
+        // Check if source and destination are the same
+        if(ticket.getSource().equalsIgnoreCase(ticket.getDestination())) {
+            throw new InputMismatchException("Booking failed. Source and Destination cannot be the same");
+        }
+        // Adding ticket to the list
+        tickets.add(ticket);
+
+        // Successful booking
+        System.out.println("Ticket booked successfully for user: " + ticket.getUserName());
+    }
+    public void displayAllTickets() {
+        if(tickets.isEmpty()) {
+            System.out.println("No tickets booked yet.");
+            return;
+        }
+        // Displaying all tickets
+        for(Ticket ticket : tickets) {
+            ticket.displayTicket();
+        }
+    }
+}
+---
+src/main/java/exceptions/InvalidAgeException.java:
+
+package exceptions;
+
+public class InvalidAgeException extends Exception {
+    
+    public InvalidAgeException(String message) {
+        super(message);
+    }
+
+}
+---
+src/main/java/exceptions/EmptyFieldException.java:
+
+package exceptions;
+
+public class EmptyFieldException extends Exception {
+
+    public EmptyFieldException(String message) {
+        super(message);
+    }
+    
+}
+---
+src/main/java/utils/Logger.java:
+
+package utils;
+
+import java.io.FileWriter;
+import java.time.LocalDate;
+
+import models.Ticket;
+
+public class Logger {
+    private FileWriter fileWriter;
+    public Logger(String fileName){
+        try{
+            fileWriter = new FileWriter(fileName,true);
+        }catch(Exception e){
+            System.out.println("Unable to Create the "+fileName+" file");
+        }
+    }
+    public void log(Ticket ticket,String error) {
+        try{
+            fileWriter.write(LocalDate.now() + " User: " + ticket.getUserName() + ", Age: " + ticket.getAge() + ", Source: " + ticket.getSource() + ", Destination: " + ticket.getDestination() + ", Error: " + error + "\n");
+            fileWriter.flush(); // Ensure the data is written to the file
+        }
+        catch(Exception e){
+            System.out.println("Unable to log. Try again Later");
+        }
+    }
+}
+---
+
+## 👤 Author
+
+- **Soundar Raja B**
