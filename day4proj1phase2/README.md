@@ -101,4 +101,4 @@ User Virat has been registered successfully
 
 ## 👤 Author
 
-- **Soundar Raja**
+- **Soundar Raja B**

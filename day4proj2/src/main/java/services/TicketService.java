@@ -5,7 +5,6 @@ import exceptions.InvalidAgeException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
-
 import exceptions.EmptyFieldException;
 
 public class TicketService {
