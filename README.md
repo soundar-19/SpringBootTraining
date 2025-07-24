@@ -16,7 +16,6 @@ SpringBoot Training/
 ├── day1proj1phase2/      # Ticket Management with Service Layer
 ├── day2proj2phase1/      # Helpdesk Ticketing System (OOP, Composition)
 ├── day3proj1phase1/      # Employee Tax Calculation System (Inheritance, Interfaces)
-├── .vscode/              # VSCode workspace settings
 └── README.md             # This file
 ```
 
