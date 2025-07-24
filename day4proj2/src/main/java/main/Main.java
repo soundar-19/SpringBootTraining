@@ -61,6 +61,7 @@ public class Main {
                     break;
                 case 3:
                     System.out.println("Exitting....");
+                    sc.close();
                     return;
                 default:
                     System.out.println("Invalid Choice.");
@@ -68,6 +69,6 @@ public class Main {
             }
 
         }while(true);
-
+        
     }
 }
