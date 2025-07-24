@@ -1,6 +1,6 @@
-# Issue Tracker Application
+Issue Tracker Application
 
-## 📋 Project Description
+Project Description
 
 This project is a simple **Issue Tracker Application** built using Java and Object-Oriented Programming principles. It models two main types of issues: **Bugs** and **Tasks**, both extending an abstract `Issue` class. Each issue type implements the `Reportable` interface, allowing for polymorphic report generation.
 
@@ -10,9 +10,10 @@ The application demonstrates:
 - Polymorphism via the `Reportable` interface
 - Clean package structure (`models`, `interfaces`, main application)
 
-The main application creates a list of issues, displays their details using the overridden `display()` method, and generates detailed reports for each issue using the
-## Project's Structure :
-```
+The main application creates a list of issues, displays their details using the overridden `display()` method, and generates detailed reports for each issue.
+
+Project's Structure :
+
 day3project2/
 ├── day3project2 Notes.txt
 └── src/
@@ -26,8 +27,9 @@ day3project2/
             └── interfaces/
                 └── Reportable.java
 
-```
-## IssueTrackerApplication.java:
+
+IssueTrackerApplication.java:
+
 ```
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +68,7 @@ public class IssueTrackerApplication {
     }
 }
 ```
-## models/Issue.java:
+models/Issue.java:
 ```
 package models;
 
@@ -108,7 +110,7 @@ public abstract class Issue {
     public abstract void display(); 
 }
 ```
-## models/Bug.java:
+models/Bug.java:
 ```
 package models;
 import interfaces.Reportable;
@@ -143,7 +145,7 @@ public class Bug extends Issue implements Reportable{
 
 }
 ```
-## models/Task.java:
+models/Task.java:
 ```
 package models;
 
@@ -186,7 +188,7 @@ public class Task extends Issue implements Reportable{
     }
 }
 ```
-## interfaces/Reportable.java
+interfaces/Reportable.java
 ```
 package interfaces;
 

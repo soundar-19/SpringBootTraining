@@ -1,6 +1,6 @@
-# Ticketing System – Day 2 Project 2 (Phase 1)
+Ticketing System – Day 2 Project 2 (Phase 1)
 
-## 📋 Project Description
+Project Description
 
 This project is a simple **Helpdesk Ticketing System** built using Java and Object-Oriented Programming principles. It models two main entities: **User** and **Ticket**. Each ticket is associated with a user, demonstrating class composition and encapsulation.
 
@@ -14,7 +14,7 @@ The main application creates user and ticket objects, links tickets to users, an
 
 ---
 
-## Project's Structure :
+Project's Structure :
 ```
 day2proj2phase1/
 ├── src/
@@ -36,9 +36,9 @@ day2proj2phase1/
 └── day2proj2 Notes.md
 ```
 
----
 
-## App.java:
+App.java:
+
 ```java
 package com.day2proj2phase1;
 
@@ -63,9 +63,8 @@ public class App
 }
 ```
 
----
+com.day2proj2phase1/User.java:
 
-## com.day2proj2phase1/User.java:
 ```java
 package com.day2proj2phase1;
 
@@ -106,7 +105,8 @@ public class User {
 
 ---
 
-## com.day2proj2phase1/Ticket.java:
+com.day2proj2phase1/Ticket.java:
+
 ```java
 package com.day2proj2phase1;
 
