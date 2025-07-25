@@ -31,7 +31,7 @@ public class Ticket {
     public String getDescription(){
         return description;
     }
-    private User getUser(){
+    public User getUser(){
         return user;
     }
     public void closeTicket(){
