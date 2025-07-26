@@ -1,0 +1,346 @@
+# 🧩 Mini Issue Tracker – Console Application (Day 5 – Project 2)
+
+## 📄 Overview
+
+This is a console-based mini bug tracker I developed using **Java, JDBC, and PostgreSQL**. It is a single-phase project aimed at strengthening my understanding of database interaction through JDBC and practicing CRUD operations in Java.
+
+---
+
+## 🎯 Objective
+
+To build a simple and functional bug tracking application with the following features:
+
+* Add new bugs with a title and description
+* View all existing bugs
+* Update the status of a bug using its ID
+* Delete bugs by their ID
+* Interact with the application through a menu-driven console interface
+
+---
+
+## 🔧 Technologies Used
+
+* Java 21
+* JDBC (Java Database Connectivity)
+* PostgreSQL
+* Maven
+
+---
+
+## 🔹 Project Structure
+
+```
+mini-issue-tracker/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/bugtracker/
+│   │   │       ├── dao/
+│   │   │       │   └── BugDAO.java
+│   │   │       ├── main/
+│   │   │       │   └── Main.java
+│   │   │       ├── model/
+│   │   │       │   └── Bug.java
+│   │   │       └── util/
+│   │   │           └── DBUtil.java
+│   └── resources/
+├── pom.xml
+└── README.md
+```
+
+---
+
+## 🧾 Database Schema
+
+I used the following PostgreSQL table structure for storing bug data:
+
+```sql
+CREATE TABLE bugs (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(100),
+    description TEXT,
+    status VARCHAR(50)
+);
+```
+
+---
+
+## 💻 How to Run
+
+1. Make sure PostgreSQL is installed and the server is running.
+2. Create the `bugs` table using the schema provided above.
+3. Update the database credentials in `DBUtil.java`.
+4. Compile and run the project using Maven:
+
+   ```bash
+   mvn compile
+   mvn exec:java -Dexec.mainClass="com.bugtracker.main.Main"
+   ```
+
+---
+
+## 📋 Console Menu Options
+
+1. **Add Bug** – Enter bug title and description to add a new bug.
+2. **View All Bugs** – Display all bug records from the database.
+3. **Update Bug Status by ID** – Update a bug's status by entering its ID.
+4. **Delete Bug by ID** – Delete a specific bug by providing its ID.
+5. **Exit** – Exit the application.
+
+
+
+## 👤 Author
+
+- **Soundar Raja B**
+
+---
+
+# File: com\day5proj2\dao\BugDAO.java
+
+```java
+package com.day5proj2.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.day5proj2.models.Bug;
+import com.day5proj2.util.DBUtil;
+
+public class BugDAO {
+    public void insertBug(Bug bug){
+        try{
+            Connection connection = DBUtil.getConnection();
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO bugs(title,description,status) VALUES(?,?,?)");
+            ps.setString(1, bug.getTitle());
+            ps.setString(2,bug.getDescription());
+            ps.setString(3, bug.getStatus());
+            ps.executeUpdate();
+            System.out.println("Bug is inserted");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void deleteBugById(String id){
+        try{
+            Connection connection = DBUtil.getConnection();
+            PreparedStatement ps = connection.prepareStatement("DELETE FROM bugs where id = ?");
+            ps.setInt(1,Integer.parseInt(id));
+            int affectedRows = ps.executeUpdate();
+            if(affectedRows>0) System.out.println("Bug with id "+id+" is deleted");
+            else System.out.println("No Such Bug Exist");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void updateBugStatusById(String id,String status){
+        try{
+            Connection connection = DBUtil.getConnection();
+            PreparedStatement ps = connection.prepareStatement("UPDATE bugs SET status = ? where id = ?");
+            ps.setString(1, status);
+            ps.setInt(2, Integer.parseInt(id));
+            int affectedRows = ps.executeUpdate();
+            if(affectedRows>0) System.out.println("Bug Status Updated Successfully");
+            else System.out.println("No Such Bug Exist");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    public Bug findBugById(String id){
+        Bug bug = new Bug();
+        try{
+            Connection connection = DBUtil.getConnection();
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM bugs WHERE id = ?");
+            ps.setString(1, id);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                bug = new Bug(rs.getString("title"),rs.getString("description"),rs.getString("status"));
+                bug.setId(rs.getInt("id"));
+            }else{
+                System.out.println("Bug with ID "+id+" not found");
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return bug;
+    }
+    public List<Bug> getAllBugs(){
+        List<Bug> bugList = new ArrayList<>();
+        try{
+            Connection connection = DBUtil.getConnection();
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM bugs");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Bug bug = new Bug();
+                bug.setId(rs.getInt("id"));
+                bug.setTitle(rs.getString("title"));
+                bug.setDescription(rs.getString("description"));
+                bug.setStatus(rs.getString("status"));
+                bugList.add(bug);
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return bugList;
+    }
+}
+```
+
+---
+
+# File: com\day5proj2\main\Main.java
+
+```java
+package com.day5proj2.main;
+import java.util.*;
+
+import com.day5proj2.dao.BugDAO;
+import com.day5proj2.models.Bug;
+public class Main {
+    public static void main(String[] args) {
+
+        try(Scanner sc = new Scanner(System.in)){
+            BugDAO bugDAO = new BugDAO();
+            boolean canContinue = true;
+            while(canContinue){
+                showMenu();
+                int choice = sc.nextInt();
+                sc.nextLine();
+                switch (choice) {
+                    case 1:
+                        System.out.println("Enter the Title of the Bug");
+                        String title = sc.nextLine();
+                        System.out.println("Enter the description");
+                        String description = sc.nextLine();
+                        Bug bug = new Bug(title,description,"Open");
+                        bugDAO.insertBug(bug);
+                        break;
+                    case 2:
+                        List<Bug> bugList = bugDAO.getAllBugs();
+                        for(Bug bg : bugList) bg.display();
+                        break;
+                    case 3:
+                        System.out.println("Enter the ID of the Bug");
+                        String id = sc.nextLine();
+                        bugDAO.deleteBugById(id);
+                        break;
+                    case 4:
+                        System.out.println("Enter the ID of the Bug");
+                        String updateId = sc.nextLine();
+                        System.out.println("Enter the new Status");
+                        String status = sc.nextLine();
+                        bugDAO.updateBugStatusById(updateId, status);
+                        break;
+                    case 5:
+                        System.out.println("Exiting....");
+                        System.exit(0);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+    public static void showMenu(){
+        System.out.println("\nWelcome to Bug Tracker\nSelect an option from below:");
+        System.out.println("1. Insert a new Bug\n2. View All Bugs\n3. Delete a Bug by ID\n4. Update Bug status by ID\n5. Exit");
+    }
+}
+```
+
+---
+
+# File: com\day5proj2\models\Bug.java
+
+```java
+package com.day5proj2.models;
+
+public class Bug {
+    
+    //properties
+    private int id;
+    private String title;
+    private String description;
+    private String status;
+
+    //constructor
+
+    public Bug(String title, String description, String status) {
+        this.title = title;
+        this.description = description;
+        this.status = status;
+    }
+
+    public Bug() {}
+
+    //getters
+    public int getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    //setters
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
+    public void display(){
+        System.out.println("Bug Details");
+        System.out.println("ID: "+this.id);
+        System.out.println("Title: "+this.title);
+        System.out.println("Description: "+this.description);
+        System.out.println("Status: "+this.status);
+        System.out.println();
+    }
+}
+```
+
+---
+
+# File: com\day5proj2\util\DBUtil.java
+
+```java
+package com.day5proj2.util;
+import java.sql.Connection;
+import java.sql.DriverManager;
+public class DBUtil {
+    public static Connection getConnection(){
+        Connection connection = null;
+        try{
+            Class.forName("org.postgresql.Driver");
+            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/issuetracker", "postgres", "jdbc");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return connection;
+    }
+}
