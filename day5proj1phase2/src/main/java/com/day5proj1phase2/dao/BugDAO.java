@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.day5proj1phase2.models.Bug;
 import com.day5proj1phase2.util.DBUtil;
 
@@ -27,8 +28,9 @@ public class BugDAO {
             Connection connection = DBUtil.getConnection();
             PreparedStatement ps = connection.prepareStatement("DELETE FROM bugs where id = ?");
             ps.setInt(1,Integer.parseInt(id));
-            ps.executeUpdate();
-            System.out.println("Bug with id "+id+" is deleted");
+            int affectedRows = ps.executeUpdate();
+            if(affectedRows>0) System.out.println("Bug with id "+id+" is deleted");
+            else System.out.println("No Such Bug Exist");
         }
         catch(Exception e){
             e.printStackTrace();
@@ -40,8 +42,9 @@ public class BugDAO {
             PreparedStatement ps = connection.prepareStatement("UPDATE bugs SET status = ? where id = ?");
             ps.setString(1, status);
             ps.setInt(2, Integer.parseInt(id));
-            ps.executeUpdate();
-            System.out.println("Bug Status Updated Successfully");
+            int affectedRows = ps.executeUpdate();
+            if(affectedRows>0) System.out.println("Bug Status Updated Successfully");
+            else System.out.println("No Such Bug Exist");
         }
         catch(Exception e){
             e.printStackTrace();
