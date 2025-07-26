@@ -2,8 +2,7 @@ package com.bankmanagementsystem.services;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Stack;
 
 import com.bankmanagementsystem.exceptions.InvalidTransactionException;
 import com.bankmanagementsystem.interfaces.TransactionServiceInterface;
@@ -11,7 +10,7 @@ import com.bankmanagementsystem.models.Account;
 
 public class TransactionService implements TransactionServiceInterface {
     private Account account;
-    private static List<String> transactionHistory = new ArrayList<>();
+    private Stack<String> transactionHistory = new Stack<>();
     public TransactionService(Account account){
         this.account = account;
     }
@@ -27,7 +26,7 @@ public class TransactionService implements TransactionServiceInterface {
     @Override
     public void withdraw(double amount) throws InvalidTransactionException {
         double currentBalance = account.getBalance();
-        if(amount>currentBalance) throw new InvalidTransactionException("The withdraw amount should be less than or equal to the available balance");
+        if(amount > currentBalance || amount <= 0) throw new InvalidTransactionException("The withdraw amount should be less than or equal to the available balance and greater than zero.");
         currentBalance -= amount;
         account.setBalance(currentBalance);
         String transaction = amount+" withdrawn from the account "+account.getAccountNumber()+" on "+LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"))+" successfully. Available balance : "+account.getBalance();
@@ -43,8 +42,8 @@ public class TransactionService implements TransactionServiceInterface {
         if (transactionHistory.isEmpty()) {
             System.out.println("No transactions found.");
         } else {
-            for (String transaction : transactionHistory) {
-                System.out.println(transaction);
+            for(int i=transactionHistory.size()-1; i>=0; i--){
+                System.out.println(transactionHistory.get(i));
             }
         }
     }

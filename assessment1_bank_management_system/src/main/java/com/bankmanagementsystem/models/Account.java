@@ -3,6 +3,8 @@ package com.bankmanagementsystem.models;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import com.bankmanagementsystem.services.TransactionService;
+
 public class Account extends User{
     private long accountNumber;
     private String accountType;
@@ -12,24 +14,27 @@ public class Account extends User{
     private String status;
     private String createdDate;
     private User accountHolder;
+    private TransactionService transactionService;
     public static long acNumber = 1111;
-    public Account(String userName, long mobileNumber, String email, String address, String accountType, 
-                   String branchName, String ifscCode) {
+    public Account(String userName, long mobileNumber, String email, String address, String accountType) {
         super(userName, mobileNumber, email, address);
         this.accountNumber = acNumber;
         acNumber++;
         this.accountType = accountType;
         this.balance = 0;
-        this.branchName = branchName;
-        this.ifscCode = ifscCode;
+        this.branchName = "Bangalore Branch";
+        this.ifscCode = "IFSC0001";
         this.status = "Open";
+        this.transactionService = new TransactionService(this);
         this.createdDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
     }
 
     public long getAccountNumber() {
         return accountNumber;
     }
-
+    public TransactionService getTransactionService() {
+        return transactionService;
+    }
     public void setAccountNumber(long accountNumber) {
         this.accountNumber = accountNumber;
     }
