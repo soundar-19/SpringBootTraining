@@ -3,12 +3,12 @@ package com.day6proj1phase1.service;
 import java.util.List;
 
 import com.day6proj1phase1.entity.Bug;
-import com.day6proj1phase1.repository.BugRepository;
+import com.day6proj1phase1.repository.BugRepositoryImpl;
 
 public class BugService {
-    BugRepository bugRepository;
+    BugRepositoryImpl bugRepository;
     public BugService(){
-        bugRepository = new BugRepository();
+        bugRepository = new BugRepositoryImpl();
     }
     public void insertBug(String title, String description, String status){
         Bug bug = new Bug(title,description,status);
