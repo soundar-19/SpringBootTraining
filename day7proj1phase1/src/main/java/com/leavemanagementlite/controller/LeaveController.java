@@ -37,7 +37,7 @@ public class LeaveController {
                     try{
                         leaveService.create(sc);
                     }catch(Exception e){
-                        e.printStackTrace();
+                        System.out.println(e.getMessage());
                     }
                     break;
                 case 5:

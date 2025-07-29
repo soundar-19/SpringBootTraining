@@ -49,7 +49,7 @@ public class LeaveService {
             leaveRequestDAOImpl.create(leaveRequest);
             
         }catch(DateTimeParseException e){
-            throw new InvalidLeaveDateException("The Date must be in the \"dd-mm-yyyy\"format");
+            throw new InvalidLeaveDateException("The Date must be in the \"dd-mm-yyyy\" format");
         }
         catch(Exception e){
             System.out.println(e.getMessage());
