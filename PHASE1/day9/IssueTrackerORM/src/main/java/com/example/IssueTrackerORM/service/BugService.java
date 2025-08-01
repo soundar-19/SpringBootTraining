@@ -14,4 +14,22 @@ public class BugService {
     public List<Bug> getAllBugs() {
         return bugRepository.findAll();
     }
+    public List<Bug> findByStatus(String status){
+        return bugRepository.findByStatus(status);
+    }
+    // public List<Bug> findByPriorityOrderByCreatedDateDesc(String priority){
+    //     return bugRepository.findByPriorityOrderByCreatedDateDesc(priority);
+    // }
+    public List<Bug> findByProjectId(int projectId){
+        return bugRepository.findByProjectId(projectId);
+    }
+    public List<Bug> findByAssignedToId(int userId){
+        return bugRepository.findByAssignedToId(userId);
+    }
+    public List<Bug> findUnresolvedBugsByUserId(int userId) {
+        return bugRepository.findUnresolvedBugsByUserId(userId);
+    }
+    public long countByProjectId(int projectId) {
+        return bugRepository.countByProjectId(projectId);
+    }
 }
