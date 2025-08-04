@@ -1,6 +1,7 @@
 package com.example.IssueTrackerORM.domain;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "bugs")
@@ -10,6 +11,8 @@ public class Bug {
     private String title;
     private String description;
     private String status;
+    private String priority;
+    private LocalDateTime createdDate;
 
     @ManyToOne
     @JoinColumn(name = "project_id")
@@ -67,5 +70,24 @@ public class Bug {
         this.assignedTo = assignedTo;
     }
 
-    
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        createdDate = LocalDateTime.now();
+    }
 }

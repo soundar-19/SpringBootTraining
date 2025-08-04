@@ -2,6 +2,7 @@ package com.example.IssueTrackerORM.domain;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,6 +14,7 @@ public class Project {
     private String name;
 
     @OneToMany(mappedBy = "project")
+    @JsonIgnore
     private List<Bug> bugs;
 
     public Long getId() {

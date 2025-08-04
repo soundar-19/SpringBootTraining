@@ -2,6 +2,7 @@ package com.example.IssueTrackerORM.domain;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,6 +19,7 @@ public class User {
     private String role;
 
     @OneToMany(mappedBy = "assignedTo")
+    @JsonIgnore
     private List<Bug> bugs;
 
     public Long getId() {
