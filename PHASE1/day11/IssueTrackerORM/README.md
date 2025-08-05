@@ -121,9 +121,9 @@ graph TB
 
 ## 🏛️ **Project Architecture**
 
-<div align="center">
 
-```
+
+<pre>
 🏗️ IssueTrackerORM/
 ┣ 📂 src/
 ┃ ┣ 📂 main/
@@ -151,9 +151,9 @@ graph TB
 ┃ ┃   ┗ 📄 templates/
 ┃ ┗ 🧪 test/
 ┗ 📦 pom.xml
-```
+</pre>
 
-</div>
+
 
 ---
 
