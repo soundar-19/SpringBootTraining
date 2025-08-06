@@ -1,88 +1,62 @@
 <div align="center">
 
-# 🌟 IssueTrackerORM 🌟
+# 🐛 IssueTrackerORM
 
-<img src="https://readme-typing-svg.herokuapp.com?font=Orbitron&size=35&duration=2000&pause=500&color=FF6B6B&background=FFFFFF00&center=true&vCenter=true&multiline=true&width=800&height=120&lines=🚀+Bug+Tracking+Revolution;💎+Spring+Boot+%2B+PostgreSQL;⚡+Enterprise+Grade+Solution;🎯+Built+for+Developers" alt="Typing SVG" />
+<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=30&duration=3000&pause=1000&color=36BCF7&center=true&vCenter=true&width=600&lines=Bug+Tracking+Made+Simple;Spring+Boot+%2B+PostgreSQL;Enterprise+Ready+Solution" alt="Typing SVG" />
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=200&section=header&text=IssueTrackerORM&fontSize=50&fontColor=fff&animation=twinkling&fontAlignY=35" width="100%"/>
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.4-brightgreen?style=for-the-badge&logo=spring&logoColor=white)](https://spring.io/projects/spring-boot)
+[![Java](https://img.shields.io/badge/Java-21-orange?style=for-the-badge&logo=openjdk&logoColor=white)](https://openjdk.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Latest-blue?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Maven](https://img.shields.io/badge/Maven-Latest-red?style=for-the-badge&logo=apache-maven&logoColor=white)](https://maven.apache.org/)
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Spring%20Boot-3.5.4-6DB33F?style=for-the-badge&logo=spring&logoColor=white&labelColor=000000" alt="Spring Boot"/>
-  <img src="https://img.shields.io/badge/Java-21-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white&labelColor=000000" alt="Java"/>
-  <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white&labelColor=000000" alt="PostgreSQL"/>
-  <img src="https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white&labelColor=000000" alt="Maven"/>
-</p>
-
-<img src="https://user-images.githubusercontent.com/74038190/225813708-98b745f2-7d22-48cf-9150-083f1b00d6c9.gif" width="800">
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="700">
 
 </div>
 
-<div align="center">
+---
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=gradient&customColorList=12,20,6&height=3&section=header" width="100%"/>
+## 🌟 **What Makes This Special?**
 
-## ✨ **What Makes This Extraordinary?** ✨
-
-<img src="https://capsule-render.vercel.app/api?type=rect&color=gradient&customColorList=12,20,6&height=3&section=header" width="100%"/>
-
-</div>
-
-<table align="center">
+<table>
 <tr>
-<td width="50%" align="center">
+<td width="50%">
 
-<img src="https://user-images.githubusercontent.com/74038190/212257454-16e3712e-945a-4ca2-b238-408ad0bf87e6.gif" width="100">
+### 🚀 **Lightning Fast**
+> Built with Spring Boot 3.5.4 for maximum performance
 
-### 🚀 **Lightning Fast Performance**
-> *Powered by Spring Boot 3.5.4 for blazing speed*
+### 🔒 **Enterprise Ready**
+> Production-grade security and scalability
 
-<img src="https://user-images.githubusercontent.com/74038190/212257472-08e52665-c503-4bd9-aa20-f5a4dae769b5.gif" width="100">
+### 🎯 **Developer Friendly**
+> Clean architecture with comprehensive APIs
 
-### 🔒 **Enterprise Security**
-> *Bank-grade security with scalable architecture*
-
-<img src="https://user-images.githubusercontent.com/74038190/212257468-1e9a91f1-b626-4baa-b15d-5c385dfa7763.gif" width="100">
-
-### 🎯 **Developer Experience**
-> *Intuitive APIs with comprehensive documentation*
-
-<img src="https://user-images.githubusercontent.com/74038190/212257465-7ce8d493-cac5-494e-982a-5a9deb852c4b.gif" width="100">
-
-### 🛡️ **Smart Error Handling**
-> *Global exception management with custom DTOs*
+### 🛡️ **Robust Error Handling**
+> Global exception management with custom DTOs
 
 </td>
-<td width="50%" align="center">
+<td width="50%">
 
-<img src="https://user-images.githubusercontent.com/74038190/212257460-738ff738-247f-4445-a718-cdd0ca76e2db.gif" width="100">
+### 📊 **Real-time Tracking**
+> Monitor bugs, projects, and users seamlessly
 
-### 📊 **Real-time Analytics**
-> *Live monitoring of bugs, projects, and users*
+### 🔄 **Full CRUD Operations**
+> Complete lifecycle management for all entities
 
-<img src="https://user-images.githubusercontent.com/74038190/212257467-871d32b7-e401-42e8-a166-fcfd7baa4c6b.gif" width="100">
+### 🎨 **RESTful Design**
+> Beautiful, intuitive API endpoints
 
-### 🔄 **Complete CRUD Suite**
-> *Full lifecycle management for all entities*
-
-<img src="https://user-images.githubusercontent.com/74038190/212257463-4d082cb4-7483-4eaf-bc25-6dde2628aabd.gif" width="100">
-
-### 🎨 **RESTful Elegance**
-> *Beautiful, intuitive API design patterns*
-
-<img src="https://user-images.githubusercontent.com/74038190/212257456-4d8d264c-7e78-4d72-9a7a-14234f0e4419.gif" width="100">
-
-### 📦 **Clean Architecture**
-> *DTOs and mappers for secure data flow*
+### 📦 **Clean Data Layer**
+> DTOs and mappers for secure data transfer
 
 </td>
 </tr>
 </table>
 
+---
+
+## 🏗️ **Architecture Overview**
+
 <div align="center">
-
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=0,2,2,5,30&height=100&section=header&text=Architecture%20Overview&fontSize=30&fontColor=fff&animation=fadeIn" width="100%"/>
-
-<img src="https://user-images.githubusercontent.com/74038190/212284087-bbe7e430-757e-4901-90bf-4cd2ce3e1852.gif" width="600">
 
 ```mermaid
 graph TB
@@ -97,29 +71,20 @@ graph TB
     F[📁 Project Entity] --> C
     G[👤 User Entity] --> C
     
-    style A fill:#ff6b6b,stroke:#fff,stroke-width:3px,color:#fff
-    style H fill:#e74c3c,stroke:#fff,stroke-width:3px,color:#fff
-    style I fill:#f39c12,stroke:#fff,stroke-width:3px,color:#fff
-    style J fill:#9b59b6,stroke:#fff,stroke-width:3px,color:#fff
-    style B fill:#4ecdc4,stroke:#fff,stroke-width:3px,color:#fff
-    style C fill:#45b7d1,stroke:#fff,stroke-width:3px,color:#fff
-    style D fill:#96ceb4,stroke:#fff,stroke-width:3px,color:#fff
-    style E fill:#ff9ff3,stroke:#fff,stroke-width:2px,color:#fff
-    style F fill:#54a0ff,stroke:#fff,stroke-width:2px,color:#fff
-    style G fill:#5f27cd,stroke:#fff,stroke-width:2px,color:#fff
+    style A fill:#ff6b6b,stroke:#333,stroke-width:2px,color:#fff
+    style H fill:#e74c3c,stroke:#333,stroke-width:2px,color:#fff
+    style I fill:#f39c12,stroke:#333,stroke-width:2px,color:#fff
+    style J fill:#9b59b6,stroke:#333,stroke-width:2px,color:#fff
+    style B fill:#4ecdc4,stroke:#333,stroke-width:2px,color:#fff
+    style C fill:#45b7d1,stroke:#333,stroke-width:2px,color:#fff
+    style D fill:#96ceb4,stroke:#333,stroke-width:2px,color:#fff
 ```
 
-<img src="https://user-images.githubusercontent.com/74038190/212284115-f47cd8ff-2ffb-4b04-b5bf-4d1c14c0247f.gif" width="800">
-
 </div>
 
-<div align="center">
+---
 
-<img src="https://capsule-render.vercel.app/api?type=cylinder&color=gradient&customColorList=6,11,20&height=150&section=header&text=Core%20Features&fontSize=40&fontColor=fff&animation=blinking" width="100%"/>
-
-<img src="https://user-images.githubusercontent.com/74038190/212749447-bfb7e725-6987-49d9-ae85-2015e3e7cc41.gif" width="600">
-
-</div>
+## ✨ **Core Features**
 
 <details>
 <summary>🐛 <strong>Bug Management System</strong></summary>
@@ -164,13 +129,7 @@ graph TB
 
 </details>
 
-<div align="center">
-
-<img src="https://capsule-render.vercel.app/api?type=shark&color=gradient&customColorList=12,20,6,17,11&height=150&section=header&text=Project%20Structure&fontSize=35&fontColor=fff&animation=scaleIn" width="100%"/>
-
-<img src="https://user-images.githubusercontent.com/74038190/212748830-4c709398-a386-4761-84d7-9e10b98fbe6e.gif" width="400">
-
-</div>
+---
 
 ## 🏛️ **Project Architecture**
 
@@ -219,13 +178,7 @@ graph TB
 
 
 
-<div align="center">
-
-<img src="https://capsule-render.vercel.app/api?type=transparent&fontColor=703ee5&text=API%20Endpoints&height=150&fontSize=60&desc=RESTful%20Magic%20✨&descAlignY=75&descAlign=50" width="100%"/>
-
-<img src="https://user-images.githubusercontent.com/74038190/212749171-b84692a8-2848-41c2-8c8b-5bce14e1ccab.gif" width="500">
-
-</div>
+---
 
 ## 🛠️ **API Endpoints**
 
@@ -284,13 +237,7 @@ graph TB
 | 🔵 `PUT` | `/api/users/{id}` | Update user | `200 OK` |
 | 🔴 `DELETE` | `/api/users/{id}` | Delete user | `200 OK` |
 
-<div align="center">
-
-<img src="https://capsule-render.vercel.app/api?type=soft&color=gradient&customColorList=24,9,17,11,7&height=120&section=header&text=Configuration&fontSize=40&fontColor=fff&animation=twinkling" width="100%"/>
-
-<img src="https://user-images.githubusercontent.com/74038190/212748842-9fcbad5b-6173-4175-8a61-521f3dbb7514.gif" width="400">
-
-</div>
+---
 
 ## ⚙️ **Configuration**
 
@@ -323,13 +270,7 @@ logging.level.root=WARN
 logging.level.com.example.practice=WARN
 ```
 
-<div align="center">
-
-<img src="https://capsule-render.vercel.app/api?type=venom&color=gradient&customColorList=6,11,20,17,7&height=200&section=header&text=Technology%20Stack&fontSize=45&fontColor=fff&animation=fadeIn" width="100%"/>
-
-<img src="https://user-images.githubusercontent.com/74038190/212749695-f9e96e2b-d1e4-4fbf-b85f-d50ec0dcff65.gif" width="600">
-
-</div>
+---
 
 ## 🚀 **Technology Stack**
 
@@ -365,29 +306,14 @@ logging.level.com.example.practice=WARN
 </tr>
 </table>
 
-<div align="center">
+### 🔧 **Additional Dependencies**
 
-### 🔧 **Enhanced Dependencies**
-
-<p>
-  <img src="https://img.shields.io/badge/Spring%20Boot%20Actuator-Monitoring-6DB33F?style=for-the-badge&logo=spring&logoColor=white" alt="Actuator"/>
-  <img src="https://img.shields.io/badge/Spring%20Boot%20DevTools-Development-6DB33F?style=for-the-badge&logo=spring&logoColor=white" alt="DevTools"/>
-  <img src="https://img.shields.io/badge/Spring%20Data%20JPA-ORM-6DB33F?style=for-the-badge&logo=spring&logoColor=white" alt="JPA"/>
-</p>
-
-<img src="https://user-images.githubusercontent.com/74038190/212749695-f9e96e2b-d1e4-4fbf-b85f-d50ec0dcff65.gif" width="300">
+[![Spring Boot Actuator](https://img.shields.io/badge/Spring%20Boot%20Actuator-Monitoring-green?style=flat-square)](https://spring.io/guides/gs/actuator-service/)
+[![Spring Boot DevTools](https://img.shields.io/badge/Spring%20Boot%20DevTools-Development-blue?style=flat-square)](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools)
 
 </div>
 
-</div>
-
-<div align="center">
-
-<img src="https://capsule-render.vercel.app/api?type=rounded&color=gradient&customColorList=12,17,11,7,24&height=150&section=header&text=Quick%20Start%20Guide&fontSize=40&fontColor=fff&animation=blinking" width="100%"/>
-
-<img src="https://user-images.githubusercontent.com/74038190/212749447-bfb7e725-6987-49d9-ae85-2015e3e7cc41.gif" width="500">
-
-</div>
+---
 
 ## 🚀 **Quick Start Guide**
 
@@ -426,13 +352,7 @@ psql -U postgres -c "CREATE DATABASE issuetracker;"
 
 </div>
 
-<div align="center">
-
-<img src="https://capsule-render.vercel.app/api?type=slice&color=gradient&customColorList=7,9,11,17,24&height=120&section=header&text=Usage%20Examples&fontSize=35&fontColor=fff&animation=twinkling" width="100%"/>
-
-<img src="https://user-images.githubusercontent.com/74038190/212749171-b84692a8-2848-41c2-8c8b-5bce14e1ccab.gif" width="400">
-
-</div>
+---
 
 ## 🎯 **Usage Examples**
 
@@ -480,28 +400,97 @@ curl -X POST http://localhost:8080/api/users/create \
 
 </details>
 
+---
+
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20,17,7&height=200&section=header&text=Why%20Choose%20Us?&fontSize=50&fontColor=fff&animation=twinkling" width="100%"/>
+## 🌟 **Why Choose IssueTrackerORM?**
 
-<img src="https://user-images.githubusercontent.com/74038190/212284087-bbe7e430-757e-4901-90bf-4cd2ce3e1852.gif" width="600">
+<img src="https://user-images.githubusercontent.com/74038190/212284087-bbe7e430-757e-4901-90bf-4cd2ce3e1852.gif" width="500">
 
-### 💎 **Built with Passion, Powered by Innovation** 💎
+### 💡 **Built with Love, Powered by Innovation**
 
-<img src="https://readme-typing-svg.herokuapp.com?font=Orbitron&size=25&duration=3000&pause=1000&color=FF6B6B&center=true&vCenter=true&width=800&lines=Simplicity+is+the+ultimate+sophistication;Innovation+meets+reliability;Code+with+purpose%2C+build+with+love" alt="Philosophy" />
+*"Simplicity is the ultimate sophistication"* - Leonardo da Vinci
 
-<img src="https://user-images.githubusercontent.com/74038190/212749447-bfb7e725-6987-49d9-ae85-2015e3e7cc41.gif" width="400">
+---
 
-### 🤝 **Join Our Community**
+### 🤝 **Contributing**
 
-<p>
-  <img src="https://img.shields.io/badge/Contributions-Welcome-brightgreen?style=for-the-badge&logo=github&logoColor=white" alt="Contributions"/>
-  <img src="https://img.shields.io/badge/Issues-Open-red?style=for-the-badge&logo=github&logoColor=white" alt="Issues"/>
-  <img src="https://img.shields.io/badge/PRs-Welcome-blue?style=for-the-badge&logo=github&logoColor=white" alt="PRs"/>
-</p>
+Please feel free to submit a Pull Request.
+
+
+---
 
 <img src="https://user-images.githubusercontent.com/74038190/212284115-f47cd8ff-2ffb-4b04-b5bf-4d1c14c0247f.gif" width="1000">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=20,11,6,17,7&height=120&section=footer&text=Made%20with%20❤️%20by%20Soundar%20Raja%20B&fontSize=24&fontColor=fff&animation=twinkling" width="100%"/>
+**Made with ❤️ by Soundar Raja B**
+
+</div>
+
+```bash
+curl -X POST http://localhost:8080/api/bugs/create \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Login button not working",
+    "description": "Users cannot login using the main login button",
+    "status": "Open",
+    "priority": "High",
+    "project": {"id": 1}
+  }'
+```
+
+</details>
+
+<details>
+<summary>📁 <strong>Creating a Project</strong></summary>
+
+```bash
+curl -X POST http://localhost:8080/api/projects/create \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "E-Commerce Platform"
+  }'
+```
+
+</details>
+
+<details>
+<summary>👤 <strong>Creating a User</strong></summary>
+
+```bash
+curl -X POST http://localhost:8080/api/users/create \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "John Doe",
+    "role": "Developer"
+  }'
+```
+
+</details>
+
+---
+
+<div align="center">
+
+## 🌟 **Why Choose IssueTrackerORM?**
+
+<img src="https://user-images.githubusercontent.com/74038190/212284087-bbe7e430-757e-4901-90bf-4cd2ce3e1852.gif" width="500">
+
+### 💡 **Built with Love, Powered by Innovation**
+
+*"Simplicity is the ultimate sophistication"* - Leonardo da Vinci
+
+---
+
+### 🤝 **Contributing**
+
+Please feel free to submit a Pull Request.
+
+
+---
+
+<img src="https://user-images.githubusercontent.com/74038190/212284115-f47cd8ff-2ffb-4b04-b5bf-4d1c14c0247f.gif" width="1000">
+
+**Made with ❤️ by Soundar Raja B**
 
 </div>
