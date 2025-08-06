@@ -1,599 +1,422 @@
-# 🎓 Student Course Management System
+<div align="center">
 
-[![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://openjdk.java.net/projects/jdk/21/)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.4-brightgreen.svg)](https://spring.io/projects/spring-boot)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15+-blue.svg)](https://www.postgresql.org/)
-[![Maven](https://img.shields.io/badge/Maven-3.8+-red.svg)](https://maven.apache.org/)
+# 🐛 IssueTrackerORM
 
-A comprehensive **Spring Boot REST API** for managing students, courses, and enrollments with advanced business logic validation and PostgreSQL persistence.
+<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=30&duration=3000&pause=1000&color=36BCF7&center=true&vCenter=true&width=600&lines=Bug+Tracking+Made+Simple;Spring+Boot+%2B+PostgreSQL;Enterprise+Ready+Solution" alt="Typing SVG" />
 
-## 📋 Table of Contents
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.4-brightgreen?style=for-the-badge&logo=spring&logoColor=white)](https://spring.io/projects/spring-boot)
+[![Java](https://img.shields.io/badge/Java-21-orange?style=for-the-badge&logo=openjdk&logoColor=white)](https://openjdk.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Latest-blue?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Maven](https://img.shields.io/badge/Maven-Latest-red?style=for-the-badge&logo=apache-maven&logoColor=white)](https://maven.apache.org/)
 
-- [Features](#-features)
-- [Tech Stack](#-tech-stack)
-- [Architecture](#-architecture)
-- [Project Structure](#-project-structure)
-- [Database Schema](#-database-schema)
-- [Installation](#-installation)
-- [Configuration](#-configuration)
-- [API Documentation](#-api-documentation)
-- [Business Rules](#-business-rules)
-- [Testing](#-testing)
-- [Contributing](#-contributing)
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="700">
 
-## ✨ Features
+</div>
 
-### Core Functionality
-- 🎯 **Student Management**: Complete CRUD operations with roll number validation
-- 📚 **Course Management**: Full course lifecycle with credit validation (1-5)
-- 📝 **Enrollment Management**: Direct Many-to-Many relationship with duplicate prevention
-- 🔍 **Advanced Queries**: Search by roll number, course code, title, and credits
-- 🛡️ **Data Integrity**: Referential integrity and business rule enforcement
+---
 
-### Technical Features
-- 🚀 **RESTful API**: Clean REST endpoints with proper HTTP status codes
-- 🗄️ **PostgreSQL Integration**: Robust database persistence with Hibernate ORM
-- 🔄 **Many-to-Many Relationships**: Direct JPA entity relationships with join tables
-- ✅ **Input Validation**: Jakarta validation with comprehensive business rules
-- 🏗️ **Layered Architecture**: Clean separation of concerns with DTOs and mappers
-- 📊 **Query Optimization**: JOIN FETCH queries to prevent N+1 problems
-- 🛡️ **Global Exception Handling**: Centralized error management with custom exceptions
-- 🔄 **Entity-DTO Mapping**: Manual mapping without Lombok dependency
-- 🔒 **Transaction Management**: @Transactional for data consistency
-- 🚫 **Lazy Loading Solutions**: Custom repository methods with eager fetching
+## 🌟 **What Makes This Special?**
 
-## 🛠️ Tech Stack
+<table>
+<tr>
+<td width="50%">
 
-| Technology | Version | Purpose |
-|------------|---------|----------|
-| **Java** | 21 | Programming Language |
-| **Spring Boot** | 3.5.4 | Application Framework |
-| **Spring Data JPA** | 3.5.4 | Data Access Layer |
-| **Spring Web** | 3.5.4 | REST API Framework |
-| **PostgreSQL** | 15+ | Database |
-| **Maven** | 3.8+ | Build Tool |
-| **Hibernate** | 6.4+ | ORM Framework |
+### 🚀 **Lightning Fast**
+> Built with Spring Boot 3.5.4 for maximum performance
 
-## 🏗️ Architecture
+### 🔒 **Enterprise Ready**
+> Production-grade security and scalability
 
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Controller    │───▶│      DTO        │───▶│    Service      │───▶│   Repository    │───▶│    Database     │
-│     Layer       │    │   & Mapper      │    │     Layer       │    │     Layer       │    │   PostgreSQL    │
-└─────────────────┘    └─────────────────┘    └─────────────────┘    └─────────────────┘    └─────────────────┘
-        │                       │                       │                       │                       │
-   REST Endpoints         Data Transfer           Business Logic          Data Access              Data Storage
-   HTTP Handling          Entity Mapping          Enrollment Logic       JPA Queries              Persistence
-   Exception Handling     Validation Rules        Transaction Mgmt       Entity Mapping           ACID Properties
-```
+### 🎯 **Developer Friendly**
+> Clean architecture with comprehensive APIs
 
-## 📁 Project Structure
+### 🛡️ **Robust Error Handling**
+> Global exception management with custom DTOs
 
-```
-student_course_management_system/
-├── 📁 src/
-│   ├── 📁 main/
-│   │   ├── 📁 java/com/student_course_management_system/
-│   │   │   ├── 📄 StudentCourseManagementSystemApplication.java  # Main Application
-│   │   │   ├── 📁 controller/                                    # REST Controllers
-│   │   │   │   ├── 📄 StudentController.java                     # Student & enrollment endpoints
-│   │   │   │   └── 📄 CourseController.java                      # Course endpoints
-│   │   │   ├── 📁 service/                                       # Business Logic
-│   │   │   │   ├── 📄 StudentService.java                        # Student service interface
-│   │   │   │   ├── 📄 CourseService.java                         # Course service interface
-│   │   │   │   └── 📁 Impl/                                      # Service implementations
-│   │   │   │       ├── 📄 StudentServiceImpl.java               # Student & enrollment logic
-│   │   │   │       └── 📄 CourseServiceImpl.java                # Course business logic
-│   │   │   ├── 📁 repository/                                    # Data Access Layer
-│   │   │   │   ├── 📄 StudentRepository.java                     # Student data operations
-│   │   │   │   └── 📄 CourseRepository.java                      # Course data operations
-│   │   │   ├── 📁 domain/                                        # Entity Classes
-│   │   │   │   ├── 📄 Student.java                              # Student entity
-│   │   │   │   └── 📄 Course.java                               # Course entity
-│   │   │   ├── 📁 dto/                                          # Data Transfer Objects
-│   │   │   │   ├── 📄 StudentRequestDTO.java                     # Student request DTO
-│   │   │   │   ├── 📄 StudentResponseDTO.java                    # Student response DTO
-│   │   │   │   ├── 📄 CourseRequestDTO.java                      # Course request DTO
-│   │   │   │   └── 📄 CourseResponseDTO.java                     # Course response DTO
-│   │   │   ├── 📁 mapper/                                        # Entity-DTO Mappers
-│   │   │   │   ├── 📄 StudentMapper.java                         # Student entity-DTO mapping
-│   │   │   │   └── 📄 CourseMapper.java                          # Course entity-DTO mapping
-│   │   │   └── 📁 exception/                                     # Exception Handling
-│   │   │       ├── 📄 GlobalExceptionHandler.java               # Global exception handler
-│   │   │       ├── 📄 ResourceNotFoundException.java            # 404 exceptions
-│   │   │       ├── 📄 DuplicateResourceException.java           # 409 exceptions
-│   │   │       └── 📄 InvalidInputException.java                # 400 exceptions
-│   │   └── 📁 resources/
-│   │       ├── 📄 application.properties                        # Configuration
-│   │       ├── 📁 static/                                       # Static resources
-│   │       └── 📁 templates/                                    # Templates
-│   └── 📁 test/                                                 # Test Classes
-│       └── 📁 java/com/student_course_management_system/
-│           └── 📄 StudentCourseManagementSystemApplicationTests.java
-├── 📁 target/                                                   # Compiled classes
-├── 📄 pom.xml                                                   # Maven configuration
-├── 📄 README.md                                                 # Project documentation
-├── 📄 .gitignore                                                # Git ignore rules
-└── 📄 mvnw, mvnw.cmd                                            # Maven wrapper
+</td>
+<td width="50%">
+
+### 📊 **Real-time Tracking**
+> Monitor bugs, projects, and users seamlessly
+
+### 🔄 **Full CRUD Operations**
+> Complete lifecycle management for all entities
+
+### 🎨 **RESTful Design**
+> Beautiful, intuitive API endpoints
+
+### 📦 **Clean Data Layer**
+> DTOs and mappers for secure data transfer
+
+</td>
+</tr>
+</table>
+
+---
+
+## 🏗️ **Architecture Overview**
+
+<div align="center">
+
+```mermaid
+graph TB
+    A[🌐 REST Controllers] --> H[🛡️ Global Exception Handler]
+    A --> I[📦 DTOs]
+    I --> J[🔄 Mappers]
+    J --> B[⚙️ Service Layer]
+    B --> C[🗄️ Repository Layer]
+    C --> D[🐘 PostgreSQL Database]
+    
+    E[🐛 Bug Entity] --> C
+    F[📁 Project Entity] --> C
+    G[👤 User Entity] --> C
+    
+    style A fill:#ff6b6b,stroke:#333,stroke-width:2px,color:#fff
+    style H fill:#e74c3c,stroke:#333,stroke-width:2px,color:#fff
+    style I fill:#f39c12,stroke:#333,stroke-width:2px,color:#fff
+    style J fill:#9b59b6,stroke:#333,stroke-width:2px,color:#fff
+    style B fill:#4ecdc4,stroke:#333,stroke-width:2px,color:#fff
+    style C fill:#45b7d1,stroke:#333,stroke-width:2px,color:#fff
+    style D fill:#96ceb4,stroke:#333,stroke-width:2px,color:#fff
 ```
 
-## 🗄️ Database Schema
+</div>
 
-### Entity Relationship Diagram
-```
-┌─────────────────┐         ┌─────────────────┐         ┌─────────────────┐
-│     STUDENTS    │         │ STUDENT_COURSES │         │     COURSES     │
-├─────────────────┤         ├─────────────────┤         ├─────────────────┤
-│ 🔑 id (PK)      │◄────────┤ 🔗 student_id   │────────►│ 🔑 id (PK)      │
-│ 📝 name         │         │ 🔗 course_id    │         │ 🏷️ course_code  │
-│ 🎯 roll_number  │         └─────────────────┘         │ 📚 course_title │
-│ 📧 email        │                                     │ ⭐ credits      │
-└─────────────────┘                                     └─────────────────┘
-```
+---
 
-### Table Specifications
+## ✨ **Core Features**
 
-#### Students Table
-| Column | Type | Constraints | Description |
-|--------|------|-------------|-------------|
-| id | BIGINT | PRIMARY KEY, AUTO_INCREMENT | Unique identifier |
-| name | VARCHAR(255) | NOT NULL | Student full name |
-| roll_number | BIGINT | UNIQUE, NOT NULL | Student roll number |
-| email | VARCHAR(255) | NOT NULL | Student email address |
+<details>
+<summary>🐛 <strong>Bug Management System</strong></summary>
+<br>
 
-#### Courses Table
-| Column | Type | Constraints | Description |
-|--------|------|-------------|-------------|
-| id | BIGINT | PRIMARY KEY, AUTO_INCREMENT | Unique identifier |
-| course_code | VARCHAR(50) | UNIQUE, NOT NULL | Course code |
-| course_title | VARCHAR(255) | UNIQUE, NOT NULL | Course title |
-| credits | INTEGER | CHECK (credits >= 1 AND credits <= 5) | Course credits |
+| Feature | Description | Status |
+|---------|-------------|--------|
+| 📝 **Create Bugs** | Auto-timestamped bug creation | ✅ |
+| 🔍 **Smart Filtering** | Filter by status, priority, project, assignee | ✅ |
+| 🎯 **Unresolved Tracking** | Find pending bugs by user | ✅ |
+| 📊 **Analytics** | Count bugs by project | ✅ |
+| 🔄 **Status Updates** | Real-time status management | ✅ |
+| 🗑️ **Cleanup** | Safe bug deletion | ✅ |
 
-#### Student_Courses Table (Join Table)
-| Column | Type | Constraints | Description |
-|--------|------|-------------|-------------|
-| student_id | BIGINT | FOREIGN KEY, NOT NULL | Reference to student |
-| course_id | BIGINT | FOREIGN KEY, NOT NULL | Reference to course |
-| | | PRIMARY KEY (student_id, course_id) | Composite primary key |
+</details>
 
-## 🚀 Installation
+<details>
+<summary>📁 <strong>Project Management Hub</strong></summary>
+<br>
 
-### Prerequisites
-- ☕ **Java 21** or higher
-- 🗄️ **PostgreSQL 15** or higher
-- 🔧 **Maven 3.8** or higher
-- 🌐 **Git** (for cloning)
+| Feature | Description | Status |
+|---------|-------------|--------|
+| 🏗️ **Project CRUD** | Complete project lifecycle | ✅ |
+| 🔎 **Smart Search** | Find projects by name | ✅ |
+| 📈 **Statistics** | Project counting & analytics | ✅ |
+| 🔗 **Bug Relations** | Projects with assigned bugs | ✅ |
+| ✏️ **Name Updates** | Dynamic project renaming | ✅ |
 
-### Step-by-Step Setup
+</details>
 
-1. **Clone the Repository**
-   ```bash
-   git clone <repository-url>
-   cd student_course_management_system
-   ```
+<details>
+<summary>👥 <strong>User Management Portal</strong></summary>
+<br>
 
-2. **Database Setup**
-   ```sql
-   -- Connect to PostgreSQL as superuser
-   CREATE DATABASE student_course_db;
-   CREATE USER app_user WITH PASSWORD 'your_password';
-   GRANT ALL PRIVILEGES ON DATABASE student_course_db TO app_user;
-   ```
+| Feature | Description | Status |
+|---------|-------------|--------|
+| 👤 **User CRUD** | Complete user management | ✅ |
+| 🏷️ **Role-based Filtering** | Filter users by roles | ✅ |
+| 📊 **Role Analytics** | Count users by role | ✅ |
+| 🎯 **Assignment Tracking** | Users with bug assignments | ✅ |
+| 🔄 **Profile Updates** | Dynamic user information updates | ✅ |
 
-3. **Configure Application**
-   ```bash
-   # Edit src/main/resources/application.properties
-   cp application.properties.example application.properties
-   ```
+</details>
 
-4. **Build and Run**
-   ```bash
-   # Clean and compile
-   mvn clean compile
-   
-   # Run the application
-   mvn spring-boot:run
-   ```
+---
 
-5. **Verify Installation**
-   ```bash
-   curl http://localhost:8080/api/students
-   # Should return: []
-   ```
+## 🏛️ **Project Architecture**
 
-### Performance Optimizations
-- **JOIN FETCH Queries**: Prevents N+1 query problems
-- **Lazy Loading Prevention**: Custom repository methods with eager fetching
-- **Transaction Boundaries**: Proper @Transactional usage for data consistency
-- **Constructor Injection**: Better performance than field injection
-- **Manual DTO Mapping**: No reflection overhead from mapping libraries
 
-### Database Optimizations
-```sql
--- Indexes automatically created for:
--- Primary keys (id columns)
--- Unique constraints (roll_number, course_code, course_title)
--- Foreign keys (student_id, course_id in join table)
 
--- Composite primary key for join table prevents duplicates
-PRIMARY KEY (student_id, course_id)
-```
+<pre>
+🏗️ IssueTrackerORM/
+┣ 📂 src/
+┃ ┣ 📂 main/
+┃ ┃ ┣ ☕ java/com/example/IssueTrackerORM/
+┃ ┃ ┃ ┣ 🎮 controller/          ← REST API Magic
+┃ ┃ ┃ ┃ ┣ 🐛 BugController.java
+┃ ┃ ┃ ┃ ┣ 📁 ProjectController.java
+┃ ┃ ┃ ┃ ┗ 👤 UserController.java
+┃ ┃ ┃ ┣ 🏗️ domain/             ← Entity Models
+┃ ┃ ┃ ┃ ┣ 🐛 Bug.java
+┃ ┃ ┃ ┃ ┣ 📁 Project.java
+┃ ┃ ┃ ┃ ┗ 👤 User.java
+┃ ┃ ┃ ┣ 📦 dto/                ← Data Transfer Objects
+┃ ┃ ┃ ┃ ┣ 🐛 BugRequestDTO.java
+┃ ┃ ┃ ┃ ┗ 🐛 BugResponseDTO.java
+┃ ┃ ┃ ┣ 🛡️ exception/          ← Global Exception Handling
+┃ ┃ ┃ ┃ ┣ 🌐 GlobalExceptionHandler.java
+┃ ┃ ┃ ┃ ┣ 🔍 ResourceNotFoundException.java
+┃ ┃ ┃ ┃ ┣ ❌ InvalidInputException.java
+┃ ┃ ┃ ┃ ┣ 🔄 DuplicateResourceException.java
+┃ ┃ ┃ ┃ ┗ 💾 DatabaseOperationException.java
+┃ ┃ ┃ ┣ 🔄 mapper/             ← Entity-DTO Mapping
+┃ ┃ ┃ ┃ ┗ 🐛 BugMapper.java
+┃ ┃ ┃ ┣ 🗄️ repository/         ← Data Access Layer
+┃ ┃ ┃ ┃ ┣ 🐛 BugRepository.java
+┃ ┃ ┃ ┃ ┣ 📁 ProjectRepository.java
+┃ ┃ ┃ ┃ ┗ 👤 UserRepository.java
+┃ ┃ ┃ ┣ ⚙️ service/            ← Business Logic
+┃ ┃ ┃ ┃ ┣ 🐛 BugService.java & BugServiceImpl.java
+┃ ┃ ┃ ┃ ┣ 📁 ProjectService.java & ProjectServiceImpl.java
+┃ ┃ ┃ ┃ ┗ 👤 UserService.java & UserServiceImpl.java
+┃ ┃ ┃ ┗ 🚀 IssueTrackerOrmApplication.java
+┃ ┃ ┗ 📂 resources/
+┃ ┃   ┣ ⚙️ application.properties
+┃ ┃   ┣ 🎨 static/
+┃ ┃   ┗ 📄 templates/
+┃ ┗ 🧪 test/
+┗ 📦 pom.xml
+</pre>
 
-## ⚙️ Configuration
 
-### Application Properties
+
+---
+
+## 🛠️ **API Endpoints**
+
+<div align="center">
+
+### 🐛 **Bug Management APIs**
+
+</div>
+
+| Method | Endpoint | Description | Response |
+|--------|----------|-------------|----------|
+| 🟢 `GET` | `/api/bugs/` | Fetch all bugs | `200 OK` |
+| 🟢 `GET` | `/api/bugs/{id}` | Get specific bug | `200 OK` |
+| 🟡 `POST` | `/api/bugs/create` | Create new bug | `201 Created` |
+| 🟢 `GET` | `/api/bugs/status/{status}` | Filter by status | `200 OK` |
+| 🟢 `GET` | `/api/bugs/priority/{priority}` | Filter by priority | `200 OK` |
+| 🟢 `GET` | `/api/bugs/project/{projectId}` | Bugs by project | `200 OK` |
+| 🟢 `GET` | `/api/bugs/assignedTo/{userId}` | Bugs by assignee | `200 OK` |
+| 🟢 `GET` | `/api/bugs/unresolved/{userId}` | Unresolved bugs | `200 OK` |
+| 🟢 `GET` | `/api/bugs/count/{projectId}` | Count project bugs | `200 OK` |
+| 🔵 `PUT` | `/api/bugs/{id}/{status}` | Update bug status | `200 OK` |
+| 🔴 `DELETE` | `/api/bugs/{id}` | Delete bug | `200 OK` |
+
+<div align="center">
+
+### 📁 **Project Management APIs**
+
+</div>
+
+| Method | Endpoint | Description | Response |
+|--------|----------|-------------|----------|
+| 🟢 `GET` | `/api/projects/` | All projects | `200 OK` |
+| 🟢 `GET` | `/api/projects/id/{projectId}` | Project by ID | `200 OK` |
+| 🟢 `GET` | `/api/projects/name/{name}` | Project by name | `200 OK` |
+| 🟡 `POST` | `/api/projects/create` | Create project | `201 Created` |
+| 🟢 `GET` | `/api/projects/count` | Count all projects | `200 OK` |
+| 🟢 `GET` | `/api/projects/with-bugs` | Projects with bugs | `200 OK` |
+| 🔵 `PUT` | `/api/projects/{oldName}/{newName}` | Update project name | `200 OK` |
+| 🔴 `DELETE` | `/api/projects/{id}` | Delete project | `200 OK` |
+
+<div align="center">
+
+### 👥 **User Management APIs**
+
+</div>
+
+| Method | Endpoint | Description | Response |
+|--------|----------|-------------|----------|
+| 🟢 `GET` | `/api/users/` | All users | `200 OK` |
+| 🟢 `GET` | `/api/users/{id}` | User by ID | `200 OK` |
+| 🟢 `GET` | `/api/users/name/{name}` | User by name | `200 OK` |
+| 🟢 `GET` | `/api/users/role/{role}` | Users by role | `200 OK` |
+| 🟡 `POST` | `/api/users/create` | Create user | `201 Created` |
+| 🟢 `GET` | `/api/users/count/role/{role}` | Count by role | `200 OK` |
+| 🟢 `GET` | `/api/users/with-bugs` | Users with bugs | `200 OK` |
+| 🔵 `PUT` | `/api/users/{id}` | Update user | `200 OK` |
+| 🔴 `DELETE` | `/api/users/{id}` | Delete user | `200 OK` |
+
+---
+
+## ⚙️ **Configuration**
+
+<div align="center">
+
+### 🐘 **Database Setup**
+
+</div>
+
 ```properties
-# Application Configuration
-spring.application.name=student_course_management_system
+# 🚀 Application Configuration
+spring.application.name=IssueTrackerORM
 server.port=8080
 
-# Database Configuration
-spring.datasource.url=jdbc:postgresql://localhost:5432/student_course_db
-spring.datasource.username=postgres
-spring.datasource.password=your_password
-spring.datasource.driver-class-name=org.postgresql.Driver
+# 🐘 PostgreSQL Database
+spring.datasource.url=jdbc:postgresql://localhost:5432/issuetracker
+spring.datasource.username=XXX
+spring.datasource.password=YYY
 
-# JPA Configuration
-spring.jpa.hibernate.ddl-auto=update          # Auto-create/update tables
-spring.jpa.show-sql=false                     # Hide SQL in production
-spring.jpa.open-in-view=false                 # Prevent lazy loading issues
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+# 🔧 JPA Configuration
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.open-in-view=false
 
-# Logging Configuration
+# 🎨 UI Configuration
+spring.main.banner-mode=off
+
+# 📊 Logging
 logging.level.root=WARN
-logging.level.org.springframework=WARN
-logging.level.com.student_course_management_system=INFO
+logging.level.com.example.practice=WARN
 ```
 
-## 📚 API Documentation
+---
 
-### Base URL
-```
-http://localhost:8080/api
-```
+## 🚀 **Technology Stack**
 
-### Student Endpoints
+<div align="center">
 
-#### Create Student
-```http
-POST /api/students
-Content-Type: application/json
+<table>
+<tr>
+<td align="center" width="20%">
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/spring/spring-original.svg" width="60" height="60"/>
+<br><strong>Spring Boot</strong>
+<br><sub>3.5.4</sub>
+</td>
+<td align="center" width="20%">
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" width="60" height="60"/>
+<br><strong>Java</strong>
+<br><sub>21</sub>
+</td>
+<td align="center" width="20%">
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original.svg" width="60" height="60"/>
+<br><strong>PostgreSQL</strong>
+<br><sub>Latest</sub>
+</td>
+<td align="center" width="20%">
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/maven/maven-original.svg" width="60" height="60"/>
+<br><strong>Maven</strong>
+<br><sub>Latest</sub>
+</td>
+<td align="center" width="20%">
+<img src="https://user-images.githubusercontent.com/25181517/183891303-41f257f8-6b3d-487c-aa56-c497b880d0fb.png" width="60" height="60"/>
+<br><strong>Spring Data JPA</strong>
+<br><sub>Latest</sub>
+</td>
+</tr>
+</table>
 
-{
-  "name": "John Doe",
-  "rollNumber": 12345,
-  "email": "john.doe@example.com"
-}
-```
+### 🔧 **Additional Dependencies**
 
-**Response (201 Created):**
-```json
-{
-  "id": 1,
-  "name": "John Doe",
-  "rollNumber": 12345,
-  "email": "john.doe@example.com"
-}
-```
+[![Spring Boot Actuator](https://img.shields.io/badge/Spring%20Boot%20Actuator-Monitoring-green?style=flat-square)](https://spring.io/guides/gs/actuator-service/)
+[![Spring Boot DevTools](https://img.shields.io/badge/Spring%20Boot%20DevTools-Development-blue?style=flat-square)](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools)
 
-#### Get All Students
-```http
-GET /api/students
-```
+</div>
 
-#### Get Student by ID
-```http
-GET /api/students/{id}
-```
+---
 
-#### Get Student by Roll Number
-```http
-GET /api/students/rollNumber/{rollNumber}
-```
+## 🚀 **Quick Start Guide**
 
-#### Update Student
-```http
-PUT /api/students/{id}
-Content-Type: application/json
+<div align="center">
 
-{
-  "name": "John Smith",
-  "rollNumber": 12345,
-  "email": "john.smith@example.com"
-}
-```
+### 🎯 **Get Up and Running in 5 Minutes!**
 
-#### Delete Student
-```http
-DELETE /api/students/{id}
-```
-
-### Course Endpoints
-
-#### Create Course
-```http
-POST /api/courses
-Content-Type: application/json
-
-{
-  "courseCode": "CS101",
-  "courseTitle": "Introduction to Data Structures",
-  "credits": 3
-}
-```
-
-#### Get All Courses
-```http
-GET /api/courses
-```
-
-#### Get Course by ID
-```http
-GET /api/courses/{id}
-```
-
-#### Get Course by Code
-```http
-GET /api/courses/code/{courseCode}
-```
-
-#### Get Course by Title
-```http
-GET /api/courses/title/{courseTitle}
-```
-
-#### Get Courses by Credits
-```http
-GET /api/courses/credits/{credits}
-```
-
-#### Update Course
-```http
-PUT /api/courses/{id}
-Content-Type: application/json
-
-{
-  "courseCode": "CS101",
-  "courseTitle": "Advanced Data Structures",
-  "credits": 4
-}
-```
-
-#### Delete Course
-```http
-DELETE /api/courses/{id}
-```
-
-**Response (200 OK):**
-```json
-"Course deleted successfully"
-```
-
-### Enrollment Endpoints
-
-#### Enroll Student in Course
-```http
-POST /api/students/{studentId}/enroll/{courseId}
-```
-
-**Response (200 OK):**
-```json
-{
-  "id": 1,
-  "name": "John Doe",
-  "rollNumber": 12345,
-  "email": "john.doe@example.com",
-  "courses": [
-    {
-      "id": 1,
-      "courseCode": "CS101",
-      "courseTitle": "Introduction to Data Structures",
-      "credits": 3
-    }
-  ]
-}
-```
-
-#### Unenroll Student from Course
-```http
-DELETE /api/students/{studentId}/unenroll/{courseId}
-```
-
-#### Get Student's Courses
-```http
-GET /api/students/{studentId}/courses
-```
-
-#### Get Course Students
-```http
-GET /api/courses/{courseId}/students
-```
-
-## 🔧 Technical Implementation Details
-
-### Entity Relationships
-```java
-// Student Entity (Owning Side)
-@ManyToMany
-@JoinTable(
-    name = "student_courses",
-    joinColumns = @JoinColumn(name = "student_id"),
-    inverseJoinColumns = @JoinColumn(name = "course_id")
-)
-private Set<Course> courses = new HashSet<>();
-
-// Course Entity (Inverse Side)
-@ManyToMany(mappedBy = "courses")
-private Set<Student> students = new HashSet<>();
-```
-
-### Custom Repository Methods
-```java
-// Prevent lazy initialization with JOIN FETCH
-@Query("SELECT s FROM Student s LEFT JOIN FETCH s.courses WHERE s.id = :id")
-Optional<Student> findByIdWithCourses(@Param("id") Long id);
-
-@Query("SELECT c FROM Course c LEFT JOIN FETCH c.students WHERE c.id = :id")
-Optional<Course> findByIdWithStudents(@Param("id") Long id);
-```
-
-### DTO Pattern Implementation
-```java
-// Manual mapping without Lombok
-public CourseResponseDTO toDTO(Course course) {
-    CourseResponseDTO dto = new CourseResponseDTO();
-    dto.setId(course.getId());
-    dto.setCourseCode(course.getCourseCode());
-    dto.setCourseTitle(course.getCourseTitle());
-    dto.setCredits(course.getCredits());
-    return dto;
-}
-```
-
-### Transaction Management
-```java
-// Ensures data consistency for enrollment operations
-@Transactional
-public Student enrollInCourse(Long studentId, Long courseId) {
-    // Uses JOIN FETCH to prevent lazy loading
-    Student student = studentRepository.findByIdWithCourses(studentId).orElse(null);
-    // Business logic with proper validation
-}
-```
-
-### Validation Implementation
-```java
-// Jakarta Bean Validation
-@NotBlank(message = "Course Code is required")
-private String courseCode;
-
-@Min(value = 1, message = "Credits must be at least 1")
-@Max(value = 5, message = "Credits cannot exceed 5")
-private Integer credits;
-```
-
-## 🔒 Business Rules & Exception Handling
-
-### Student Rules
-- ✅ **Unique Roll Numbers**: Each student must have a unique roll number
-- ✅ **Required Fields**: Name, roll number, and email are mandatory
-- ✅ **Email Format**: Valid email format required (Jakarta validation)
-- ✅ **Roll Number Validation**: Cannot update to existing roll number
-- ✅ **Existence Check**: Student must exist before enrollment operations
-
-### Course Rules
-- ✅ **Unique Course Codes**: Each course must have a unique course code
-- ✅ **Unique Course Titles**: Each course must have a unique title
-- ✅ **Credits Validation**: Credits must be between 1 and 5 (inclusive)
-- ✅ **Required Fields**: All fields are mandatory
-- ✅ **Update Validation**: Cannot update to existing code/title of another course
-- ✅ **Existence Check**: Course must exist before enrollment operations
-
-### Enrollment Rules
-- ✅ **No Duplicate Enrollments**: Student cannot enroll in the same course twice
-- ✅ **Referential Integrity**: Student and course must exist before enrollment
-- ✅ **Many-to-Many Relationship**: Direct relationship with student_courses join table
-- ✅ **Bidirectional Mapping**: Student owns the relationship, Course is mapped by
-- ✅ **Lazy Loading Prevention**: JOIN FETCH queries for related entities
-
-### Exception Handling & HTTP Status Codes
-- 🔴 **404 NOT FOUND**: Resource not found (students, courses, empty collections)
-  - `ResourceNotFoundException` → Returns appropriate error message
-- 🟡 **409 CONFLICT**: Duplicate resources detected
-  - `DuplicateResourceException` → Roll numbers, course codes, titles, enrollments
-- 🟠 **400 BAD REQUEST**: Invalid input or validation failures
-  - `InvalidInputException` → Invalid unenrollment attempts
-  - Jakarta validation errors → Field validation failures
-- 🔴 **500 INTERNAL ERROR**: Unexpected server errors
-  - Global exception handler catches all unhandled exceptions
-
-### Custom Exception Classes
-```java
-// Custom exceptions with meaningful messages
-ResourceNotFoundException     // 404 - Entity not found
-DuplicateResourceException   // 409 - Duplicate constraint violation
-InvalidInputException        // 400 - Business logic validation failure
-GlobalExceptionHandler       // Centralized exception handling
-```
-
-## 🧪 Testing
-
-### Manual Testing with cURL
+</div>
 
 ```bash
-# Test Student Creation
-curl -X POST http://localhost:8080/api/students \
-  -H "Content-Type: application/json" \
-  -d '{"name":"Alice Johnson","rollNumber":1001,"email":"alice@example.com"}'
+# 1️⃣ Clone the repository
+git clone https://github.com/soundar-19/SpringBootTraining.git
+cd IssueTrackerORM
 
-# Test Course Creation
-curl -X POST http://localhost:8080/api/courses \
-  -H "Content-Type: application/json" \
-  -d '{"courseCode":"CS201","courseTitle":"Advanced Java Programming","credits":4}'
+# 2️⃣ Start PostgreSQL
+# Ensure PostgreSQL is running on localhost:5432
 
-# Test Enrollment
-curl -X POST "http://localhost:8080/api/students/1/enroll/1"
+# 3️⃣ Create database
+psql -U postgres -c "CREATE DATABASE issuetracker;"
 
-# Test Get Student Courses (with JOIN FETCH)
-curl http://localhost:8080/api/students/1/courses
+# 4️⃣ Configure credentials (if needed)
+# Edit src/main/resources/application.properties
 
-# Test Get Course Students (with JOIN FETCH)
-curl http://localhost:8080/api/courses/1/students
+# 5️⃣ Run the application
+./mvnw spring-boot:run
 
-# Test Duplicate Prevention
-curl -X POST http://localhost:8080/api/students \
-  -H "Content-Type: application/json" \
-  -d '{"name":"Bob Smith","rollNumber":1001,"email":"bob@example.com"}'
-# Should return 409 Conflict
-
-# Test Validation
-curl -X POST http://localhost:8080/api/courses \
-  -H "Content-Type: application/json" \
-  -d '{"courseCode":"CS999","courseTitle":"Invalid Course","credits":10}'
-# Should return 400 Bad Request
+# 🎉 That's it! Your app is running on http://localhost:8080
 ```
 
-### Unit Testing
+<div align="center">
+
+### 🔗 **Quick Access Links**
+
+[![API Documentation](https://img.shields.io/badge/📚%20API%20Docs-localhost:8080/api-blue?style=for-the-badge)](http://localhost:8080/api/)
+[![Health Check](https://img.shields.io/badge/💚%20Health%20Check-localhost:8080/actuator/health-green?style=for-the-badge)](http://localhost:8080/actuator/health)
+
+</div>
+
+---
+
+## 🎯 **Usage Examples**
+
+<details>
+<summary>🐛 <strong>Creating a Bug</strong></summary>
+
 ```bash
-# Run all tests
-mvn test
-
-# Run specific test class
-mvn test -Dtest=StudentServiceTest
-
-# Run with coverage
-mvn test jacoco:report
+curl -X POST http://localhost:8080/api/bugs/create \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Login button not working",
+    "description": "Users cannot login using the main login button",
+    "status": "Open",
+    "priority": "High",
+    "project": {"id": 1}
+  }'
 ```
 
-## 🤝 Contributing
+</details>
 
-### Development Workflow
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+<details>
+<summary>📁 <strong>Creating a Project</strong></summary>
 
-### Code Standards
-- Follow Java naming conventions
-- Use meaningful variable and method names
-- Add JavaDoc comments for public methods
-- Maintain test coverage above 80%
-- Follow REST API best practices
-- Use DTOs for data transfer (no Lombok dependency)
-- Implement proper exception handling with custom exceptions
-- Follow Jakarta validation standards
-- Use @Transactional for data consistency
-- Implement JOIN FETCH to prevent lazy loading issues
-- Manual entity-DTO mapping for better control
-- Constructor-based dependency injection
-
-### Commit Message Format
+```bash
+curl -X POST http://localhost:8080/api/projects/create \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "E-Commerce Platform"
+  }'
 ```
-type(scope): description
 
-feat(student): add email validation
-fix(enrollment): resolve duplicate enrollment bug
-docs(readme): update API documentation
-test(course): add unit tests for course service
+</details>
+
+<details>
+<summary>👤 <strong>Creating a User</strong></summary>
+
+```bash
+curl -X POST http://localhost:8080/api/users/create \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "John Doe",
+    "role": "Developer"
+  }'
 ```
+
+</details>
+
+---
+
+<div align="center">
+
+## 🌟 **Why Choose IssueTrackerORM?**
+
+<img src="https://user-images.githubusercontent.com/74038190/212284087-bbe7e430-757e-4901-90bf-4cd2ce3e1852.gif" width="500">
+
+### 💡 **Built with Love, Powered by Innovation**
+
+*"Simplicity is the ultimate sophistication"* - Leonardo da Vinci
+
+---
+
+### 🤝 **Contributing**
+
+Please feel free to submit a Pull Request.
+
+
+---
