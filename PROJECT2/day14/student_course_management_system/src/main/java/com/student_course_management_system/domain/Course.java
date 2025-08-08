@@ -6,8 +6,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.CascadeType;
 
 @Entity
 @Table(name = "courses")
@@ -19,8 +20,8 @@ public class Course {
     private String courseTitle;
     private int credits;
     
-    @ManyToMany(mappedBy = "courses")
-    private Set<Student> students = new HashSet<>();
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Enrollment> enrollments = new HashSet<>();
 
     public Course() {}
     
@@ -56,11 +57,11 @@ public class Course {
     public void setCredits(int credits) {
         this.credits = credits;
     }
-    public Set<Student> getStudents() {
-        return students;
+    public Set<Enrollment> getEnrollments() {
+        return enrollments;
     }
-    public void setStudents(Set<Student> students) {
-        this.students = students;
+    public void setEnrollments(Set<Enrollment> enrollments) {
+        this.enrollments = enrollments;
     }
     
 }

@@ -13,6 +13,6 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     Student findByRollNumber(Long rollNumber);
     
-    @Query("SELECT s FROM Student s LEFT JOIN FETCH s.courses WHERE s.id = :id")
-    Optional<Student> findByIdWithCourses(@Param("id") Long id);
+    @Query("SELECT s FROM Student s LEFT JOIN FETCH s.enrollments WHERE s.id = :id")
+    Optional<Student> findByIdWithEnrollments(@Param("id") Long id);
 }

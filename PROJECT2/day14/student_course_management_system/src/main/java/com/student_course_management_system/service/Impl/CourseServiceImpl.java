@@ -1,14 +1,11 @@
 package com.student_course_management_system.service.Impl;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.student_course_management_system.domain.Course;
-import com.student_course_management_system.domain.Student;
 import com.student_course_management_system.repository.CourseRepository;
 import com.student_course_management_system.service.CourseService;
 
@@ -55,8 +52,5 @@ public class CourseServiceImpl implements CourseService{
         return courseRepository.findAllByCredits(credits);
     }
     
-    public Set<Student> getCourseStudents(Long courseId) {
-        Course course = courseRepository.findByIdWithStudents(courseId).orElse(null);
-        return course != null ? course.getStudents() : null;
-    }
+
 }

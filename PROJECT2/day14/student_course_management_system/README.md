@@ -8,6 +8,7 @@
 [![Java](https://img.shields.io/badge/Java-21-orange?style=for-the-badge&logo=openjdk&logoColor=white)](https://openjdk.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Latest-blue?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![Maven](https://img.shields.io/badge/Maven-Latest-red?style=for-the-badge&logo=apache-maven&logoColor=white)](https://maven.apache.org/)
+[![Swagger](https://img.shields.io/badge/Swagger-OpenAPI%203.0-85EA2D?style=for-the-badge&logo=swagger&logoColor=white)](http://localhost:8080/swagger-ui.html)
 
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="700">
 
@@ -48,6 +49,9 @@
 ### 📦 **Structured Responses**
 > Enhanced DTOs with detailed error handling
 
+### 📚 **Interactive API Documentation**
+> Swagger UI with OpenAPI 3.0 specification
+
 </td>
 </tr>
 </table>
@@ -69,7 +73,8 @@ graph TB
     
     E[🎓 Student Entity] --> C
     F[📚 Course Entity] --> C
-    G[🔗 Many-to-Many Relations] --> C
+    G[📋 Enrollment Entity] --> C
+    K[🔗 One-to-Many Relations] --> C
     
     style A fill:#ff6b6b,stroke:#333,stroke-width:2px,color:#fff
     style H fill:#e74c3c,stroke:#333,stroke-width:2px,color:#fff
@@ -118,16 +123,18 @@ graph TB
 </details>
 
 <details>
-<summary>🔗 <strong>Enrollment Management Portal</strong></summary>
+<summary>📋 <strong>Enrollment Management System</strong></summary>
 <br>
 
 | Feature | Description | Status |
 |---------|-------------|--------|
-| 📝 **Enroll Students** | Direct many-to-many enrollment | ✅ |
+| 📝 **Enroll Students** | Rich enrollment entity with metadata | ✅ |
 | 🚫 **Duplicate Prevention** | No duplicate enrollments allowed | ✅ |
 | 🔄 **Unenroll Students** | Safe unenrollment with validation | ✅ |
-| 📊 **Relationship Tracking** | Bidirectional entity relationships | ✅ |
-| 🔍 **JOIN FETCH Queries** | Prevent N+1 query problems | ✅ |
+| 📊 **Enrollment Tracking** | Date, status, grade, semester tracking | ✅ |
+| 🎯 **Grade Management** | Update and track student grades | ✅ |
+| 📈 **Status Management** | ACTIVE, COMPLETED, DROPPED, WITHDRAWN | ✅ |
+| 🔍 **Advanced Queries** | Student/Course enrollment lookups | ✅ |
 | 🛡️ **Transaction Safety** | @Transactional for data consistency | ✅ |
 
 </details>
@@ -158,6 +165,22 @@ graph TB
 - 🔍 Field-level error messages
 - 🛡️ Path variable validation
 - 🔄 Input sanitization in DTOs
+
+---
+
+## 📚 **API Documentation**
+
+<div align="center">
+
+### 🚀 **Interactive Swagger UI**
+
+**Access the complete API documentation at:**
+
+🔗 **[http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)**
+
+*Try out all endpoints directly from your browser!*
+
+</div>
 
 ---
 
@@ -197,16 +220,18 @@ graph TB
 
 <div align="center">
 
-### 🔗 **Enrollment Management APIs**
+### 📋 **Enrollment Management APIs**
 
 </div>
 
 | Method | Endpoint | Description | Response |
 |--------|----------|-------------|----------|
-| 🟡 `POST` | `/api/students/{studentId}/enroll/{courseId}` | Enroll student | `200 OK` |
-| 🔴 `DELETE` | `/api/students/{studentId}/unenroll/{courseId}` | Unenroll student | `200 OK` |
-| 🟢 `GET` | `/api/students/{studentId}/courses` | Student's courses | `200 OK` |
-| 🟢 `GET` | `/api/courses/{courseId}/students` | Course students | `200 OK` |
+| 🟡 `POST` | `/api/enrollments` | Enroll student in course | `201 Created` |
+| 🔴 `DELETE` | `/api/enrollments/student/{studentId}/course/{courseId}` | Unenroll student | `200 OK` |
+| 🟢 `GET` | `/api/enrollments/student/{studentId}` | Get student enrollments | `200 OK` |
+| 🟢 `GET` | `/api/enrollments/course/{courseId}` | Get course enrollments | `200 OK` |
+| 🟢 `GET` | `/api/enrollments` | Get all enrollments | `200 OK` |
+| 🔵 `PUT` | `/api/enrollments/{enrollmentId}/grade` | Update enrollment grade | `200 OK` |
 
 ---
 
@@ -236,6 +261,8 @@ psql -U postgres -c "CREATE DATABASE student_course_db;"
 ./mvnw spring-boot:run
 
 # 🎉 That's it! Your app is running on http://localhost:8080
+
+# 📚 Access Swagger UI at http://localhost:8080/swagger-ui.html
 ```
 
 ---
@@ -273,11 +300,37 @@ curl -X POST http://localhost:8080/api/courses \
 </details>
 
 <details>
-<summary>🔗 <strong>Enrolling Student in Course</strong></summary>
+<summary>📋 <strong>Enrolling Student in Course</strong></summary>
 
 ```bash
-# Enroll student ID 1 in course ID 1
-curl -X POST http://localhost:8080/api/students/1/enroll/1
+curl -X POST http://localhost:8080/api/enrollments \
+  -H "Content-Type: application/json" \
+  -d '{
+    "studentId": 1,
+    "courseId": 1,
+    "semester": "Fall",
+    "year": 2024
+  }'
+```
+
+</details>
+
+<details>
+<summary>🎯 <strong>Updating Student Grade</strong></summary>
+
+```bash
+# Update grade for enrollment ID 1
+curl -X PUT "http://localhost:8080/api/enrollments/1/grade?grade=A"
+```
+
+</details>
+
+<details>
+<summary>📊 <strong>Getting Student Enrollments</strong></summary>
+
+```bash
+# Get all enrollments for student ID 1
+curl -X GET http://localhost:8080/api/enrollments/student/1
 ```
 
 </details>
@@ -291,6 +344,68 @@ curl -X POST http://localhost:8080/api/students/1/enroll/1
 ### 💡 **Built with Excellence, Powered by Innovation**
 
 *"Education is the most powerful weapon which you can use to change the world"* - Nelson Mandela
+
+**🎓 Now with Enhanced Enrollment Management!**
+
+---
+
+## 📋 **Enrollment Entity Features**
+
+### 🎯 **Rich Domain Model**
+- **Enrollment ID**: Unique identifier for each enrollment
+- **Student & Course References**: Foreign key relationships
+- **Enrollment Date**: Automatic timestamp when enrolled
+- **Status Tracking**: ACTIVE, COMPLETED, DROPPED, WITHDRAWN
+- **Grade Management**: Store and update student grades
+- **Semester & Year**: Academic period tracking
+
+### 🔄 **Business Logic**
+- **Duplicate Prevention**: No duplicate enrollments allowed
+- **Automatic Timestamps**: Enrollment date set automatically
+- **Status Management**: Track enrollment lifecycle
+- **Grade Updates**: Modify grades after enrollment
+- **Cascade Operations**: Proper cleanup on deletions
+
+### 🗄️ **Database Schema**
+```sql
+CREATE TABLE enrollments (
+    id BIGSERIAL PRIMARY KEY,
+    student_id BIGINT NOT NULL REFERENCES students(id),
+    course_id BIGINT NOT NULL REFERENCES courses(id),
+    enrollment_date TIMESTAMP NOT NULL,
+    status VARCHAR(20) DEFAULT 'ACTIVE',
+    grade VARCHAR(5),
+    semester VARCHAR(20),
+    year INTEGER,
+    UNIQUE(student_id, course_id)
+);
+```
+
+---
+
+## 📚 **Swagger UI Features**
+
+<div align="center">
+
+### 🎯 **What You Get with Swagger UI**
+
+</div>
+
+| Feature | Description | Benefit |
+|---------|-------------|----------|
+| 🔍 **Interactive Testing** | Test all endpoints directly | No need for external tools |
+| 📖 **Auto-Generated Docs** | Always up-to-date documentation | Synchronized with code |
+| 🎨 **Beautiful Interface** | Clean, professional UI | Easy to navigate and use |
+| 📝 **Request/Response Examples** | See exact data formats | Understand API contracts |
+| 🔐 **Validation Details** | View all validation rules | Know exactly what's required |
+| 📊 **Schema Definitions** | Complete data models | Understand entity relationships |
+
+### 🌐 **Access Points**
+
+- **Swagger UI**: `http://localhost:8080/swagger-ui.html`
+- **Alternative UI**: `http://localhost:8080/swagger-ui/index.html`
+- **OpenAPI JSON**: `http://localhost:8080/v3/api-docs`
+- **OpenAPI YAML**: `http://localhost:8080/v3/api-docs.yaml`
 
 ---
 
