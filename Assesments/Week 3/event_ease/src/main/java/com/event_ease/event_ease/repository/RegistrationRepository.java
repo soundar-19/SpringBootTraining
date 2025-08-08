@@ -11,10 +11,10 @@ import com.event_ease.event_ease.domain.Registration;
 @Repository
 public interface RegistrationRepository extends JpaRepository<Registration, Long> {
 
-    @Query("SELECT r FROM Registration r WHERE r.user_id = :userId")
+    @Query("SELECT r FROM Registration r WHERE r.user.id = :userId")
     List<Registration> findAllByUserId(@Param("userId") Long userId);
 
-    @Query("SELECT r FROM Registration r WHERE r.event_id = :eventId")
+    @Query("SELECT r FROM Registration r WHERE r.event.id = :eventId")
     List<Registration> findAllByEventId(@Param("eventId") Long eventId);
     
 }

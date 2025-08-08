@@ -29,7 +29,6 @@ public class RegistrationServiceImpl implements RegistrationService{
     }
 
     public Registration register(Long userId, Long eventId){
-
         if(userService.getUserById(userId) == null){
             throw new ResourceNotFoundException("User not found");
         }
@@ -37,9 +36,9 @@ public class RegistrationServiceImpl implements RegistrationService{
             throw new ResourceNotFoundException("Event not found");
         }
         Registration registration = new Registration();
-        registration.setUser_id(userId);
-        registration.setEvent_id(eventId);
-        registration.setRegistration_date(java.time.LocalDate.now());
+        registration.setUser(userService.getUserById(userId));
+        registration.setEvent(eventService.getEventById(eventId));
+        registration.setRegistrationDate(java.time.LocalDate.now());
         return registrationRepository.save(registration);
     }
 
@@ -67,8 +66,8 @@ public class RegistrationServiceImpl implements RegistrationService{
         }
         Registration existingRegistration = registrationRepository.findById(id).orElse(null);
         if(existingRegistration != null){
-            existingRegistration.setUser_id(userId);
-            existingRegistration.setEvent_id(eventId);
+            existingRegistration.setUser(userService.getUserById(userId));
+            existingRegistration.setEvent(eventService.getEventById(eventId));
             return registrationRepository.save(existingRegistration);
         }
         return null;

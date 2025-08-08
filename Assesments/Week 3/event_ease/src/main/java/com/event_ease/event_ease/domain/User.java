@@ -1,27 +1,22 @@
 package com.event_ease.event_ease.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
 public class User {
+    
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
     private String email;
 
-    @OneToMany
-    private List<Event> events ;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Registration> registrations;
 
-    //getters and setters
     public Long getId() {
         return id;
     }
@@ -46,12 +41,12 @@ public class User {
         this.email = email;
     }
 
-    public List<Event> getEvents() {
-        return events;
+    public List<Registration> getRegistrations() {
+        return registrations;
     }
 
-    public void setEvents(List<Event> events) {
-        this.events = events;
+    public void setRegistrations(List<Registration> registrations) {
+        this.registrations = registrations;
     }
 
     

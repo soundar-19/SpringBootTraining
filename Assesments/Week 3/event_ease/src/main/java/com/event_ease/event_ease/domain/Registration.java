@@ -1,49 +1,61 @@
 package com.event_ease.event_ease.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "registrations")
 public class Registration {
-    //properties
+    
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long user_id;
-    private Long event_id;
-    private LocalDate registration_date;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    //getters and setters
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "event_id")
+    private Event event;
+
+    @Column(name = "registration_date")
+    private LocalDate registrationDate;
+
+    public Registration() {
+        this.registrationDate = LocalDate.now();
+    }
 
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
-    public Long getUser_id() {
-        return user_id;
+
+    public User getUser() {
+        return user;
     }
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
+
+    public void setUser(User user) {
+        this.user = user;
     }
-    public Long getEvent_id() {
-        return event_id;
+
+    public Event getEvent() {
+        return event;
     }
-    public void setEvent_id(Long event_id) {
-        this.event_id = event_id;
+
+    public void setEvent(Event event) {
+        this.event = event;
     }
-    public LocalDate getRegistration_date() {
-        return registration_date;
+
+    public LocalDate getRegistrationDate() {
+        return registrationDate;
     }
-    public void setRegistration_date(LocalDate registration_date) {
-        this.registration_date = registration_date;
+
+    public void setRegistrationDate(LocalDate registrationDate) {
+        this.registrationDate = registrationDate;
     }
 
 }

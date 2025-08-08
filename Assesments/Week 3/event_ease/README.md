@@ -150,6 +150,8 @@ graph TB
 
 ```
 src/main/java/com/event_ease/event_ease/
+├── ⚙️ config/              # Configuration Classes
+│   └── OpenApiConfig.java
 ├── 🎮 controller/          # REST Controllers
 │   ├── EventController.java
 │   ├── UserController.java
@@ -268,6 +270,107 @@ erDiagram
 ---
 
 ## 🔌 API Documentation
+
+### 📚 Swagger UI Integration
+
+**Event Ease** includes comprehensive API documentation using Swagger UI for interactive API exploration and testing.
+
+#### 🚀 Quick Access
+```
+Swagger UI: http://localhost:8080/swagger-ui/index.html
+API Docs JSON: http://localhost:8080/v3/api-docs
+```
+
+#### 📦 Maven Dependencies
+Add these dependencies to your `pom.xml`:
+
+```xml
+<!-- Swagger/OpenAPI Documentation -->
+<dependency>
+    <groupId>org.springdoc</groupId>
+    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+    <version>2.2.0</version>
+</dependency>
+```
+
+#### ⚙️ Swagger Configuration
+
+Create `SwaggerConfig.java` in your config package:
+
+```java
+package com.event_ease.event_ease.config;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.Contact;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class SwaggerConfig {
+    
+    @Bean
+    public OpenAPI eventEaseOpenAPI() {
+        return new OpenAPI()
+                .info(new Info()
+                        .title("Event Ease API")
+                        .description("Comprehensive Event Management System API")
+                        .version("v1.0")
+                        .contact(new Contact()
+                                .name("Soundar Raja B")
+                                .email("soundar@example.com")
+                                .url("https://github.com/soundar-19")));
+    }
+}
+```
+
+#### 🎯 Controller Annotations Example
+
+```java
+@RestController
+@RequestMapping("/api/events")
+@Tag(name = "Event Management", description = "APIs for managing events")
+public class EventController {
+    
+    @Operation(summary = "Get all events", description = "Retrieve a list of all events")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved events"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    @GetMapping
+    public ResponseEntity<List<EventResponseDTO>> getAllEvents() {
+        // Implementation
+    }
+    
+    @Operation(summary = "Create new event", description = "Create a new event with provided details")
+    @PostMapping
+    public ResponseEntity<EventResponseDTO> createEvent(
+            @Valid @RequestBody EventRequestDTO eventRequest) {
+        // Implementation
+    }
+}
+```
+
+#### 🔧 Application Properties Configuration
+
+Add to `application.properties`:
+
+```properties
+# Swagger Configuration
+springdoc.api-docs.path=/v3/api-docs
+springdoc.swagger-ui.path=/swagger-ui.html
+springdoc.swagger-ui.operationsSorter=method
+springdoc.swagger-ui.tagsSorter=alpha
+springdoc.swagger-ui.tryItOutEnabled=true
+```
+
+#### 🌟 Features Available
+
+- ✅ **Interactive API Testing**: Test endpoints directly from the browser
+- ✅ **Request/Response Examples**: See sample data for all endpoints
+- ✅ **Schema Documentation**: Detailed DTO and entity documentation
+- ✅ **Authentication Support**: Ready for JWT/OAuth integration
+- ✅ **Export Options**: Download OpenAPI specification
 
 ### Base URL
 ```
@@ -512,6 +615,26 @@ GET /api/events/{eventId}/registrations
 
 ## 🧪 Testing
 
+### 📊 Swagger UI Testing (Recommended)
+
+**The easiest way to test the API is through Swagger UI:**
+
+1. **Start the application**
+   ```bash
+   mvn spring-boot:run
+   ```
+
+2. **Open Swagger UI**
+   ```
+   http://localhost:8080/swagger-ui/index.html
+   ```
+
+3. **Interactive Testing**
+   - 🔍 Browse all available endpoints
+   - 📝 View request/response schemas
+   - ▶️ Execute API calls directly
+   - 📄 See real-time responses
+
 ### 🔧 Manual Testing with cURL
 
 <details>
@@ -620,6 +743,11 @@ spring.main.banner-mode=off
 logging.level.root=WARN
 logging.level.org.springframework=WARN
 logging.level.org.hibernate=WARN
+
+# OpenAPI Configuration
+springdoc.api-docs.path=/api-docs
+springdoc.swagger-ui.path=/swagger-ui.html
+springdoc.swagger-ui.operationsSorter=method
 ```
 
 ### 🔧 Environment Variables

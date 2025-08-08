@@ -154,6 +154,8 @@ graph TB
 
 ```
 src/main/java/com/event_ease/event_ease/
+├── ⚙️ config/              # Configuration Classes
+│   └── OpenApiConfig.java
 ├── 🎮 controller/          # REST Controllers
 │   ├── EventController.java
 │   ├── UserController.java
@@ -786,20 +788,16 @@ Having issues? We're here to help!
 --- Event.java ---
 package com.event_ease.event_ease.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
 @Table(name = "events")
 public class Event {
+    
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
@@ -807,11 +805,9 @@ public class Event {
     private LocalDate date;
     private String location;
 
-    @OneToMany
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Registration> registrations;
 
-    
-    //getters and setters
     public Long getId() {
         return id;
     }
@@ -859,35 +855,28 @@ public class Event {
     public void setRegistrations(List<Registration> registrations) {
         this.registrations = registrations;
     }
-
-    
 }
 
 --- User.java ---
 package com.event_ease.event_ease.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
 public class User {
+    
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
     private String email;
 
-    @OneToMany
-    private List<Event> events ;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Registration> registrations;
 
-    //getters and setters
     public Long getId() {
         return id;
     }
@@ -912,66 +901,75 @@ public class User {
         this.email = email;
     }
 
-    public List<Event> getEvents() {
-        return events;
+    public List<Registration> getRegistrations() {
+        return registrations;
     }
 
-    public void setEvents(List<Event> events) {
-        this.events = events;
+    public void setRegistrations(List<Registration> registrations) {
+        this.registrations = registrations;
     }
-
-    
 }
 
 --- Registration.java ---
 package com.event_ease.event_ease.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "registrations")
 public class Registration {
-    //properties
+    
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long user_id;
-    private Long event_id;
-    private LocalDate registration_date;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    //getters and setters
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "event_id")
+    private Event event;
+
+    @Column(name = "registration_date")
+    private LocalDate registrationDate;
+
+    public Registration() {
+        this.registrationDate = LocalDate.now();
+    }
 
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
-    public Long getUser_id() {
-        return user_id;
-    }
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
-    }
-    public Long getEvent_id() {
-        return event_id;
-    }
-    public void setEvent_id(Long event_id) {
-        this.event_id = event_id;
-    }
-    public LocalDate getRegistration_date() {
-        return registration_date;
-    }
-    public void setRegistration_date(LocalDate registration_date) {
-        this.registration_date = registration_date;
+
+    public User getUser() {
+        return user;
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
+    }
+
+    public LocalDate getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(LocalDate registrationDate) {
+        this.registrationDate = registrationDate;
+    }
 }
 
 ================================================================================
@@ -1644,9 +1642,9 @@ public class RegistrationServiceImpl implements RegistrationService{
             throw new ResourceNotFoundException("Event not found");
         }
         Registration registration = new Registration();
-        registration.setUser_id(userId);
-        registration.setEvent_id(eventId);
-        registration.setRegistration_date(java.time.LocalDate.now());
+        registration.setUser(userService.getUserById(userId));
+        registration.setEvent(eventService.getEventById(eventId));
+        registration.setRegistrationDate(java.time.LocalDate.now());
         return registrationRepository.save(registration);
     }
 
@@ -1674,8 +1672,8 @@ public class RegistrationServiceImpl implements RegistrationService{
         }
         Registration existingRegistration = registrationRepository.findById(id).orElse(null);
         if(existingRegistration != null){
-            existingRegistration.setUser_id(userId);
-            existingRegistration.setEvent_id(eventId);
+            existingRegistration.setUser(userService.getUserById(userId));
+            existingRegistration.setEvent(eventService.getEventById(eventId));
             return registrationRepository.save(existingRegistration);
         }
         return null;
@@ -1739,10 +1737,10 @@ import com.event_ease.event_ease.domain.Registration;
 @Repository
 public interface RegistrationRepository extends JpaRepository<Registration, Long> {
 
-    @Query("SELECT r FROM Registration r WHERE r.user_id = :userId")
+    @Query("SELECT r FROM Registration r WHERE r.user.id = :userId")
     List<Registration> findAllByUserId(@Param("userId") Long userId);
 
-    @Query("SELECT r FROM Registration r WHERE r.event_id = :eventId")
+    @Query("SELECT r FROM Registration r WHERE r.event.id = :eventId")
     List<Registration> findAllByEventId(@Param("eventId") Long eventId);
     
 }
@@ -1819,16 +1817,14 @@ import com.event_ease.event_ease.dto.RegistrationResponseDTO;
 public class RegistrationMapper {
     public Registration toEntity(RegistrationRequestDTO registrationRequestDTO) {
         Registration registration = new Registration();
-        registration.setEvent_id(registrationRequestDTO.getEventId());
-        registration.setUser_id(registrationRequestDTO.getUserId());
         return registration;
     }
     public RegistrationResponseDTO toDTO(Registration registration) {
         RegistrationResponseDTO registrationResponseDTO = new RegistrationResponseDTO();
         registrationResponseDTO.setId(registration.getId());
-        registrationResponseDTO.setEvent_id(registration.getEvent_id());
-        registrationResponseDTO.setUser_id(registration.getUser_id());
-        registrationResponseDTO.setRegistrationDate(registration.getRegistration_date());
+        registrationResponseDTO.setEvent_id(registration.getEvent().getId());
+        registrationResponseDTO.setUser_id(registration.getUser().getId());
+        registrationResponseDTO.setRegistrationDate(registration.getRegistrationDate());
         return registrationResponseDTO;
     }
 }
@@ -1882,7 +1878,53 @@ public class InvalidInputException extends RuntimeException{
 }
 
 ================================================================================
-9. CONFIGURATION FILES
+9. SWAGGER CONFIGURATION
+================================================================================
+
+--- OpenApiConfig.java ---
+package com.event_ease.event_ease.config;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.servers.Server;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
+
+@Configuration
+public class OpenApiConfig {
+
+    @Bean
+    public OpenAPI eventEaseOpenAPI() {
+        Server devServer = new Server();
+        devServer.setUrl("http://localhost:8080");
+        devServer.setDescription("Server URL in Development environment");
+
+        Contact contact = new Contact();
+        contact.setEmail("soundar.raja@example.com");
+        contact.setName("Soundar Raja B");
+        contact.setUrl("https://github.com/soundar-19");
+
+        License mitLicense = new License().name("MIT License").url("https://choosealicense.com/licenses/mit/");
+
+        Info info = new Info()
+                .title("Event Ease API")
+                .version("1.0")
+                .contact(contact)
+                .description("A comprehensive event management system built with Spring Boot. " +
+                        "This API allows users to create, manage, and register for events.")
+                .termsOfService("https://www.eventeaseapp.com/terms")
+                .license(mitLicense);
+
+        return new OpenAPI().info(info).servers(List.of(devServer));
+    }
+}
+
+================================================================================
+10. CONFIGURATION FILES
 ================================================================================
 
 --- application.properties ---
@@ -1903,6 +1945,11 @@ spring.main.banner-mode=off
 logging.level.root=WARN
 logging.level.org.springframework=WARN
 logging.level.org.hibernate=WARN
+
+# OpenAPI Configuration
+springdoc.api-docs.path=/api-docs
+springdoc.swagger-ui.path=/swagger-ui.html
+springdoc.swagger-ui.operationsSorter=method
 ================================================================================
                             END OF COMPLETE PROJECT
 ================================================================================
