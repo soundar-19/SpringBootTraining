@@ -588,6 +588,7 @@ Import this collection for comprehensive API testing:
   ]
 }
 ```
+### Sample ScreenShots
 
 ---
 
@@ -726,26 +727,10 @@ We welcome contributions! Please follow these steps:
 
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
 ## 👨‍💻 Author
 
-**Your Name**
-- GitHub: [@your-username](https://github.com/your-username)
-- LinkedIn: [Your LinkedIn](https://linkedin.com/in/your-profile)
-- Email: your.email@example.com
-
----
-
-## 🙏 Acknowledgments
-
-- Spring Boot team for the amazing framework
-- PostgreSQL community
-- All contributors and testers
+**Soundar Raja B**
+- GitHub: [soundar-19](https://github.com/soundar-19)
 
 ---
 
@@ -753,21 +738,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ### 🌟 Star this repository if you found it helpful!
 
-**Made with ❤️ and ☕ by [Your Name]**
 
 </div>
 
----
-
-## 📞 Support
-
-Having issues? We're here to help!
-
-- 📧 **Email**: support@eventeaseapp.com
-- 💬 **Discord**: [Join our community](https://discord.gg/eventeaseapp)
-- 📖 **Documentation**: [Full Documentation](https://docs.eventeaseapp.com)
-- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/your-username/event-ease/issues)
 
 ---
 
-*Last updated: August 8, 2024*
+*Last updated: August 8, 2025*
