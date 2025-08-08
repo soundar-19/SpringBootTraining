@@ -48,6 +48,9 @@
 ### 📦 **Clean Data Layer**
 > DTOs and mappers for secure data transfer
 
+### 📚 **Interactive API Docs**
+> Complete OpenAPI 3.0 specification with Swagger UI
+
 </td>
 </tr>
 </table>
@@ -388,10 +391,36 @@ psql -U postgres -c "CREATE DATABASE issuetracker;"
 
 ### 🔗 **Quick Access Links**
 
-[![API Documentation](https://img.shields.io/badge/📚%20API%20Docs-localhost:8080/api-blue?style=for-the-badge)](http://localhost:8080/api/)
+[![Swagger UI](https://img.shields.io/badge/📚%20Swagger%20UI-localhost:8080/swagger--ui.html-blue?style=for-the-badge)](http://localhost:8080/swagger-ui.html)
+[![OpenAPI JSON](https://img.shields.io/badge/📄%20OpenAPI%20JSON-localhost:8080/v3/api--docs-orange?style=for-the-badge)](http://localhost:8080/v3/api-docs)
 [![Health Check](https://img.shields.io/badge/💚%20Health%20Check-localhost:8080/actuator/health-green?style=for-the-badge)](http://localhost:8080/actuator/health)
 
 </div>
+
+---
+
+## 📚 **API Documentation**
+
+<div align="center">
+
+### 🎨 **Interactive Swagger UI**
+
+</div>
+
+This project includes comprehensive API documentation using **OpenAPI 3.0** and **Swagger UI**:
+
+- **📖 Interactive Documentation**: `http://localhost:8080/swagger-ui.html`
+- **📄 OpenAPI Specification**: `http://localhost:8080/v3/api-docs`
+- **🔍 Try It Out**: Test all endpoints directly from the browser
+- **📝 Request/Response Examples**: See sample data for all operations
+- **🛡️ Validation Rules**: View all input validation constraints
+
+**Features:**
+- ✨ Auto-generated from code annotations
+- 🎯 Real-time API testing interface
+- 📊 Complete request/response schemas
+- 🔒 Error response documentation
+- 📱 Mobile-friendly interface
 
 ---
 
