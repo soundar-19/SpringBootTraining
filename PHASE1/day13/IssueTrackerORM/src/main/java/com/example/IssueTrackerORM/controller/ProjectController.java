@@ -1,6 +1,7 @@
 package com.example.IssueTrackerORM.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,15 +30,16 @@ public class ProjectController {
     private ProjectService projectService;
 
     @GetMapping("/")
-    public List<ProjectResponseDTO> getAllProjects() {
+    public ResponseEntity<List<ProjectResponseDTO>> getAllProjects() {
+        List<Project> projects = projectService.getAllProjects();
+        if (projects.isEmpty()) {
+            return ResponseEntity.ok(Collections.emptyList());
+        }
         List<ProjectResponseDTO> response = new ArrayList<>();
-        for(Project project : projectService.getAllProjects()){
+        for(Project project : projects){
             response.add(ProjectMapper.toDTO(project));
         }
-        if(response.isEmpty()){
-            throw new ResourceNotFoundException("No projects found");
-        }
-        return response;
+        return ResponseEntity.ok(response);
     } 
 
     @GetMapping("/id/{projectId}")

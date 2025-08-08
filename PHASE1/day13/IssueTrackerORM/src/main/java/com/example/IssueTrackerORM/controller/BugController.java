@@ -1,6 +1,7 @@
 package com.example.IssueTrackerORM.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,8 +32,12 @@ public class BugController {
 
     @GetMapping("/")
     public ResponseEntity<List<BugResponseDTO>> getAllBugs() {
+        List<Bug> bugs = bugService.getAllBugs();
+        if (bugs.isEmpty()) {
+            return ResponseEntity.ok(Collections.emptyList());
+        }
         List<BugResponseDTO> response = new ArrayList<>();
-        for(Bug bug : bugService.getAllBugs()){
+        for(Bug bug : bugs){
             response.add(BugMapper.toDTO(bug));
         }
         return ResponseEntity.ok(response);
