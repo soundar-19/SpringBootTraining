@@ -545,8 +545,8 @@ GET /api/registrations
 [
     {
         "id": 1,
-        "user_id": 1,
-        "event_id": 1,
+        "userId": 1,
+        "eventId": 1,
         "registrationDate": "2024-08-08"
     }
 ]
@@ -597,8 +597,8 @@ GET /api/users/{userId}/registrations
 [
     {
         "id": 1,
-        "user_id": 1,
-        "event_id": 1,
+        "userId": 1,
+        "eventId": 1,
         "registrationDate": "2024-08-08"
     }
 ]

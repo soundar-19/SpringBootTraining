@@ -448,8 +448,8 @@ GET /api/registrations
 [
     {
         "id": 1,
-        "user_id": 1,
-        "event_id": 1,
+        "userId": 1,
+        "eventId": 1,
         "registrationDate": "2024-08-08"
     }
 ]
@@ -499,8 +499,8 @@ GET /api/users/{userId}/registrations
 [
     {
         "id": 1,
-        "user_id": 1,
-        "event_id": 1,
+        "userId": 1,
+        "eventId": 1,
         "registrationDate": "2024-08-08"
     }
 ]
@@ -1167,29 +1167,29 @@ package com.event_ease.event_ease.dto;
 
 import java.time.LocalDate;
 
-
 public class RegistrationResponseDTO {
     private Long id;
-    private Long user_id;
-    private Long event_id;
+    private Long userId;
+    private Long eventId;
     private LocalDate registrationDate;
+    
     public Long getId() {
         return id;
     }
     public void setId(Long id) {
         this.id = id;
     }
-    public Long getUser_id() {
-        return user_id;
+    public Long getUserId() {
+        return userId;
     }
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
-    public Long getEvent_id() {
-        return event_id;
+    public Long getEventId() {
+        return eventId;
     }
-    public void setEvent_id(Long event_id) {
-        this.event_id = event_id;
+    public void setEventId(Long eventId) {
+        this.eventId = eventId;
     }
     public LocalDate getRegistrationDate() {
         return registrationDate;
@@ -1197,8 +1197,6 @@ public class RegistrationResponseDTO {
     public void setRegistrationDate(LocalDate registrationDate) {
         this.registrationDate = registrationDate;
     }
-
-    
 }
 
 ================================================================================
@@ -1624,8 +1622,6 @@ public class RegistrationServiceImpl implements RegistrationService{
     private UserService userService;
     private EventService eventService;
 
-    public RegistrationServiceImpl(){}
-
     @Autowired
     public RegistrationServiceImpl(RegistrationRepository registrationRepository,UserServiceImpl userServiceImpl, EventServiceImpl eventServiceImpl){
         this.registrationRepository = registrationRepository;
@@ -1810,20 +1806,15 @@ package com.event_ease.event_ease.mapper;
 import org.springframework.stereotype.Component;
 
 import com.event_ease.event_ease.domain.Registration;
-import com.event_ease.event_ease.dto.RegistrationRequestDTO;
 import com.event_ease.event_ease.dto.RegistrationResponseDTO;
 
 @Component
 public class RegistrationMapper {
-    public Registration toEntity(RegistrationRequestDTO registrationRequestDTO) {
-        Registration registration = new Registration();
-        return registration;
-    }
     public RegistrationResponseDTO toDTO(Registration registration) {
         RegistrationResponseDTO registrationResponseDTO = new RegistrationResponseDTO();
         registrationResponseDTO.setId(registration.getId());
-        registrationResponseDTO.setEvent_id(registration.getEvent().getId());
-        registrationResponseDTO.setUser_id(registration.getUser().getId());
+        registrationResponseDTO.setEventId(registration.getEvent().getId());
+        registrationResponseDTO.setUserId(registration.getUser().getId());
         registrationResponseDTO.setRegistrationDate(registration.getRegistrationDate());
         return registrationResponseDTO;
     }

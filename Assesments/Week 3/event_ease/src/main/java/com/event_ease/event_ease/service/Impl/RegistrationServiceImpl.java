@@ -19,8 +19,6 @@ public class RegistrationServiceImpl implements RegistrationService{
     private UserService userService;
     private EventService eventService;
 
-    public RegistrationServiceImpl(){}
-
     @Autowired
     public RegistrationServiceImpl(RegistrationRepository registrationRepository,UserServiceImpl userServiceImpl, EventServiceImpl eventServiceImpl){
         this.registrationRepository = registrationRepository;
