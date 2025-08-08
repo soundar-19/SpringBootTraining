@@ -2,14 +2,14 @@ package com.student_course_management_system.service.Impl;
 
 import java.util.List;
 import java.util.Set;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import com.student_course_management_system.domain.Course;
 import com.student_course_management_system.domain.Student;
-import com.student_course_management_system.repository.CourseRepository;
 import com.student_course_management_system.repository.StudentRepository;
+import com.student_course_management_system.service.EnrollmentService;
 import com.student_course_management_system.service.StudentService;
 
 @Service
@@ -19,7 +19,7 @@ public class StudentServiceImpl implements StudentService{
     private StudentRepository studentRepository;
     
     @Autowired
-    private CourseRepository courseRepository;
+    private EnrollmentService enrollmentService;
 
     public Student save(Student student){
         if(studentRepository.findByRollNumber(student.getRollNumber())!= null) return null;
@@ -53,31 +53,20 @@ public class StudentServiceImpl implements StudentService{
         return studentRepository.findByRollNumber(rollNumber);
     }
     
-    @Transactional
     public Student enrollInCourse(Long studentId, Long courseId) {
-        Student student = studentRepository.findByIdWithCourses(studentId).orElse(null);
-        Course course = courseRepository.findById(courseId).orElse(null);
-        
-        if (student == null || course == null) return null;
-        if (student.getCourses().contains(course)) return null;
-        
-        student.getCourses().add(course);
-        return studentRepository.save(student);
+        if (enrollmentService.enrollStudent(studentId, courseId) != null) {
+            return studentRepository.findById(studentId).orElse(null);
+        }
+        return null;
     }
     
-    @Transactional
     public Student unenrollFromCourse(Long studentId, Long courseId) {
-        Student student = studentRepository.findByIdWithCourses(studentId).orElse(null);
-        Course course = courseRepository.findById(courseId).orElse(null);
-        
-        if (student == null || course == null) return null;
-        
-        student.getCourses().remove(course);
-        return studentRepository.save(student);
+        enrollmentService.unenrollStudent(studentId, courseId);
+        return studentRepository.findById(studentId).orElse(null);
     }
     
     public Set<Course> getStudentCourses(Long studentId) {
-        Student student = studentRepository.findByIdWithCourses(studentId).orElse(null);
-        return student != null ? student.getCourses() : null;
+        List<Course> courses = enrollmentService.getStudentCourses(studentId);
+        return courses != null ? new HashSet<>(courses) : null;
     }
 }

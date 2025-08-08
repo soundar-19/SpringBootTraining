@@ -1,12 +1,13 @@
 package com.student_course_management_system.domain;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -19,8 +20,8 @@ public class Course {
     private String courseTitle;
     private int credits;
     
-    @ManyToMany(mappedBy = "courses")
-    private Set<Student> students = new HashSet<>();
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<Enrollment> enrollments = new ArrayList<>();
 
     public Course() {}
     
@@ -56,11 +57,11 @@ public class Course {
     public void setCredits(int credits) {
         this.credits = credits;
     }
-    public Set<Student> getStudents() {
-        return students;
+    public List<Enrollment> getEnrollments() {
+        return enrollments;
     }
-    public void setStudents(Set<Student> students) {
-        this.students = students;
+    public void setEnrollments(List<Enrollment> enrollments) {
+        this.enrollments = enrollments;
     }
     
 }

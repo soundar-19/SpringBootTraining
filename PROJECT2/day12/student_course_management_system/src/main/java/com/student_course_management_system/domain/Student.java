@@ -1,14 +1,13 @@
 package com.student_course_management_system.domain;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,13 +21,8 @@ public class Student {
     private Long rollNumber;
     private String email;
     
-    @ManyToMany
-    @JoinTable(
-        name = "student_courses",
-        joinColumns = @JoinColumn(name = "student_id"),
-        inverseJoinColumns = @JoinColumn(name = "course_id")
-    )
-    private Set<Course> courses = new HashSet<>();
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    private List<Enrollment> enrollments = new ArrayList<>();
 
     public Student() {}
 
@@ -71,12 +65,12 @@ public class Student {
         this.email = email;
     }
 
-    public Set<Course> getCourses() {
-        return courses;
+    public List<Enrollment> getEnrollments() {
+        return enrollments;
     }
 
-    public void setCourses(Set<Course> courses) {
-        this.courses = courses;
+    public void setEnrollments(List<Enrollment> enrollments) {
+        this.enrollments = enrollments;
     }
     
 }

@@ -26,14 +26,15 @@ A comprehensive **Spring Boot REST API** for managing students, courses, and enr
 ### Core Functionality
 - 🎯 **Student Management**: Complete CRUD operations with roll number validation
 - 📚 **Course Management**: Full course lifecycle with credit validation (1-5)
-- 📝 **Enrollment Management**: Direct Many-to-Many relationship with duplicate prevention
+- 📝 **Enrollment Management**: Dedicated enrollment entity with timestamp tracking
 - 🔍 **Advanced Queries**: Search by roll number, course code, title, and credits
 - 🛡️ **Data Integrity**: Referential integrity and business rule enforcement
+- 📊 **Enrollment Tracking**: Historical enrollment data with audit trail
 
 ### Technical Features
 - 🚀 **RESTful API**: Clean REST endpoints with proper HTTP status codes
 - 🗄️ **PostgreSQL Integration**: Robust database persistence with Hibernate ORM
-- 🔄 **Many-to-Many Relationships**: Direct JPA entity relationships with join tables
+- 🔄 **One-to-Many Relationships**: Student/Course to Enrollment entity relationships
 - ✅ **Input Validation**: Jakarta validation with comprehensive business rules
 - 🏗️ **Layered Architecture**: Clean separation of concerns with DTOs and mappers
 - 📊 **Query Optimization**: JOIN FETCH queries to prevent N+1 problems
@@ -53,6 +54,7 @@ A comprehensive **Spring Boot REST API** for managing students, courses, and enr
 | **PostgreSQL** | 15+ | Database |
 | **Maven** | 3.8+ | Build Tool |
 | **Hibernate** | 6.4+ | ORM Framework |
+| **Swagger UI** | 3.0+ | API Documentation |
 
 ## 🏗️ Architecture
 
@@ -76,28 +78,35 @@ student_course_management_system/
 │   │   ├── 📁 java/com/student_course_management_system/
 │   │   │   ├── 📄 StudentCourseManagementSystemApplication.java  # Main Application
 │   │   │   ├── 📁 controller/                                    # REST Controllers
-│   │   │   │   ├── 📄 StudentController.java                     # Student & enrollment endpoints
-│   │   │   │   └── 📄 CourseController.java                      # Course endpoints
+│   │   │   │   ├── 📄 StudentController.java                     # Student endpoints
+│   │   │   │   ├── 📄 CourseController.java                      # Course endpoints
+│   │   │   │   └── 📄 EnrollmentController.java                  # Enrollment endpoints
 │   │   │   ├── 📁 service/                                       # Business Logic
 │   │   │   │   ├── 📄 StudentService.java                        # Student service interface
 │   │   │   │   ├── 📄 CourseService.java                         # Course service interface
+│   │   │   │   ├── 📄 EnrollmentService.java                     # Enrollment service interface
 │   │   │   │   └── 📁 Impl/                                      # Service implementations
-│   │   │   │       ├── 📄 StudentServiceImpl.java               # Student & enrollment logic
-│   │   │   │       └── 📄 CourseServiceImpl.java                # Course business logic
+│   │   │   │       ├── 📄 StudentServiceImpl.java               # Student business logic
+│   │   │   │       ├── 📄 CourseServiceImpl.java                # Course business logic
+│   │   │   │       └── 📄 EnrollmentServiceImpl.java            # Enrollment business logic
 │   │   │   ├── 📁 repository/                                    # Data Access Layer
 │   │   │   │   ├── 📄 StudentRepository.java                     # Student data operations
-│   │   │   │   └── 📄 CourseRepository.java                      # Course data operations
+│   │   │   │   ├── 📄 CourseRepository.java                      # Course data operations
+│   │   │   │   └── 📄 EnrollmentRepository.java                  # Enrollment data operations
 │   │   │   ├── 📁 domain/                                        # Entity Classes
 │   │   │   │   ├── 📄 Student.java                              # Student entity
-│   │   │   │   └── 📄 Course.java                               # Course entity
+│   │   │   │   ├── 📄 Course.java                               # Course entity
+│   │   │   │   └── 📄 Enrollment.java                           # Enrollment entity
 │   │   │   ├── 📁 dto/                                          # Data Transfer Objects
 │   │   │   │   ├── 📄 StudentRequestDTO.java                     # Student request DTO
 │   │   │   │   ├── 📄 StudentResponseDTO.java                    # Student response DTO
 │   │   │   │   ├── 📄 CourseRequestDTO.java                      # Course request DTO
-│   │   │   │   └── 📄 CourseResponseDTO.java                     # Course response DTO
+│   │   │   │   ├── 📄 CourseResponseDTO.java                     # Course response DTO
+│   │   │   │   └── 📄 EnrollmentResponseDTO.java                 # Enrollment response DTO
 │   │   │   ├── 📁 mapper/                                        # Entity-DTO Mappers
 │   │   │   │   ├── 📄 StudentMapper.java                         # Student entity-DTO mapping
-│   │   │   │   └── 📄 CourseMapper.java                          # Course entity-DTO mapping
+│   │   │   │   ├── 📄 CourseMapper.java                          # Course entity-DTO mapping
+│   │   │   │   └── 📄 EnrollmentMapper.java                      # Enrollment entity-DTO mapping
 │   │   │   └── 📁 exception/                                     # Exception Handling
 │   │   │       ├── 📄 GlobalExceptionHandler.java               # Global exception handler
 │   │   │       ├── 📄 ResourceNotFoundException.java            # 404 exceptions
@@ -122,13 +131,14 @@ student_course_management_system/
 ### Entity Relationship Diagram
 ```
 ┌─────────────────┐         ┌─────────────────┐         ┌─────────────────┐
-│     STUDENTS    │         │ STUDENT_COURSES │         │     COURSES     │
+│     STUDENTS    │         │   ENROLLMENTS   │         │     COURSES     │
 ├─────────────────┤         ├─────────────────┤         ├─────────────────┤
-│ 🔑 id (PK)      │◄────────┤ 🔗 student_id   │────────►│ 🔑 id (PK)      │
-│ 📝 name         │         │ 🔗 course_id    │         │ 🏷️ course_code  │
-│ 🎯 roll_number  │         └─────────────────┘         │ 📚 course_title │
-│ 📧 email        │                                     │ ⭐ credits      │
-└─────────────────┘                                     └─────────────────┘
+│ 🔑 id (PK)      │◄────────┤ 🔑 id (PK)      │────────►│ 🔑 id (PK)      │
+│ 📝 name         │         │ 🔗 student_id   │         │ 🏷️ course_code  │
+│ 🎯 roll_number  │         │ 🔗 course_id    │         │ 📚 course_title │
+│ 📧 email        │         │ 📅 enrollment_  │         │ ⭐ credits      │
+└─────────────────┘         │    date         │         └─────────────────┘
+                            └─────────────────┘
 ```
 
 ### Table Specifications
@@ -149,12 +159,13 @@ student_course_management_system/
 | course_title | VARCHAR(255) | UNIQUE, NOT NULL | Course title |
 | credits | INTEGER | CHECK (credits >= 1 AND credits <= 5) | Course credits |
 
-#### Student_Courses Table (Join Table)
+#### Enrollments Table
 | Column | Type | Constraints | Description |
 |--------|------|-------------|-------------|
+| id | BIGINT | PRIMARY KEY, AUTO_INCREMENT | Unique identifier |
 | student_id | BIGINT | FOREIGN KEY, NOT NULL | Reference to student |
 | course_id | BIGINT | FOREIGN KEY, NOT NULL | Reference to course |
-| | | PRIMARY KEY (student_id, course_id) | Composite primary key |
+| enrollment_date | TIMESTAMP | NOT NULL | When student enrolled |
 
 ## 🚀 Installation
 
@@ -199,6 +210,9 @@ student_course_management_system/
    ```bash
    curl http://localhost:8080/api/students
    # Should return: []
+   
+   # Access Swagger UI
+   open http://localhost:8080/swagger-ui/index.html
    ```
 
 ### Performance Optimizations
@@ -211,12 +225,18 @@ student_course_management_system/
 ### Database Optimizations
 ```sql
 -- Indexes automatically created for:
--- Primary keys (id columns)
+-- Primary keys (id columns in all tables)
 -- Unique constraints (roll_number, course_code, course_title)
--- Foreign keys (student_id, course_id in join table)
+-- Foreign keys (student_id, course_id in enrollments table)
 
--- Composite primary key for join table prevents duplicates
-PRIMARY KEY (student_id, course_id)
+-- Enrollment table with proper constraints
+CREATE TABLE enrollments (
+    id BIGINT PRIMARY KEY,
+    student_id BIGINT REFERENCES students(id),
+    course_id BIGINT REFERENCES courses(id),
+    enrollment_date TIMESTAMP NOT NULL,
+    UNIQUE(student_id, course_id)  -- Prevents duplicate enrollments
+);
 ```
 
 ## ⚙️ Configuration
@@ -246,6 +266,22 @@ logging.level.com.student_course_management_system=INFO
 ```
 
 ## 📚 API Documentation
+
+### 🌐 Interactive API Documentation
+
+**Swagger UI** provides interactive API documentation where you can test endpoints directly from your browser.
+
+#### 🔗 Access Links
+- **Swagger UI**: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+- **OpenAPI JSON**: [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
+- **OpenAPI YAML**: [http://localhost:8080/v3/api-docs.yaml](http://localhost:8080/v3/api-docs.yaml)
+
+#### ✨ Features
+- 🎯 **Interactive Testing**: Test all endpoints directly from the browser
+- 📋 **Request/Response Examples**: See sample data for all operations
+- 🔍 **Schema Documentation**: Detailed DTO and entity documentation
+- 🛡️ **Validation Rules**: View all validation constraints
+- 📊 **Error Responses**: Complete error handling documentation
 
 ### Base URL
 ```
@@ -409,32 +445,68 @@ GET /api/students/{studentId}/courses
 GET /api/courses/{courseId}/students
 ```
 
+### Enrollment Endpoints
+
+#### Get All Enrollments
+```http
+GET /api/enrollments
+```
+
+**Response (200 OK):**
+```json
+[
+  {
+    "id": 1,
+    "student": {
+      "id": 1,
+      "name": "John Doe",
+      "rollNumber": 12345,
+      "email": "john.doe@example.com"
+    },
+    "course": {
+      "id": 1,
+      "courseCode": "CS101",
+      "courseTitle": "Introduction to Data Structures",
+      "credits": 3
+    },
+    "enrollmentDate": "2024-01-15T10:30:00"
+  }
+]
+```
+
 ## 🔧 Technical Implementation Details
 
 ### Entity Relationships
 ```java
-// Student Entity (Owning Side)
-@ManyToMany
-@JoinTable(
-    name = "student_courses",
-    joinColumns = @JoinColumn(name = "student_id"),
-    inverseJoinColumns = @JoinColumn(name = "course_id")
-)
-private Set<Course> courses = new HashSet<>();
+// Student Entity (One-to-Many with Enrollment)
+@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+private List<Enrollment> enrollments = new ArrayList<>();
 
-// Course Entity (Inverse Side)
-@ManyToMany(mappedBy = "courses")
-private Set<Student> students = new HashSet<>();
+// Course Entity (One-to-Many with Enrollment)
+@OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+private List<Enrollment> enrollments = new ArrayList<>();
+
+// Enrollment Entity (Many-to-One with Student and Course)
+@ManyToOne
+@JoinColumn(name = "student_id")
+private Student student;
+
+@ManyToOne
+@JoinColumn(name = "course_id")
+private Course course;
 ```
 
 ### Custom Repository Methods
 ```java
-// Prevent lazy initialization with JOIN FETCH
-@Query("SELECT s FROM Student s LEFT JOIN FETCH s.courses WHERE s.id = :id")
-Optional<Student> findByIdWithCourses(@Param("id") Long id);
+// Enrollment Repository with JOIN FETCH
+@Query("SELECT e FROM Enrollment e WHERE e.student.id = :studentId AND e.course.id = :courseId")
+Optional<Enrollment> findByStudentIdAndCourseId(@Param("studentId") Long studentId, @Param("courseId") Long courseId);
 
-@Query("SELECT c FROM Course c LEFT JOIN FETCH c.students WHERE c.id = :id")
-Optional<Course> findByIdWithStudents(@Param("id") Long id);
+@Query("SELECT e FROM Enrollment e JOIN FETCH e.course WHERE e.student.id = :studentId")
+List<Enrollment> findByStudentIdWithCourse(@Param("studentId") Long studentId);
+
+@Query("SELECT e FROM Enrollment e JOIN FETCH e.student WHERE e.course.id = :courseId")
+List<Enrollment> findByCourseIdWithStudent(@Param("courseId") Long courseId);
 ```
 
 ### DTO Pattern Implementation
@@ -454,10 +526,17 @@ public CourseResponseDTO toDTO(Course course) {
 ```java
 // Ensures data consistency for enrollment operations
 @Transactional
-public Student enrollInCourse(Long studentId, Long courseId) {
-    // Uses JOIN FETCH to prevent lazy loading
-    Student student = studentRepository.findByIdWithCourses(studentId).orElse(null);
-    // Business logic with proper validation
+public Enrollment enrollStudent(Long studentId, Long courseId) {
+    Student student = studentRepository.findById(studentId).orElse(null);
+    Course course = courseRepository.findById(courseId).orElse(null);
+    
+    if (student == null || course == null) return null;
+    if (enrollmentRepository.findByStudentIdAndCourseId(studentId, courseId).isPresent()) {
+        return null;
+    }
+    
+    Enrollment enrollment = new Enrollment(student, course);
+    return enrollmentRepository.save(enrollment);
 }
 ```
 
@@ -492,9 +571,10 @@ private Integer credits;
 ### Enrollment Rules
 - ✅ **No Duplicate Enrollments**: Student cannot enroll in the same course twice
 - ✅ **Referential Integrity**: Student and course must exist before enrollment
-- ✅ **Many-to-Many Relationship**: Direct relationship with student_courses join table
-- ✅ **Bidirectional Mapping**: Student owns the relationship, Course is mapped by
+- ✅ **One-to-Many Relationships**: Student/Course to Enrollment entity relationships
+- ✅ **Enrollment Tracking**: Automatic timestamp recording for enrollment date
 - ✅ **Lazy Loading Prevention**: JOIN FETCH queries for related entities
+- ✅ **Audit Trail**: Complete enrollment history with timestamps
 
 ### Exception Handling & HTTP Status Codes
 - 🔴 **404 NOT FOUND**: Resource not found (students, courses, empty collections)
@@ -518,7 +598,15 @@ GlobalExceptionHandler       // Centralized exception handling
 
 ## 🧪 Testing
 
-### Manual Testing with cURL
+### 🧪 API Testing Options
+
+#### Option 1: Swagger UI (Recommended)
+1. Start your application
+2. Open [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+3. Explore and test all endpoints interactively
+4. View request/response schemas and examples
+
+#### Option 2: Manual Testing with cURL
 
 ```bash
 # Test Student Creation
@@ -539,6 +627,9 @@ curl http://localhost:8080/api/students/1/courses
 
 # Test Get Course Students (with JOIN FETCH)
 curl http://localhost:8080/api/courses/1/students
+
+# Test Get All Enrollments
+curl http://localhost:8080/api/enrollments
 
 # Test Duplicate Prevention
 curl -X POST http://localhost:8080/api/students \
