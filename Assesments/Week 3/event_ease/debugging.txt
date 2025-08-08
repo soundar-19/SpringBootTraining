@@ -1,0 +1,53 @@
+# Fixed EventServiceImpl
+
+## Issues Identified:
+1. **Logic Error**: `event.getTitle().length() < 0` - String length can never be negative
+2. **Missing Null Checks**: No validation for null event or null title
+3. **Poor Exception Handling**: Generic RuntimeException instead of specific exceptions
+4. **Incomplete Validation**: Only checking title length, missing other validations
+
+## Corrected Implementation:
+
+```java
+public class EventServiceImpl implements EventService {
+    
+    @Autowired
+    private EventRepository eventRepo;
+    
+    @Override
+    public Event createEvent(Event event) {
+        // Check if event object is null
+        if (event == null) {
+            throw new IllegalArgumentException("Event cannot be null");
+        }
+        
+        // Check if title is null or empty (fixed logic: length() == 0, not < 0)
+        if (event.getTitle() == null || event.getTitle().trim().isEmpty()) {
+            throw new IllegalArgumentException("Event title cannot be null or empty");
+        }
+        
+        // Additional validation: title length should be reasonable
+        if (event.getTitle().trim().length() > 255) {
+            throw new IllegalArgumentException("Event title cannot exceed 255 characters");
+        }
+        
+        return eventRepo.save(event);
+    }
+}
+```
+
+## Changes Made:
+
+1. **Fixed Logic Error**: Changed `length() < 0` to `length() == 0` and added null check
+2. **Added Null Safety**: Validate event object and title for null values
+3. **Improved Exception Handling**: Use `IllegalArgumentException` instead of generic `RuntimeException`
+4. **Enhanced Validation**: Added trim() to handle whitespace-only titles and maximum length check
+5. **Better Error Messages**: Specific error messages for different validation failures
+
+## Justification:
+
+- **Null Checks**: Prevent NullPointerException at runtime
+- **Trim Usage**: Ensures titles with only whitespace are considered invalid
+- **Length Validation**: Prevents excessively long titles that could cause database issues
+- **Specific Exceptions**: IllegalArgumentException is more appropriate for validation failures
+- **Clear Error Messages**: Help developers understand what went wrong
