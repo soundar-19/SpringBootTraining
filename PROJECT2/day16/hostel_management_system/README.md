@@ -464,6 +464,14 @@ GET /api/staff/filter/with-students
   "hostelId": 1
 }
 ```
+## Sample Screenshots
+<img width="1436" height="819" alt="image" src="https://github.com/user-attachments/assets/a051075f-d7a8-4935-a5f8-488d665d3987" />
+<img width="1433" height="818" alt="image" src="https://github.com/user-attachments/assets/6219ad58-11f2-4646-a7cc-772f41d899a5" />
+<img width="1442" height="823" alt="image" src="https://github.com/user-attachments/assets/84ddbb74-07e2-4e5d-87da-f2ebd53afe6f" />
+<img width="1427" height="822" alt="image" src="https://github.com/user-attachments/assets/72cd6f7e-989b-41e6-b190-93400219111e" />
+<img width="1400" height="828" alt="image" src="https://github.com/user-attachments/assets/018dc9ff-6aa8-4163-8df3-5095bbe7d0f1" />
+<img width="1422" height="824" alt="image" src="https://github.com/user-attachments/assets/4873b1b7-8a7c-473d-8801-8c252a546b43" />
+
 
 ## 🚨 Error Handling
 
