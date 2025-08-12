@@ -1,0 +1,1914 @@
+# 🏨 Hostel Management System
+
+> A comprehensive Spring Boot REST API application for managing hostel operations including hostels, rooms, students, and staff.
+
+[![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://openjdk.java.net/projects/jdk/21/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.4-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![Maven](https://img.shields.io/badge/Maven-3.6+-blue.svg)](https://maven.apache.org/)
+[![H2](https://img.shields.io/badge/Database-H2-lightblue.svg)](https://www.h2database.com/)
+
+## ✨ Features
+
+- 🏠 **Hostel Management**: View hostels and filter by type
+- 🏠 **Room Management**: Manage rooms with availability tracking and filtering
+- 👥 **Student Management**: Handle student records with advanced filtering
+- 👨💼 **Staff Management**: Manage staff with role-based operations
+- 🔐 **Security**: Spring Security integration
+- 💾 **Database**: H2 in-memory database with JPA/Hibernate
+
+## 🛠️ Tech Stack
+
+| Technology | Version | Purpose |
+|------------|---------|----------|
+| **Java** | 21 | Programming Language |
+| **Spring Boot** | 3.5.4 | Framework |
+| **Spring Data JPA** | - | Data Access |
+| **Spring Security** | - | Authentication & Authorization |
+| **H2 Database** | - | In-Memory Database |
+| **Maven** | 3.6+ | Build Tool |
+
+## 📁 Project Structure
+
+```
+hostel_management_system/
+├── src/
+│   ├── main/
+│   │   ├── java/com/example/hostel_management_system/
+│   │   │   ├── config/
+│   │   │   │   ├── DataInitializer.java
+│   │   │   │   └── SecurityConfig.java
+│   │   │   ├── controller/
+│   │   │   │   ├── HostelController.java
+│   │   │   │   ├── RoomController.java
+│   │   │   │   ├── StaffController.java
+│   │   │   │   └── StudentController.java
+│   │   │   ├── domain/
+│   │   │   │   ├── Hostel.java
+│   │   │   │   ├── Room.java
+│   │   │   │   ├── Staff.java
+│   │   │   │   └── Student.java
+│   │   │   ├── dto/
+│   │   │   │   ├── RoomResponseDto.java
+│   │   │   │   ├── StaffResponseDto.java
+│   │   │   │   └── StudentResponseDto.java
+│   │   │   ├── exception/
+│   │   │   │   ├── DuplicateResourceException.java
+│   │   │   │   ├── GlobalExceptionHandler.java
+│   │   │   │   ├── ResourceNotFoundException.java
+│   │   │   │   └── RoomNotAvailableException.java
+│   │   │   ├── mapper/
+│   │   │   │   ├── StaffMapper.java
+│   │   │   │   └── StudentMapper.java
+│   │   │   ├── repository/
+│   │   │   │   ├── HostelRepository.java
+│   │   │   │   ├── RoomRepository.java
+│   │   │   │   ├── StaffRepository.java
+│   │   │   │   └── StudentRepository.java
+│   │   │   ├── service/
+│   │   │   │   ├── HostelService.java
+│   │   │   │   ├── RoomService.java
+│   │   │   │   ├── StaffService.java
+│   │   │   │   └── StudentService.java
+│   │   │   └── HostelManagementSystemApplication.java
+│   │   └── resources/
+│   │       ├── application.properties
+│   │       ├── static/
+│   │       └── templates/
+│   └── test/
+├── target/
+├── pom.xml
+└── README.md
+```
+
+## 🗄️ Database Schema & Entities
+
+### Entity Relationships
+```
+Hostel (1) ──────── (*) Room
+Staff (1) ──────── (*) Student
+```
+
+### 🏠 Hostel Entity
+```java
+@Entity
+public class Hostel {
+    private Long id;
+    private String name;
+    private String address;
+    private String email;
+    private HostelType hostelType; // BOYS, GIRLS, CO_ED
+    private List<Room> rooms;
+}
+```
+
+### 🏠 Room Entity
+```java
+@Entity
+public class Room {
+    private Long id;
+    private String roomNumber;
+    private RoomType roomType; // SINGLE, DOUBLE, TRIPLE, DORMITORY
+    private Integer capacity;
+    private Integer currentOccupancy;
+    private Double pricePerMonth;
+    private RoomStatus status; // AVAILABLE, OCCUPIED, MAINTENANCE, OUT_OF_ORDER
+    private Hostel hostel;
+}
+```
+
+### 👥 Student Entity
+```java
+@Entity
+public class Student {
+    private Long id;
+    private String name;
+    private String email;
+    private String address;
+    private Staff staff;
+}
+```
+
+### 👨💼 Staff Entity
+```java
+@Entity
+public class Staff {
+    private Long id;
+    private String name;
+    private String email;
+    private String address;
+    private StaffRole role; // WARDEN, ASSISTANT_WARDEN, SECURITY, MAINTENANCE, ADMIN
+    private List<Student> students;
+}
+```
+
+## ⚙️ Configuration Properties
+
+```properties
+# Application
+spring.application.name=hostel_management_system
+server.port=8080
+
+# H2 Database
+spring.datasource.url=jdbc:h2:mem:hosteldb
+spring.datasource.username=sa
+spring.datasource.password=password
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2-console
+
+# JPA/Hibernate
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.jpa.hibernate.ddl-auto=create-drop
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+# Logging
+logging.level.com.example.hostel_management_system=DEBUG
+```
+
+## 🚀 Getting Started
+
+### Prerequisites
+- ☕ Java 21 or higher
+- 📦 Maven 3.6+
+- 🌐 Web browser (for H2 console)
+
+### 📥 Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd hostel_management_system
+   ```
+
+2. **Build the project**
+   ```bash
+   mvn clean compile
+   ```
+
+3. **Run the application**
+   ```bash
+   mvn spring-boot:run
+   ```
+
+### 🔧 Configuration
+
+| Service | URL | Credentials |
+|---------|-----|-------------|
+| **Application** | `http://localhost:8080` | - |
+| **H2 Console** | `http://localhost:8080/h2-console` | Username: `sa`<br>Password: `password` |
+| **API Base** | `http://localhost:8080/api` | Spring Security |
+
+**Database Connection:**
+- **JDBC URL:** `jdbc:h2:mem:hosteldb`
+- **Driver:** `org.h2.Driver`
+
+## 📚 API Documentation
+
+### 🌐 Base URL
+```
+http://localhost:8080/api
+```
+
+### 🔐 Authentication
+> The application uses Spring Security. Ensure proper authentication headers are included in requests.
+
+---
+
+## 🏨 Hostel Endpoints
+
+### Get All Hostels
+```http
+GET /api/hostels
+```
+**Response:** List of all hostels
+
+### Get Hostel by ID
+```http
+GET /api/hostels/{id}
+```
+**Parameters:**
+- `id` (path) - Hostel ID
+
+**Response:** Hostel details
+
+### Get Hostels by Type
+```http
+GET /api/hostels/type/{hostelType}
+```
+**Parameters:**
+- `hostelType` (path) - Hostel type enum value
+
+**Response:** List of hostels matching the type
+
+---
+
+## 🏠 Room Endpoints
+
+### Get All Rooms
+```http
+GET /api/rooms
+```
+**Response:** List of all rooms with details
+
+### Get Room by ID
+```http
+GET /api/rooms/{id}
+```
+**Parameters:**
+- `id` (path) - Room ID
+
+**Response:** Room details
+
+### Get Available Rooms
+```http
+GET /api/rooms/available
+```
+**Response:** List of available rooms
+
+### Get Rooms by Hostel
+```http
+GET /api/rooms/hostel/{hostelId}
+```
+**Parameters:**
+- `hostelId` (path) - Hostel ID
+
+**Response:** List of rooms in the specified hostel
+
+### Filter Rooms by Price Range
+```http
+GET /api/rooms/filter/price-range?minPrice={min}&maxPrice={max}
+```
+**Parameters:**
+- `minPrice` (query) - Minimum price
+- `maxPrice` (query) - Maximum price
+
+**Response:** List of rooms within price range
+
+### Filter Rooms by Capacity
+```http
+GET /api/rooms/filter/capacity/{capacity}
+```
+**Parameters:**
+- `capacity` (path) - Room capacity
+
+**Response:** List of rooms with specified capacity
+
+### Filter Rooms by Number Prefix
+```http
+GET /api/rooms/filter/room-prefix/{prefix}
+```
+**Parameters:**
+- `prefix` (path) - Room number prefix
+
+**Response:** List of rooms with matching prefix
+
+---
+
+## 👥 Student Endpoints
+
+### Get All Students
+```http
+GET /api/students
+```
+**Response:** List of all students
+
+### Get Student by ID
+```http
+GET /api/students/{id}
+```
+**Parameters:**
+- `id` (path) - Student ID
+
+**Response:** Student details
+
+### Filter Students by Name
+```http
+GET /api/students/filter/name/{name}
+```
+**Parameters:**
+- `name` (path) - Name to search for
+
+**Response:** List of students with matching names
+
+### Filter Students by Email Domain
+```http
+GET /api/students/filter/email-domain/{domain}
+```
+**Parameters:**
+- `domain` (path) - Email domain
+
+**Response:** List of students with matching email domain
+
+### Filter Students by City
+```http
+GET /api/students/filter/city/{city}
+```
+**Parameters:**
+- `city` (path) - City name
+
+**Response:** List of students from specified city
+
+### Advanced Student Filter
+```http
+GET /api/students/filter?name={name}&email={email}&address={address}&staffId={staffId}
+```
+**Parameters (all optional):**
+- `name` (query) - Student name
+- `email` (query) - Student email
+- `address` (query) - Student address
+- `staffId` (query) - Associated staff ID
+
+**Response:** List of students matching criteria
+
+### Get Students Without Staff
+```http
+GET /api/students/filter/without-staff
+```
+**Response:** List of students not assigned to any staff
+
+---
+
+## 👨💼 Staff Endpoints
+
+### Get All Staff
+```http
+GET /api/staff
+```
+**Response:** List of all staff members
+
+### Get Staff by ID
+```http
+GET /api/staff/{id}
+```
+**Parameters:**
+- `id` (path) - Staff ID
+
+**Response:** Staff details
+
+### Get Staff by Role
+```http
+GET /api/staff/role/{role}
+```
+**Parameters:**
+- `role` (path) - Staff role enum value
+
+**Response:** List of staff with specified role
+
+### Get Students by Staff ID
+```http
+GET /api/staff/{id}/students
+```
+**Parameters:**
+- `id` (path) - Staff ID
+
+**Response:** List of students assigned to the staff member
+
+### Filter Staff by Name
+```http
+GET /api/staff/filter/name/{name}
+```
+**Parameters:**
+- `name` (path) - Name to search for
+
+**Response:** List of staff with matching names
+
+### Filter Staff by Email Domain
+```http
+GET /api/staff/filter/email-domain/{domain}
+```
+**Parameters:**
+- `domain` (path) - Email domain
+
+**Response:** List of staff with matching email domain
+
+### Get Staff with Students
+```http
+GET /api/staff/filter/with-students
+```
+**Response:** List of staff members who have assigned students
+
+---
+
+## 📋 Response Format
+
+### HTTP Status Codes
+| Code | Status | Description |
+|------|--------|-------------|
+| `200` | ✅ OK | Successful request |
+| `404` | ❌ Not Found | Resource not found |
+| `400` | ⚠️ Bad Request | Invalid request parameters |
+| `500` | 🔥 Internal Server Error | Server error |
+
+### Sample Response Structure
+
+**Student Response:**
+```json
+{
+  "id": 1,
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "address": "123 Main St, City",
+  "staffId": 1
+}
+```
+
+**Room Response:**
+```json
+{
+  "id": 1,
+  "roomNumber": "A101",
+  "capacity": 2,
+  "price": 500.0,
+  "status": "AVAILABLE",
+  "type": "SINGLE",
+  "hostelId": 1
+}
+```
+
+## 🚨 Error Handling
+
+| Exception | Description | HTTP Status |
+|-----------|-------------|-------------|
+| `ResourceNotFoundException` | Resource not found | 404 |
+| `DuplicateResourceException` | Duplicate resource creation | 400 |
+| `RoomNotAvailableException` | Room booking unavailable | 400 |
+
+## 🛠️ Development
+
+### Commands
+```bash
+# Run tests
+mvn test
+
+# Build application
+mvn clean package
+
+# Run with profile
+mvn spring-boot:run -Dspring-boot.run.profiles=dev
+```
+
+### 🗄️ Database Schema
+- **Strategy:** `create-drop` (auto-created on startup, dropped on shutdown)
+- **Dialect:** H2Dialect
+- **Show SQL:** Enabled in development
+
+## 🤝 Contributing
+
+1. 🍴 Fork the repository
+2. 🌿 Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. 💾 Commit your changes (`git commit -m 'Add amazing feature'`)
+4. 📤 Push to the branch (`git push origin feature/amazing-feature`)
+5. 🔄 Create a Pull Request
+
+---
+
+<div align="center">
+  <p>Made with ❤️ using Spring Boot</p>
+</div>
+
+================================================================================
+PROJECT FILES
+================================================================================
+
+## pom.xml
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.5.4</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.example</groupId>
+	<artifactId>hostel_management_system</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>hostel_management_system</name>
+	<description>Demo project for Spring Boot</description>
+	<url/>
+	<licenses>
+		<license/>
+	</licenses>
+	<developers>
+		<developer/>
+	</developers>
+	<scm>
+		<connection/>
+		<developerConnection/>
+		<tag/>
+		<url/>
+	</scm>
+	<properties>
+		<java.version>21</java.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
+```
+
+## src/main/resources/application.properties
+```properties
+spring.application.name=hostel_management_system
+
+# H2 Database Configuration
+spring.datasource.url=jdbc:h2:mem:hosteldb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=password
+
+# H2 Console (for development)
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2-console
+
+# JPA Configuration
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.jpa.hibernate.ddl-auto=create-drop
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+# Server Configuration
+server.port=8080
+
+# Logging
+logging.level.com.example.hostel_management_system=DEBUG
+
+```
+
+## src/main/java/com/example/hostel_management_system/HostelManagementSystemApplication.java
+```java
+package com.example.hostel_management_system;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class HostelManagementSystemApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(HostelManagementSystemApplication.class, args);
+	}
+
+}
+```
+## src/main/java/com/example/hostel_management_system/config/DataInitializer.java
+```java
+package com.example.hostel_management_system.config;
+
+import com.example.hostel_management_system.domain.Hostel;
+import com.example.hostel_management_system.domain.Room;
+import com.example.hostel_management_system.domain.Staff;
+import com.example.hostel_management_system.domain.Student;
+import com.example.hostel_management_system.repository.HostelRepository;
+import com.example.hostel_management_system.repository.RoomRepository;
+import com.example.hostel_management_system.repository.StaffRepository;
+import com.example.hostel_management_system.repository.StudentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+
+@Component
+public class DataInitializer implements CommandLineRunner {
+    
+    @Autowired
+    private HostelRepository hostelRepository;
+    
+    @Autowired
+    private RoomRepository roomRepository;
+    
+    @Autowired
+    private StudentRepository studentRepository;
+    
+    @Autowired
+    private StaffRepository staffRepository;
+    
+    @Override
+    public void run(String... args) throws Exception {
+        // Create sample hostels
+        Hostel boysHostel = new Hostel("Boys Hostel", "15/2, MG Road, Koramangala, Bangalore, Karnataka - 560034", Hostel.HostelType.BOYS);
+        boysHostel.setEmail("contact@boyshostel.in");
+        hostelRepository.save(boysHostel);
+        
+        Hostel girlsHostel = new Hostel("Girls Hostel", "23/A, Brigade Road, Shivaji Nagar, Bangalore, Karnataka - 560001", Hostel.HostelType.GIRLS);
+        girlsHostel.setEmail("contact@girlshostel.in");
+        hostelRepository.save(girlsHostel);
+        
+        // Create sample rooms for Boys Hostel
+        Room boysRoom101 = new Room("B101", Room.RoomType.SINGLE, 1, 8000.0);
+        boysRoom101.setHostel(boysHostel);
+        roomRepository.save(boysRoom101);
+        
+        Room boysRoom102 = new Room("B102", Room.RoomType.DOUBLE, 2, 6000.0);
+        boysRoom102.setHostel(boysHostel);
+        roomRepository.save(boysRoom102);
+        
+        Room boysRoom103 = new Room("B103", Room.RoomType.SINGLE, 1, 8000.0);
+        boysRoom103.setHostel(boysHostel);
+        roomRepository.save(boysRoom103);
+        
+        // Create sample rooms for Girls Hostel
+        Room girlsRoom201 = new Room("G201", Room.RoomType.SINGLE, 1, 9000.0);
+        girlsRoom201.setHostel(girlsHostel);
+        roomRepository.save(girlsRoom201);
+        
+        Room girlsRoom202 = new Room("G202", Room.RoomType.DOUBLE, 2, 7000.0);
+        girlsRoom202.setHostel(girlsHostel);
+        roomRepository.save(girlsRoom202);
+        
+        // Create sample staff for Boys Hostel
+        Staff boysWarden = new Staff("Soundar Raja", "soundar.warden@boyshostel.in", Staff.StaffRole.WARDEN);
+        boysWarden.setAddress("Staff Quarter A-1, Boys Hostel Campus, Koramangala, Bangalore - 560034");
+        staffRepository.save(boysWarden);
+        
+        Staff boysAssistant = new Staff("Lokesh Raj", "lokesh.assistant@boyshostel.in", Staff.StaffRole.ASSISTANT_WARDEN);
+        boysAssistant.setAddress("Staff Quarter A-2, Boys Hostel Campus, Koramangala, Bangalore - 560034");
+        staffRepository.save(boysAssistant);
+        
+        // Create sample staff for Girls Hostel
+        Staff girlsWarden = new Staff("Senthil Kumari", "senthil.warden@girlshostel.in", Staff.StaffRole.WARDEN);
+        girlsWarden.setAddress("Staff Quarter B-1, Girls Hostel Campus, Shivaji Nagar, Bangalore - 560001");
+        staffRepository.save(girlsWarden);
+        
+        Staff girlsAssistant = new Staff("Nithish Priya", "nithish.assistant@girlshostel.in", Staff.StaffRole.ASSISTANT_WARDEN);
+        girlsAssistant.setAddress("Staff Quarter B-2, Girls Hostel Campus, Shivaji Nagar, Bangalore - 560001");
+        staffRepository.save(girlsAssistant);
+        
+        // Create sample boys students under Boys Hostel staff
+        Student boyStudent1 = new Student("Sidd Arun", "sidd.arun@student.vtu.ac.in");
+        boyStudent1.setAddress("H.No. 45/2, 2nd Cross, Jayanagar 4th Block, Bangalore, Karnataka - 560011");
+        boyStudent1.setStaff(boysWarden);
+        studentRepository.save(boyStudent1);
+        
+        Student boyStudent2 = new Student("Nithish Raj", "nithish.raj@student.vtu.ac.in");
+        boyStudent2.setAddress("#234, 8th Main, Indiranagar, Bangalore, Karnataka - 560038");
+        boyStudent2.setStaff(boysWarden);
+        studentRepository.save(boyStudent2);
+        
+        Student boyStudent3 = new Student("Lokesh Vikram", "lokesh.vikram@student.vtu.ac.in");
+        boyStudent3.setAddress("Plot No. 78, 5th Cross, BTM Layout, Bangalore, Karnataka - 560076");
+        boyStudent3.setStaff(boysAssistant);
+        studentRepository.save(boyStudent3);
+        
+        // Create sample girls students under Girls Hostel staff
+        Student girlStudent1 = new Student("Priya", "priya@student.vtu.ac.in");
+        girlStudent1.setAddress("Plot No. 12, Sector 15, HSR Layout, Bangalore, Karnataka - 560102");
+        girlStudent1.setStaff(girlsWarden);
+        studentRepository.save(girlStudent1);
+        
+        Student girlStudent2 = new Student("Sneha", "sneha@student.vtu.ac.in");
+        girlStudent2.setAddress("#456, 3rd Main, Malleswaram, Bangalore, Karnataka - 560003");
+        girlStudent2.setStaff(girlsWarden);
+        studentRepository.save(girlStudent2);
+        
+        Student girlStudent3 = new Student("Kavya", "kavya@student.vtu.ac.in");
+        girlStudent3.setAddress("House No. 89, 7th Cross, Rajajinagar, Bangalore, Karnataka - 560010");
+        girlStudent3.setStaff(girlsAssistant);
+        studentRepository.save(girlStudent3);
+    }
+}
+```
+
+## src/main/java/com/example/hostel_management_system/config/SecurityConfig.java
+```java
+package com.example.hostel_management_system.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+    
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(authz -> authz
+                .requestMatchers("/api/**").permitAll()
+                .requestMatchers("/h2-console/**").permitAll()
+                .requestMatchers("/swagger-ui/**").permitAll()
+                .requestMatchers("/api-docs/**").permitAll()
+                .requestMatchers("/swagger-ui.html").permitAll()
+                .anyRequest().authenticated()
+            )
+            .headers(headers -> headers.frameOptions().sameOrigin());
+        
+        return http.build();
+    }
+}
+```
+
+## src/main/java/com/example/hostel_management_system/controller/HostelController.java
+```java
+package com.example.hostel_management_system.controller;
+
+import com.example.hostel_management_system.domain.Hostel;
+import com.example.hostel_management_system.service.HostelService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/hostels")
+public class HostelController {
+    
+    @Autowired
+    private HostelService hostelService;
+    
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Hostel> getHostelById(@PathVariable Long id) {
+        Hostel hostel = hostelService.getHostelById(id);
+        return ResponseEntity.ok(hostel);
+    }
+    
+    @GetMapping
+    public ResponseEntity<List<Hostel>> getAllHostels() {
+        List<Hostel> hostels = hostelService.getAllHostels();
+        return ResponseEntity.ok(hostels);
+    }
+    
+    @GetMapping("/type/{hostelType}")
+    public ResponseEntity<List<Hostel>> getHostelsByType(@PathVariable Hostel.HostelType hostelType) {
+        List<Hostel> hostels = hostelService.getHostelsByType(hostelType);
+        return ResponseEntity.ok(hostels);
+    }
+    
+
+}
+```
+
+## src/main/java/com/example/hostel_management_system/controller/RoomController.java
+```java
+package com.example.hostel_management_system.controller;
+
+import com.example.hostel_management_system.dto.RoomResponseDto;
+import com.example.hostel_management_system.service.RoomService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/rooms")
+public class RoomController {
+    
+    @Autowired
+    private RoomService roomService;
+    
+
+    @GetMapping("/{id}")
+    public ResponseEntity<RoomResponseDto> getRoomById(@PathVariable Long id) {
+        RoomResponseDto responseDto = roomService.getRoomById(id);
+        return ResponseEntity.ok(responseDto);
+    }
+    
+    @GetMapping
+    public ResponseEntity<List<RoomResponseDto>> getAllRooms() {
+        List<RoomResponseDto> rooms = roomService.getAllRooms();
+        return ResponseEntity.ok(rooms);
+    }
+    
+    @GetMapping("/available")
+    public ResponseEntity<List<RoomResponseDto>> getAvailableRooms() {
+        List<RoomResponseDto> availableRooms = roomService.getAvailableRooms();
+        return ResponseEntity.ok(availableRooms);
+    }
+    
+    @GetMapping("/hostel/{hostelId}")
+    public ResponseEntity<List<RoomResponseDto>> getRoomsByHostelId(@PathVariable Long hostelId) {
+        List<RoomResponseDto> rooms = roomService.getRoomsByHostelId(hostelId);
+        return ResponseEntity.ok(rooms);
+    }
+    
+
+    @GetMapping("/filter/price-range")
+    public ResponseEntity<List<RoomResponseDto>> getRoomsByPriceRange(@RequestParam Double minPrice, @RequestParam Double maxPrice) {
+        List<RoomResponseDto> rooms = roomService.getRoomsByPriceRange(minPrice, maxPrice);
+        return ResponseEntity.ok(rooms);
+    }
+    
+    @GetMapping("/filter/capacity/{capacity}")
+    public ResponseEntity<List<RoomResponseDto>> getRoomsByCapacity(@PathVariable Integer capacity) {
+        List<RoomResponseDto> rooms = roomService.getRoomsByCapacity(capacity);
+        return ResponseEntity.ok(rooms);
+    }
+    
+    @GetMapping("/filter/room-prefix/{prefix}")
+    public ResponseEntity<List<RoomResponseDto>> getRoomsByPrefix(@PathVariable String prefix) {
+        List<RoomResponseDto> rooms = roomService.getRoomsByRoomNumberPrefix(prefix);
+        return ResponseEntity.ok(rooms);
+    }
+}
+```
+
+## src/main/java/com/example/hostel_management_system/controller/StaffController.java
+```java
+package com.example.hostel_management_system.controller;
+
+import com.example.hostel_management_system.domain.Staff;
+import com.example.hostel_management_system.dto.StaffResponseDto;
+import com.example.hostel_management_system.service.StaffService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/staff")
+public class StaffController {
+    
+    @Autowired
+    private StaffService staffService;
+    
+
+    @GetMapping("/{id}")
+    public ResponseEntity<StaffResponseDto> getStaffById(@PathVariable Long id) {
+        StaffResponseDto responseDto = staffService.getStaffById(id);
+        return ResponseEntity.ok(responseDto);
+    }
+    
+    @GetMapping
+    public ResponseEntity<List<StaffResponseDto>> getAllStaff() {
+        List<StaffResponseDto> staff = staffService.getAllStaff();
+        return ResponseEntity.ok(staff);
+    }
+    
+    @GetMapping("/role/{role}")
+    public ResponseEntity<List<StaffResponseDto>> getStaffByRole(@PathVariable Staff.StaffRole role) {
+        List<StaffResponseDto> staff = staffService.getStaffByRole(role);
+        return ResponseEntity.ok(staff);
+    }
+    
+
+    @GetMapping("/{id}/students")
+    public ResponseEntity<List<com.example.hostel_management_system.dto.StudentResponseDto>> getStudentsByStaffId(@PathVariable Long id) {
+        List<com.example.hostel_management_system.dto.StudentResponseDto> students = staffService.getStudentsByStaffId(id);
+        return ResponseEntity.ok(students);
+    }
+    
+    @GetMapping("/filter/name/{name}")
+    public ResponseEntity<List<StaffResponseDto>> getStaffByName(@PathVariable String name) {
+        List<StaffResponseDto> staff = staffService.getStaffByNameContaining(name);
+        return ResponseEntity.ok(staff);
+    }
+    
+    @GetMapping("/filter/email-domain/{domain}")
+    public ResponseEntity<List<StaffResponseDto>> getStaffByEmailDomain(@PathVariable String domain) {
+        List<StaffResponseDto> staff = staffService.getStaffByEmailDomain(domain);
+        return ResponseEntity.ok(staff);
+    }
+    
+    @GetMapping("/filter/with-students")
+    public ResponseEntity<List<StaffResponseDto>> getStaffWithStudents() {
+        List<StaffResponseDto> staff = staffService.getStaffWithStudents();
+        return ResponseEntity.ok(staff);
+    }
+}
+```
+
+## src/main/java/com/example/hostel_management_system/controller/StudentController.java
+```java
+package com.example.hostel_management_system.controller;
+
+import com.example.hostel_management_system.dto.StudentResponseDto;
+import com.example.hostel_management_system.service.StudentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/students")
+public class StudentController {
+    
+    @Autowired
+    private StudentService studentService;
+    
+
+    @GetMapping("/{id}")
+    public ResponseEntity<StudentResponseDto> getStudentById(@PathVariable Long id) {
+        StudentResponseDto responseDto = studentService.getStudentById(id);
+        return ResponseEntity.ok(responseDto);
+    }
+    
+    @GetMapping
+    public ResponseEntity<List<StudentResponseDto>> getAllStudents() {
+        List<StudentResponseDto> students = studentService.getAllStudents();
+        return ResponseEntity.ok(students);
+    }
+    
+
+    @GetMapping("/filter/name/{name}")
+    public ResponseEntity<List<StudentResponseDto>> getStudentsByName(@PathVariable String name) {
+        List<StudentResponseDto> students = studentService.getStudentsByNameContaining(name);
+        return ResponseEntity.ok(students);
+    }
+    
+    @GetMapping("/filter/email-domain/{domain}")
+    public ResponseEntity<List<StudentResponseDto>> getStudentsByEmailDomain(@PathVariable String domain) {
+        List<StudentResponseDto> students = studentService.getStudentsByEmailDomain(domain);
+        return ResponseEntity.ok(students);
+    }
+    
+    @GetMapping("/filter/city/{city}")
+    public ResponseEntity<List<StudentResponseDto>> getStudentsByCity(@PathVariable String city) {
+        List<StudentResponseDto> students = studentService.getStudentsByAddressCity(city);
+        return ResponseEntity.ok(students);
+    }
+    
+    @GetMapping("/filter")
+    public ResponseEntity<List<StudentResponseDto>> filterStudents(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String address,
+            @RequestParam(required = false) Long staffId) {
+        List<StudentResponseDto> students = studentService.filterStudents(name, email, address, staffId);
+        return ResponseEntity.ok(students);
+    }
+    
+    @GetMapping("/filter/without-staff")
+    public ResponseEntity<List<StudentResponseDto>> getStudentsWithoutStaff() {
+        List<StudentResponseDto> students = studentService.getStudentsWithoutStaff();
+        return ResponseEntity.ok(students);
+    }
+}
+```
+## src/main/java/com/example/hostel_management_system/domain/Hostel.java
+```java
+package com.example.hostel_management_system.domain;
+
+import jakarta.persistence.*;
+import java.util.List;
+
+@Entity
+@Table(name = "hostels")
+public class Hostel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @Column(nullable = false)
+    private String name;
+    
+    private String address;
+    private String email;
+    
+    @Enumerated(EnumType.STRING)
+    private HostelType hostelType;
+    
+    @OneToMany(mappedBy = "hostel", cascade = CascadeType.ALL)
+    private List<Room> rooms;
+    
+    public Hostel() {}
+    
+    public Hostel(String name, String address, HostelType hostelType) {
+        this.name = name;
+        this.address = address;
+        this.hostelType = hostelType;
+    }
+    
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
+    
+    
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+    
+    public HostelType getHostelType() { return hostelType; }
+    public void setHostelType(HostelType hostelType) { this.hostelType = hostelType; }
+    
+    public List<Room> getRooms() { return rooms; }
+    public void setRooms(List<Room> rooms) { this.rooms = rooms; }
+    
+    public enum HostelType {
+        BOYS, GIRLS, CO_ED
+    }
+}
+```
+
+## src/main/java/com/example/hostel_management_system/domain/Room.java
+```java
+package com.example.hostel_management_system.domain;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "rooms")
+public class Room {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @Column(unique = true, nullable = false)
+    private String roomNumber;
+    
+    @Enumerated(EnumType.STRING)
+    private RoomType roomType;
+    
+    private Integer capacity;
+    private Integer currentOccupancy = 0;
+    private Double pricePerMonth;
+    
+    @Enumerated(EnumType.STRING)
+    private RoomStatus status = RoomStatus.AVAILABLE;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "hostel_id")
+    private Hostel hostel;
+    
+
+    
+    public Room() {}
+    
+    public Room(String roomNumber, RoomType roomType, Integer capacity, Double pricePerMonth) {
+        this.roomNumber = roomNumber;
+        this.roomType = roomType;
+        this.capacity = capacity;
+        this.pricePerMonth = pricePerMonth;
+    }
+    
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    
+    public String getRoomNumber() { return roomNumber; }
+    public void setRoomNumber(String roomNumber) { this.roomNumber = roomNumber; }
+    
+    public RoomType getRoomType() { return roomType; }
+    public void setRoomType(RoomType roomType) { this.roomType = roomType; }
+    
+    public Integer getCapacity() { return capacity; }
+    public void setCapacity(Integer capacity) { this.capacity = capacity; }
+    
+    public Integer getCurrentOccupancy() { return currentOccupancy; }
+    public void setCurrentOccupancy(Integer currentOccupancy) { this.currentOccupancy = currentOccupancy; }
+    
+    public Double getPricePerMonth() { return pricePerMonth; }
+    public void setPricePerMonth(Double pricePerMonth) { this.pricePerMonth = pricePerMonth; }
+    
+    
+    public RoomStatus getStatus() { return status; }
+    public void setStatus(RoomStatus status) { this.status = status; }
+
+    public Hostel getHostel() { return hostel; }
+    public void setHostel(Hostel hostel) { this.hostel = hostel; }
+    
+
+    
+    public enum RoomType {
+        SINGLE, DOUBLE, TRIPLE, DORMITORY
+    }
+    
+    public enum RoomStatus {
+        AVAILABLE, OCCUPIED, MAINTENANCE, OUT_OF_ORDER
+    }
+}
+```
+
+## src/main/java/com/example/hostel_management_system/domain/Staff.java
+```java
+package com.example.hostel_management_system.domain;
+
+import jakarta.persistence.*;
+import java.util.List;
+
+@Entity
+@Table(name = "staff")
+public class Staff {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @Column(nullable = false)
+    private String name;
+    
+    @Column(unique = true, nullable = false)
+    private String email;
+    
+    private String address;
+    
+    @Enumerated(EnumType.STRING)
+    private StaffRole role;
+    
+    @OneToMany(mappedBy = "staff", cascade = CascadeType.ALL)
+    private List<Student> students;
+    
+    public Staff() {}
+    
+    public Staff(String name, String email, StaffRole role) {
+        this.name = name;
+        this.email = email;
+        this.role = role;
+    }
+    
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+    
+    
+    
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
+    
+    public StaffRole getRole() { return role; }
+    public void setRole(StaffRole role) { this.role = role; }
+    
+    public List<Student> getStudents() { return students; }
+    public void setStudents(List<Student> students) { this.students = students; }
+    
+    public enum StaffRole {
+        WARDEN, ASSISTANT_WARDEN, SECURITY, MAINTENANCE, ADMIN
+    }
+}
+```
+
+## src/main/java/com/example/hostel_management_system/domain/Student.java
+```java
+package com.example.hostel_management_system.domain;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "students")
+public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @Column(nullable = false)
+    private String name;
+    
+    @Column(unique = true, nullable = false)
+    private String email;
+    
+    private String address;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "staff_id")
+    private Staff staff;
+    
+
+    
+    public Student() {}
+    
+    public Student(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+    
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+    
+    
+    
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
+    
+    public Staff getStaff() { return staff; }
+    public void setStaff(Staff staff) { this.staff = staff; }
+
+}
+```
+
+## src/main/java/com/example/hostel_management_system/dto/RoomResponseDto.java
+```java
+package com.example.hostel_management_system.dto;
+
+import com.example.hostel_management_system.domain.Room;
+
+
+public class RoomResponseDto {
+    private Long id;
+    private String roomNumber;
+    private Room.RoomType roomType;
+    private Integer capacity;
+    private Integer currentOccupancy;
+    private Double pricePerMonth;
+    private Room.RoomStatus status;
+    private String hostelName;
+    
+    public RoomResponseDto() {}
+    
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    
+    public String getRoomNumber() { return roomNumber; }
+    public void setRoomNumber(String roomNumber) { this.roomNumber = roomNumber; }
+    
+    public Room.RoomType getRoomType() { return roomType; }
+    public void setRoomType(Room.RoomType roomType) { this.roomType = roomType; }
+    
+    public Integer getCapacity() { return capacity; }
+    public void setCapacity(Integer capacity) { this.capacity = capacity; }
+    
+    public Integer getCurrentOccupancy() { return currentOccupancy; }
+    public void setCurrentOccupancy(Integer currentOccupancy) { this.currentOccupancy = currentOccupancy; }
+    
+    public Double getPricePerMonth() { return pricePerMonth; }
+    public void setPricePerMonth(Double pricePerMonth) { this.pricePerMonth = pricePerMonth; }
+    
+    
+    public Room.RoomStatus getStatus() { return status; }
+    public void setStatus(Room.RoomStatus status) { this.status = status; }
+    
+    public String getHostelName() { return hostelName; }
+    public void setHostelName(String hostelName) { this.hostelName = hostelName; }
+}
+```
+
+## src/main/java/com/example/hostel_management_system/dto/StaffResponseDto.java
+```java
+package com.example.hostel_management_system.dto;
+
+import com.example.hostel_management_system.domain.Staff;
+
+public class StaffResponseDto {
+    private Long id;
+    private String name;
+    private String email;
+    private String address;
+    private Staff.StaffRole role;
+    private Integer studentCount;
+    
+    public StaffResponseDto() {}
+    
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+    
+    
+    
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
+    
+    public Staff.StaffRole getRole() { return role; }
+    public void setRole(Staff.StaffRole role) { this.role = role; }
+    
+    public Integer getStudentCount() { return studentCount; }
+    public void setStudentCount(Integer studentCount) { this.studentCount = studentCount; }
+}
+```
+
+## src/main/java/com/example/hostel_management_system/dto/StudentResponseDto.java
+```java
+package com.example.hostel_management_system.dto;
+
+
+
+public class StudentResponseDto {
+    private Long id;
+    private String name;
+    private String email;
+    private String address;
+    
+    public StudentResponseDto() {}
+    
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+    
+    
+    
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
+}
+```
+## src/main/java/com/example/hostel_management_system/exception/DuplicateResourceException.java
+```java
+package com.example.hostel_management_system.exception;
+
+public class DuplicateResourceException extends RuntimeException {
+    public DuplicateResourceException(String message) {
+        super(message);
+    }
+    
+    public DuplicateResourceException(String resource, String field, Object value) {
+        super(String.format("%s already exists with %s: %s", resource, field, value));
+    }
+}
+```
+
+## src/main/java/com/example/hostel_management_system/exception/GlobalExceptionHandler.java
+```java
+package com.example.hostel_management_system.exception;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+    
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleResourceNotFoundException(ResourceNotFoundException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("timestamp", LocalDateTime.now());
+        response.put("status", HttpStatus.NOT_FOUND.value());
+        response.put("error", "Not Found");
+        response.put("message", ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+    
+    @ExceptionHandler(RoomNotAvailableException.class)
+    public ResponseEntity<Map<String, Object>> handleRoomNotAvailableException(RoomNotAvailableException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("timestamp", LocalDateTime.now());
+        response.put("status", HttpStatus.CONFLICT.value());
+        response.put("error", "Room Not Available");
+        response.put("message", ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
+    
+    @ExceptionHandler(DuplicateResourceException.class)
+    public ResponseEntity<Map<String, Object>> handleDuplicateResourceException(DuplicateResourceException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("timestamp", LocalDateTime.now());
+        response.put("status", HttpStatus.CONFLICT.value());
+        response.put("error", "Duplicate Resource");
+        response.put("message", ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
+    
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String, Object>> handleGenericException(Exception ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("timestamp", LocalDateTime.now());
+        response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        response.put("error", "Internal Server Error");
+        response.put("message", "An unexpected error occurred");
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+}
+```
+
+## src/main/java/com/example/hostel_management_system/exception/ResourceNotFoundException.java
+```java
+package com.example.hostel_management_system.exception;
+
+public class ResourceNotFoundException extends RuntimeException {
+    public ResourceNotFoundException(String message) {
+        super(message);
+    }
+    
+    public ResourceNotFoundException(String resource, String field, Object value) {
+        super(String.format("%s not found with %s: %s", resource, field, value));
+    }
+}
+```
+
+## src/main/java/com/example/hostel_management_system/exception/RoomNotAvailableException.java
+```java
+package com.example.hostel_management_system.exception;
+
+public class RoomNotAvailableException extends RuntimeException {
+    public RoomNotAvailableException(String roomNumber) {
+        super(String.format("Room %s is not available for booking", roomNumber));
+    }
+}
+```
+
+## src/main/java/com/example/hostel_management_system/mapper/StaffMapper.java
+```java
+package com.example.hostel_management_system.mapper;
+
+import com.example.hostel_management_system.domain.Staff;
+import com.example.hostel_management_system.dto.StaffResponseDto;
+import org.springframework.stereotype.Component;
+
+@Component
+public class StaffMapper {
+    
+
+    public StaffResponseDto toResponseDto(Staff staff) {
+        StaffResponseDto dto = new StaffResponseDto();
+        dto.setId(staff.getId());
+        dto.setName(staff.getName());
+        dto.setEmail(staff.getEmail());
+        dto.setAddress(staff.getAddress());
+        dto.setRole(staff.getRole());
+        dto.setStudentCount(staff.getStudents() != null ? staff.getStudents().size() : 0);
+        return dto;
+    }
+    
+
+}
+```
+
+## src/main/java/com/example/hostel_management_system/mapper/StudentMapper.java
+```java
+package com.example.hostel_management_system.mapper;
+
+import com.example.hostel_management_system.domain.Student;
+import com.example.hostel_management_system.dto.StudentResponseDto;
+import org.springframework.stereotype.Component;
+
+@Component
+public class StudentMapper {
+    
+
+    public StudentResponseDto toResponseDto(Student student) {
+        StudentResponseDto dto = new StudentResponseDto();
+        dto.setId(student.getId());
+        dto.setName(student.getName());
+        dto.setEmail(student.getEmail());
+        dto.setAddress(student.getAddress());
+        return dto;
+    }
+    
+
+}
+```
+
+## src/main/java/com/example/hostel_management_system/repository/HostelRepository.java
+```java
+package com.example.hostel_management_system.repository;
+
+import com.example.hostel_management_system.domain.Hostel;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import java.util.List;
+
+@Repository
+public interface HostelRepository extends JpaRepository<Hostel, Long> {
+    List<Hostel> findByHostelType(Hostel.HostelType hostelType);
+    List<Hostel> findByNameContainingIgnoreCase(String name);
+}
+```
+
+## src/main/java/com/example/hostel_management_system/repository/RoomRepository.java
+```java
+package com.example.hostel_management_system.repository;
+
+import com.example.hostel_management_system.domain.Room;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public interface RoomRepository extends JpaRepository<Room, Long> {
+    Optional<Room> findByRoomNumber(String roomNumber);
+    List<Room> findByHostelId(Long hostelId);
+    List<Room> findByStatus(Room.RoomStatus status);
+    List<Room> findByRoomType(Room.RoomType roomType);
+    boolean existsByRoomNumber(String roomNumber);
+    
+    @Query("SELECT r FROM Room r WHERE r.status = 'AVAILABLE' AND r.currentOccupancy < r.capacity")
+    List<Room> findAvailableRooms();
+    
+    @Query("SELECT r FROM Room r WHERE r.hostel.id = ?1 AND r.status = 'AVAILABLE' AND r.currentOccupancy < r.capacity")
+    List<Room> findAvailableRoomsByHostelId(Long hostelId);
+}
+```
+
+## src/main/java/com/example/hostel_management_system/repository/StaffRepository.java
+```java
+package com.example.hostel_management_system.repository;
+
+import com.example.hostel_management_system.domain.Staff;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public interface StaffRepository extends JpaRepository<Staff, Long> {
+    Optional<Staff> findByEmail(String email);
+    List<Staff> findByRole(Staff.StaffRole role);
+    boolean existsByEmail(String email);
+}
+```
+
+## src/main/java/com/example/hostel_management_system/repository/StudentRepository.java
+```java
+package com.example.hostel_management_system.repository;
+
+import com.example.hostel_management_system.domain.Student;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public interface StudentRepository extends JpaRepository<Student, Long> {
+    Optional<Student> findByEmail(String email);
+    boolean existsByEmail(String email);
+    List<Student> findByStaffId(Long staffId);
+}
+```
+## src/main/java/com/example/hostel_management_system/service/HostelService.java
+```java
+package com.example.hostel_management_system.service;
+
+import com.example.hostel_management_system.domain.Hostel;
+import com.example.hostel_management_system.exception.ResourceNotFoundException;
+import com.example.hostel_management_system.repository.HostelRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+
+@Service
+public class HostelService {
+    
+    @Autowired
+    private HostelRepository hostelRepository;
+    
+    
+    public Hostel getHostelById(Long id) {
+        return hostelRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Hostel", "id", id));
+    }
+    
+    public List<Hostel> getAllHostels() {
+        return hostelRepository.findAll();
+    }
+    
+    public List<Hostel> getHostelsByType(Hostel.HostelType hostelType) {
+        return hostelRepository.findByHostelType(hostelType);
+    }
+    
+
+}
+```
+
+## src/main/java/com/example/hostel_management_system/service/RoomService.java
+```java
+package com.example.hostel_management_system.service;
+
+import com.example.hostel_management_system.domain.Room;
+import com.example.hostel_management_system.dto.RoomResponseDto;
+import com.example.hostel_management_system.exception.ResourceNotFoundException;
+import com.example.hostel_management_system.repository.RoomRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class RoomService {
+    
+    @Autowired
+    private RoomRepository roomRepository;
+    
+    public RoomResponseDto getRoomById(Long id) {
+        Room room = roomRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Room", "id", id));
+        return convertToResponseDto(room);
+    }
+    
+    public List<RoomResponseDto> getAllRooms() {
+        return roomRepository.findAll().stream()
+                .map(this::convertToResponseDto)
+                .collect(Collectors.toList());
+    }
+    
+    public List<RoomResponseDto> getRoomsByHostelId(Long hostelId) {
+        return roomRepository.findByHostelId(hostelId).stream()
+                .map(this::convertToResponseDto)
+                .collect(Collectors.toList());
+    }
+    
+    public List<RoomResponseDto> getRoomsByPriceRange(Double minPrice, Double maxPrice) {
+        return roomRepository.findAll().stream()
+                .filter(room -> room.getPricePerMonth() >= minPrice && room.getPricePerMonth() <= maxPrice)
+                .map(this::convertToResponseDto)
+                .collect(Collectors.toList());
+    }
+    
+    public List<RoomResponseDto> getRoomsByCapacity(Integer capacity) {
+        return roomRepository.findAll().stream()
+                .filter(room -> room.getCapacity().equals(capacity))
+                .map(this::convertToResponseDto)
+                .collect(Collectors.toList());
+    }
+    
+    public List<RoomResponseDto> getRoomsByRoomNumberPrefix(String prefix) {
+        return roomRepository.findAll().stream()
+                .filter(room -> room.getRoomNumber().startsWith(prefix))
+                .map(this::convertToResponseDto)
+                .collect(Collectors.toList());
+    }
+    
+    private RoomResponseDto convertToResponseDto(Room room) {
+        RoomResponseDto dto = new RoomResponseDto();
+        dto.setId(room.getId());
+        dto.setRoomNumber(room.getRoomNumber());
+        dto.setRoomType(room.getRoomType());
+        dto.setCapacity(room.getCapacity());
+        dto.setCurrentOccupancy(room.getCurrentOccupancy());
+        dto.setPricePerMonth(room.getPricePerMonth());
+        dto.setStatus(room.getStatus());
+        dto.setHostelName(room.getHostel() != null ? room.getHostel().getName() : null);
+        return dto;
+    }
+
+    public List<RoomResponseDto> getAvailableRooms() {
+        return roomRepository.findAll().stream()
+                .filter(room -> room.getCurrentOccupancy() < room.getCapacity())
+                .map(this::convertToResponseDto)
+                .collect(Collectors.toList());
+    }
+}
+```
+
+## src/main/java/com/example/hostel_management_system/service/StaffService.java
+```java
+package com.example.hostel_management_system.service;
+
+import com.example.hostel_management_system.domain.Staff;
+import com.example.hostel_management_system.dto.StaffResponseDto;
+import com.example.hostel_management_system.exception.ResourceNotFoundException;
+import com.example.hostel_management_system.repository.StaffRepository;
+import com.example.hostel_management_system.mapper.StaffMapper;
+import com.example.hostel_management_system.mapper.StudentMapper;
+import com.example.hostel_management_system.dto.StudentResponseDto;
+import com.example.hostel_management_system.repository.StudentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class StaffService {
+    
+    @Autowired
+    private StaffRepository staffRepository;
+    
+    @Autowired
+    private StudentRepository studentRepository;
+    
+    @Autowired
+    private StaffMapper staffMapper;
+    
+    @Autowired
+    private StudentMapper studentMapper;
+    
+    public StaffResponseDto getStaffById(Long id) {
+        Staff staff = staffRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Staff", "id", id));
+        return staffMapper.toResponseDto(staff);
+    }
+    
+    public List<StaffResponseDto> getAllStaff() {
+        return staffRepository.findAll().stream()
+                .map(staffMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+    
+    public List<StaffResponseDto> getStaffByRole(Staff.StaffRole role) {
+        return staffRepository.findByRole(role).stream()
+                .map(staffMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+    
+
+    
+    public List<StudentResponseDto> getStudentsByStaffId(Long staffId) {
+        if (!staffRepository.existsById(staffId)) {
+            throw new ResourceNotFoundException("Staff", "id", staffId);
+        }
+        return studentRepository.findByStaffId(staffId).stream()
+                .map(studentMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+    
+    public List<StaffResponseDto> getStaffByNameContaining(String name) {
+        return staffRepository.findAll().stream()
+                .filter(staff -> staff.getName().toLowerCase().contains(name.toLowerCase()))
+                .map(staffMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+    
+    public List<StaffResponseDto> getStaffByEmailDomain(String domain) {
+        return staffRepository.findAll().stream()
+                .filter(staff -> staff.getEmail().endsWith(domain))
+                .map(staffMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+    
+    public List<StaffResponseDto> getStaffWithStudents() {
+        return staffRepository.findAll().stream()
+                .filter(staff -> staff.getStudents() != null && !staff.getStudents().isEmpty())
+                .map(staffMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+}
+```
+
+## src/main/java/com/example/hostel_management_system/service/StudentService.java
+```java
+package com.example.hostel_management_system.service;
+
+import com.example.hostel_management_system.domain.Student;
+import com.example.hostel_management_system.dto.StudentResponseDto;
+import com.example.hostel_management_system.exception.ResourceNotFoundException;
+import com.example.hostel_management_system.repository.StudentRepository;
+import com.example.hostel_management_system.mapper.StudentMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class StudentService {
+    
+    @Autowired
+    private StudentRepository studentRepository;
+    
+    @Autowired
+    private StudentMapper studentMapper;
+    
+    public StudentResponseDto getStudentById(Long id) {
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Student", "id", id));
+        return studentMapper.toResponseDto(student);
+    }
+    
+    public List<StudentResponseDto> getAllStudents() {
+        return studentRepository.findAll().stream()
+                .map(studentMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+    
+
+    
+    public List<StudentResponseDto> getStudentsByNameContaining(String name) {
+        return studentRepository.findAll().stream()
+                .filter(student -> student.getName().toLowerCase().contains(name.toLowerCase()))
+                .map(studentMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+    
+    public List<StudentResponseDto> getStudentsByEmailDomain(String domain) {
+        return studentRepository.findAll().stream()
+                .filter(student -> student.getEmail().endsWith(domain))
+                .map(studentMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+    
+    public List<StudentResponseDto> getStudentsByAddressCity(String city) {
+        return studentRepository.findAll().stream()
+                .filter(student -> student.getAddress() != null && student.getAddress().toLowerCase().contains(city.toLowerCase()))
+                .map(studentMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+    
+    public List<StudentResponseDto> filterStudents(String name, String email, String address, Long staffId) {
+        return studentRepository.findAll().stream()
+                .filter(student -> name == null || student.getName().toLowerCase().contains(name.toLowerCase()))
+                .filter(student -> email == null || student.getEmail().toLowerCase().contains(email.toLowerCase()))
+                .filter(student -> address == null || (student.getAddress() != null && student.getAddress().toLowerCase().contains(address.toLowerCase())))
+                .filter(student -> staffId == null || (student.getStaff() != null && student.getStaff().getId().equals(staffId)))
+                .map(studentMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+    
+    public List<StudentResponseDto> getStudentsWithoutStaff() {
+        return studentRepository.findAll().stream()
+                .filter(student -> student.getStaff() == null)
+                .map(studentMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+    
+
+}
+```
+
+================================================================================
+END OF PROJECT FILES
+================================================================================
