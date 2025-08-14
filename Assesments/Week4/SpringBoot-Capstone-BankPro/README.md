@@ -80,25 +80,84 @@ BankPro is a modern banking management system that provides comprehensive APIs f
 
 ## 🏗️ Architecture
 
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Controller    │────│    Service      │────│   Repository    │
-│     Layer       │    │     Layer       │    │     Layer       │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-         │                       │                       │
-         │                       │                       │
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│      DTOs       │    │   Domain/       │    │   H2 Database   │
-│   Validation    │    │   Entities      │    │                 │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
+<div align="center">
+
+```mermaid
+graph TB
+    subgraph "🌐 Presentation Layer"
+        A[🎮 REST Controllers]
+        B[📝 DTOs & Validation]
+    end
+    
+    subgraph "⚙️ Business Layer"
+        C[🔧 Service Layer]
+        D[🛡️ Security Layer]
+    end
+    
+    subgraph "💾 Data Layer"
+        E[📊 Repository Layer]
+        F[🏛️ JPA Entities]
+        G[🗄️ H2 Database]
+    end
+    
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    
+    style A fill:#0277bd,stroke:#01579b,stroke-width:2px,color:#fff
+    style B fill:#7b1fa2,stroke:#4a148c,stroke-width:2px,color:#fff
+    style C fill:#388e3c,stroke:#1b5e20,stroke-width:2px,color:#fff
+    style D fill:#f57c00,stroke:#e65100,stroke-width:2px,color:#fff
+    style E fill:#c2185b,stroke:#880e4f,stroke-width:2px,color:#fff
+    style F fill:#689f38,stroke:#33691e,stroke-width:2px,color:#fff
+    style G fill:#1976d2,stroke:#0d47a1,stroke-width:2px,color:#fff
 ```
 
-### Layer Responsibilities
-- **Controller Layer**: REST endpoints, request/response handling
-- **Service Layer**: Business logic, transaction management
-- **Repository Layer**: Data access, custom queries
-- **Domain Layer**: JPA entities, relationships
-- **DTO Layer**: Data transfer objects, validation
+</div>
+
+### 🎯 Layer Responsibilities
+
+<table>
+<tr>
+<td width="50%">
+
+**🌐 Presentation Layer**
+- 🎮 **Controllers**: REST endpoints & HTTP handling
+- 📝 **DTOs**: Data transfer & validation
+- 🔒 **Security**: Authentication & authorization
+
+</td>
+<td width="50%">
+
+**⚙️ Business Layer**
+- 🔧 **Services**: Business logic & rules
+- 💳 **Transactions**: Money transfer operations
+- ✅ **Validation**: Data integrity checks
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+**💾 Data Layer**
+- 📊 **Repositories**: Data access operations
+- 🏛️ **Entities**: Domain models & relationships
+- 🗄️ **Database**: H2 in-memory storage
+
+</td>
+<td width="50%">
+
+**🔍 Additional Features**
+- 📄 **Pagination**: Large dataset handling
+- 🔎 **Filtering**: Advanced search capabilities
+- 📚 **Documentation**: Swagger/OpenAPI integration
+
+</td>
+</tr>
+</table>
 
 ## 🚀 Getting Started
 
@@ -214,17 +273,75 @@ POST /api/transactions/transfer
 
 ## 🗄️ Database Schema
 
-### Entity Relationships
+### 🔗 Entity Relationships
+
+<div align="center">
+
+```mermaid
+erDiagram
+    CUSTOMER {
+        Long id PK
+        String name
+        String email
+        String phone
+    }
+    
+    ACCOUNT {
+        Long id PK
+        String accountNumber
+        AccountType accountType
+        Double balance
+        Long customer_id FK
+    }
+    
+    TRANSACTION {
+        Long id PK
+        LocalDateTime transactionDate
+        Double amount
+        TransactionType transactionType
+        Double balanceAfterTransaction
+        Long account_id FK
+    }
+    
+    CUSTOMER ||--o{ ACCOUNT : "has many"
+    ACCOUNT ||--o{ TRANSACTION : "has many"
 ```
-Customer (1) ──────── (*) Account (1) ──────── (*) Transaction
-    │                      │                        │
-    ├─ id (PK)             ├─ id (PK)               ├─ id (PK)
-    ├─ name                ├─ accountNumber         ├─ transactionDate
-    ├─ email               ├─ accountType           ├─ amount
-    └─ phone               ├─ balance               ├─ transactionType
-                           └─ customer_id (FK)      ├─ balanceAfterTransaction
-                                                    └─ account_id (FK)
-```
+
+</div>
+
+### 📋 Entity Details
+
+<details>
+<summary><b>👤 Customer Entity</b></summary>
+
+- **Primary Key**: `id` (Auto-generated)
+- **Fields**: `name`, `email`, `phone`
+- **Relationships**: One-to-Many with Account
+- **Validation**: Email format, phone pattern
+
+</details>
+
+<details>
+<summary><b>🏦 Account Entity</b></summary>
+
+- **Primary Key**: `id` (Auto-generated)
+- **Fields**: `accountNumber`, `accountType`, `balance`
+- **Foreign Key**: `customer_id`
+- **Types**: SAVINGS, CURRENT
+- **Validation**: Positive balance, unique account number
+
+</details>
+
+<details>
+<summary><b>💳 Transaction Entity</b></summary>
+
+- **Primary Key**: `id` (Auto-generated)
+- **Fields**: `transactionDate`, `amount`, `transactionType`, `balanceAfterTransaction`
+- **Foreign Key**: `account_id`
+- **Types**: CREDIT, DEBIT
+- **Features**: Auto timestamp, balance tracking
+
+</details>
 
 ### H2 Database Configuration
 ```properties
@@ -250,14 +367,20 @@ spring.jpa.show-sql=true
 - **Roles**: ADMIN, USER
 - **Password Encoding**: BCrypt
 
-### Authorization Matrix
-| Operation | ADMIN | USER |
-|-----------|-------|------|
-| View Data | ✅ | ✅ |
-| Create | ✅ | ❌ |
-| Update | ✅ | ❌ |
-| Delete | ✅ | ❌ |
-| Transactions | ✅ | ❌ |
+### 🛡️ Authorization Matrix
+
+<div align="center">
+
+| 🔐 **Operation** | 👑 **ADMIN** | 👤 **USER** | 📝 **Description** |
+|:---------------:|:------------:|:-----------:|:------------------|
+| 👀 **View Data** | ✅ | ✅ | Read customers, accounts, transactions |
+| ➕ **Create** | ✅ | ❌ | Add new customers, accounts |
+| ✏️ **Update** | ✅ | ❌ | Modify existing records |
+| 🗑️ **Delete** | ✅ | ❌ | Remove records from system |
+| 💸 **Transactions** | ✅ | ❌ | Deposit, withdraw, transfer money |
+| 🔍 **Filtering** | ✅ | ✅ | Search and filter data |
+
+</div>
 
 ### Security Headers
 - CSRF Protection: Disabled for API
@@ -310,11 +433,28 @@ Content-Type: application/json
 
 Access comprehensive API documentation at: `http://localhost:8080/swagger-ui/index.html`
 
-### Features
-- **Interactive API Testing**: Test endpoints directly from browser
-- **Request/Response Examples**: See sample data for all endpoints
-- **Authentication**: Built-in authentication for secured endpoints
-- **Schema Documentation**: Detailed DTO and entity schemas
+### ✨ Swagger Features
+
+<div align="center">
+
+| 🎯 **Feature** | 📝 **Description** | 🚀 **Benefit** |
+|:-------------:|:------------------:|:---------------|
+| 🧪 **Interactive Testing** | Test APIs directly in browser | No external tools needed |
+| 📖 **Live Documentation** | Auto-generated from code | Always up-to-date |
+| 🔐 **Built-in Auth** | Authenticate within Swagger UI | Secure endpoint testing |
+| 📋 **Schema Explorer** | Detailed DTO/Entity schemas | Clear data structure |
+| 💡 **Examples** | Sample requests/responses | Easy implementation guide |
+| 🎨 **Visual Interface** | Clean, intuitive UI | Better developer experience |
+
+</div>
+
+### 🎮 How to Use Swagger
+
+1. **🌐 Access**: Navigate to `http://localhost:8080/swagger-ui/index.html`
+2. **🔐 Authenticate**: Click "Authorize" and enter credentials
+3. **🧪 Test**: Expand endpoints and click "Try it out"
+4. **📊 Explore**: View schemas and example responses
+5. **📋 Copy**: Use generated curl commands in your applications
 
 ### Swagger Screenshot
 <img width="1838" height="715" alt="image" src="https://github.com/user-attachments/assets/08ad73d3-f71d-45a1-bf14-35b0c8347f51" />
@@ -327,17 +467,62 @@ Access comprehensive API documentation at: `http://localhost:8080/swagger-ui/ind
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit changes (`git commit -m 'Add AmazingFeature'`)
-4. Push to branch (`git push origin feature/AmazingFeature`)
-5. Open Pull Request
+<div align="center">
 
-### Development Guidelines
-- Follow Spring Boot best practices
-- Write unit tests for new features
-- Update documentation for API changes
-- Use conventional commit messages
+### 🚀 **Quick Start Guide**
+
+</div>
+
+```mermaid
+flowchart LR
+    A[🍴 Fork Repo] --> B[🌿 Create Branch]
+    B --> C[💻 Code Changes]
+    C --> D[✅ Add Tests]
+    D --> E[📝 Update Docs]
+    E --> F[🚀 Push Changes]
+    F --> G[📬 Pull Request]
+    
+    style A fill:#1976d2,stroke:#0d47a1,stroke-width:2px,color:#fff
+    style B fill:#388e3c,stroke:#1b5e20,stroke-width:2px,color:#fff
+    style C fill:#f57c00,stroke:#e65100,stroke-width:2px,color:#fff
+    style D fill:#c2185b,stroke:#880e4f,stroke-width:2px,color:#fff
+    style E fill:#7b1fa2,stroke:#4a148c,stroke-width:2px,color:#fff
+    style F fill:#0277bd,stroke:#01579b,stroke-width:2px,color:#fff
+    style G fill:#689f38,stroke:#33691e,stroke-width:2px,color:#fff
+```
+
+### 📋 **Development Guidelines**
+
+<table>
+<tr>
+<td width="50%">
+
+**🎯 Code Quality**
+- ✅ Follow Spring Boot best practices
+- 🧪 Write comprehensive unit tests
+- 📚 Update API documentation
+- 🔍 Use meaningful commit messages
+
+</td>
+<td width="50%">
+
+**🛠️ Technical Standards**
+- 🏗️ Maintain clean architecture
+- 🔒 Implement proper security
+- ⚡ Optimize for performance
+- 📖 Add inline code comments
+
+</td>
+</tr>
+</table>
+
+### 💡 **Contribution Ideas**
+
+- 🆕 **New Features**: Additional banking operations
+- 🐛 **Bug Fixes**: Report and fix issues
+- 📚 **Documentation**: Improve guides and examples
+- 🧪 **Testing**: Add more test coverage
+- 🎨 **UI/UX**: Enhance Swagger documentation
 
 ## 👨‍💻 Author
 
