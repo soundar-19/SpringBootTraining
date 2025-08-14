@@ -111,8 +111,8 @@ BankPro is a modern banking management system that provides comprehensive APIs f
 
 1. **Clone the repository**
 ```bash
-git clone .....................................................
-cd SpringBoot-Capstone-BankPro
+git clone https://github.com/soundar-19/SpringBootTraining.git
+cd Assesments/week4/SpringBoot-Capstone-BankPro
 ```
 
 2. **Build the project**
@@ -267,7 +267,7 @@ spring.jpa.show-sql=true
 ## 🧪 Testing with Postman
 
 ### Import Collection
-1. Download Postman collection: `.....................................................`
+1. Download Postman collection
 2. Import into Postman
 3. Set environment variables:
    - `baseUrl`: `http://localhost:8080`
@@ -277,22 +277,27 @@ spring.jpa.show-sql=true
 ### Key Test Scenarios
 
 #### 1. Create Customer (Admin Only)
-.....................................................
+<img width="1738" height="579" alt="image" src="https://github.com/user-attachments/assets/9b3417cc-76b4-4f2d-ac8d-66a0c992a475" />
+
 
 #### 2. Create Account (Admin Only)
-.....................................................
+<img width="1753" height="599" alt="image" src="https://github.com/user-attachments/assets/2a9ba02c-60f6-49fd-88da-8f91e14d198e" />
+
 
 #### 3. Deposit Money (Admin Only)
-.....................................................
+<img width="1752" height="603" alt="image" src="https://github.com/user-attachments/assets/3e9e33f7-9ae0-468e-8f56-858c4a4a47c1" />
+
 
 #### 4. Transfer Money (Admin Only)
-.....................................................
+<img width="1759" height="473" alt="image" src="https://github.com/user-attachments/assets/a6f023e5-2b31-4198-8d39-e9525a552a4a" />
+
 
 #### 5. Get Transaction History (Admin/User)
-.....................................................
+<img width="1747" height="622" alt="image" src="https://github.com/user-attachments/assets/1449f0cf-fe52-4ad3-97a2-88e6f5281306" />
+
 
 #### 6. Filter Accounts by Type (Admin/User)
-.....................................................
+<img width="1749" height="821" alt="image" src="https://github.com/user-attachments/assets/a5c8aece-0a70-4ffa-a4b4-24669ee452bf" />
 
 ### Authentication Setup
 Add to request headers:
@@ -312,7 +317,13 @@ Access comprehensive API documentation at: `http://localhost:8080/swagger-ui/ind
 - **Schema Documentation**: Detailed DTO and entity schemas
 
 ### Swagger Screenshot
-.....................................................
+<img width="1838" height="715" alt="image" src="https://github.com/user-attachments/assets/08ad73d3-f71d-45a1-bf14-35b0c8347f51" />
+<img width="1820" height="621" alt="image" src="https://github.com/user-attachments/assets/912fd962-19cc-4e6c-88f2-0456c2736d93" />
+<img width="1821" height="696" alt="image" src="https://github.com/user-attachments/assets/8b17e516-9c7a-4dae-829a-bb5bb8607892" />
+<img width="1817" height="827" alt="image" src="https://github.com/user-attachments/assets/cd59bce1-3151-4d4a-a29c-6f21fa316245" />
+<img width="1203" height="874" alt="image" src="https://github.com/user-attachments/assets/5ecfd72c-3006-4d41-99ea-7f1a1564d03c" />
+
+---
 
 ## 🤝 Contributing
 
@@ -330,14 +341,8 @@ Access comprehensive API documentation at: `http://localhost:8080/swagger-ui/ind
 
 ## 👨‍💻 Author
 
-**.....................................................**
-- GitHub: .....................................................
-- LinkedIn: .....................................................
-- Email: .....................................................
+**Soundar Raja B**
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
@@ -349,6 +354,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 <div align="center">
-  <p>Made with ❤️ using Spring Boot</p>
   <p>⭐ Star this repository if you found it helpful!</p>
 </div>
