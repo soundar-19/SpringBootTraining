@@ -2,6 +2,7 @@ package com.example.SpringBoot_Capstone_BankPro.domain;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,7 +25,9 @@ public class Transaction {
     private LocalDateTime transactionDate = LocalDateTime.now();
     private TransactionType transactionType;
     private double amount;
-    private double balanceAfterTransaction;
+    
+    @Column(name = "balance_after_transaction")
+    private Double balanceAfterTransaction;
     
     @ManyToOne
     @JoinColumn(name = "account_id")

@@ -1,7 +1,6 @@
 package com.example.SpringBoot_Capstone_BankPro.dto;
 
 import com.example.SpringBoot_Capstone_BankPro.domain.Transaction;
-import com.example.SpringBoot_Capstone_BankPro.domain.Transaction.TransactionType;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

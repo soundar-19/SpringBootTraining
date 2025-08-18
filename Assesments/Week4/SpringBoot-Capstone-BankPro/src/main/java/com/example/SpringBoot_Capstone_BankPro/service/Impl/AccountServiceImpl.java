@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.SpringBoot_Capstone_BankPro.domain.Account;
+import com.example.SpringBoot_Capstone_BankPro.domain.Account.AccountType;
 import com.example.SpringBoot_Capstone_BankPro.domain.Customer;
 import com.example.SpringBoot_Capstone_BankPro.dto.AccountRequestDTO;
 import com.example.SpringBoot_Capstone_BankPro.dto.AccountResponseDTO;
