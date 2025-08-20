@@ -276,32 +276,32 @@ Run tests with:
 
 ## API Screenshots
 
-![GET : get bugs by id](image.png)
-![GET : Get bugs by assignee](image-1.png)
-![GET : Get bugs by status](image-2.png)
-![GET : Get bugs by project](image-4.png)
-![GET : Get bugs by filtering](image-3.png)
-![GET : Get bugs by paging](image-5.png)
-![GET : Filtering](image-6.png)
-![GET : Metadata](image-7.png)
-![GET : Slicing](image-8.png)
-![GET : Search & Sort](image-9.png)
+![GET : get bugs by id](images/image.png)
+![GET : Get bugs by assignee](images/image-1.png)
+![GET : Get bugs by status](images/image-2.png)
+![GET : Get bugs by project](images/image-4.png)
+![GET : Get bugs by filtering](images/image-3.png)
+![GET : Get bugs by paging](images/image-5.png)
+![GET : Filtering](images/image-6.png)
+![GET : Metadata](images/image-7.png)
+![GET : Slicing](images/image-8.png)
+![GET : Search & Sort](images/image-9.png)
 
 ### Access Based
 
 **USER**
-![USER TOKEN GENERATION](image-10.png)
-![alt text](image-11.png)
+![USER TOKEN GENERATION](images/image-10.png)
+![alt text](images/image-11.png)
 - Restricted Delete for user
-![alt text](image-12.png)
+![alt text](images/image-12.png)
 
 **DEVELOPER**
-![alt text](image-13.png)
-![alt text](image-14.png)
+![alt text](images/image-13.png)
+![alt text](images/image-14.png)
 
 **ADMIN**
-![alt text](image-15.png)
-![alt text](image-16.png)
+![alt text](images/image-15.png)
+![alt text](images/image-16.png)
 
 ## Troubleshooting
 
