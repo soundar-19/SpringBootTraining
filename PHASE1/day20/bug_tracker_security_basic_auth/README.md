@@ -85,14 +85,14 @@ curl -X POST http://localhost:8080/api/auth/login \
 | GET | `/api/bugs/slice` | Pagination without total count | Admin, Developer, User | `page`, `size`, `sort` |
 | GET | `/api/bugs/metadata` | Only pagination metadata | Admin, Developer, User | `status`, `assignee`, `project`, `page`, `size` |
 | GET | `/api/bugs/filter` | Filter bugs (no pagination) | Admin, Developer, User | `status`, `assignee`, `project` |
-| GET | `/api/bugs/id/{id}` | Get bug by ID | Admin, Developer, User | `id` (path variable) |
+| GET | `/api/bugs/{id}` | Get bug by ID | Admin, Developer, User | `id` (path variable) |
 | GET | `/api/bugs/status/{status}` | Get bugs by status | Admin, Developer, User | `status` (path variable) |
 | GET | `/api/bugs/assignee/{assignee}` | Get bugs by assignee | Admin, Developer, User | `assignee` (path variable) |
 | GET | `/api/bugs/project/{project}` | Get bugs by project | Admin, Developer, User | `project` (path variable) |
-| POST | `/api/bugs/admin` | Create new bug | **Admin Only** | Bug object in request body |
-| PUT | `/api/bugs/admin/{id}` | Update bug | **Admin Only** | `id` (path variable), Bug object in request body |
-| DELETE | `/api/bugs/admin/{id}` | Delete bug | **Admin Only** | `id` (path variable) |
-| PUT | `/api/bugs/developer/{id}/status` | Update bug status | **Developer Only** | `id` (path variable), `status` (query param) |
+| POST | `/api/bugs` | Create new bug | **Admin Only** | Bug object in request body |
+| PUT | `/api/bugs/{id}` | Update bug | **Admin Only** | `id` (path variable), Bug object in request body |
+| DELETE | `/api/bugs/{id}` | Delete bug | **Admin Only** | `id` (path variable) |
+| PUT | `/api/bugs/{id}/status` | Update bug status | **Admin & Developer Only** | `id` (path variable), `status` (query param) |
 
 ## Pagination Features
 
@@ -129,7 +129,7 @@ curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
 #### Create new bug (Admin only)
 ```bash
 curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
-  -X POST "http://localhost:8080/api/bugs/admin" \
+  -X POST "http://localhost:8080/api/bugs" \
   -H "Content-Type: application/json" \
   -d '{"title":"New Bug","description":"Bug description","status":"Open","assignee":"John","project":"Project A"}'
 ```
@@ -137,21 +137,21 @@ curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
 #### Update bug (Admin only)
 ```bash
 curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
-  -X PUT "http://localhost:8080/api/bugs/admin/1" \
+  -X PUT "http://localhost:8080/api/bugs/1" \
   -H "Content-Type: application/json" \
   -d '{"title":"Updated Bug","description":"Updated description","status":"In Progress","assignee":"Jane","project":"Project B"}'
 ```
 
-#### Update bug status (Developer only)
+#### Update bug status (Admin & Developer only)
 ```bash
 curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
-  -X PUT "http://localhost:8080/api/bugs/developer/1/status?status=Closed"
+  -X PUT "http://localhost:8080/api/bugs/1/status?status=Closed"
 ```
 
 #### Delete bug (Admin only)
 ```bash
 curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
-  -X DELETE "http://localhost:8080/api/bugs/admin/1"
+  -X DELETE "http://localhost:8080/api/bugs/1"
 ```
 
 ## Configuration
