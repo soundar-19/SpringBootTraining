@@ -1,0 +1,2183 @@
+# 🏦 BankPro - Banking Management System
+
+[![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://www.oracle.com/java/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.4-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![H2 Database](https://img.shields.io/badge/Database-H2-blue.svg)](https://www.h2database.com/)
+[![Maven](https://img.shields.io/badge/Maven-3.6+-red.svg)](https://maven.apache.org/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+> A comprehensive banking management system built with Spring Boot, featuring customer management, account operations, and transaction processing with advanced filtering capabilities.
+
+## 📋 Table of Contents
+
+- [Overview](#-overview)
+- [Features](#-features)
+- [Technology Stack](#-technology-stack)
+- [Architecture](#-architecture)
+- [Getting Started](#-getting-started)
+- [API Documentation](#-api-documentation)
+- [Database Schema](#-database-schema)
+- [Security](#-security)
+- [Testing with Postman](#-testing-with-postman)
+- [Swagger UI](#-swagger-ui)
+- [Contributing](#-contributing)
+- [Author](#-author)
+
+## 🎯 Overview
+
+BankPro is a modern banking management system that provides comprehensive APIs for managing customers, accounts, and transactions. Built with Spring Boot and following best practices, it offers secure, scalable, and maintainable banking operations.
+
+### Key Capabilities
+- **Customer Management**: Create, update, and manage customer profiles
+- **Account Operations**: Handle multiple account types (Savings/Current)
+- **Transaction Processing**: Secure money transfers with transactional integrity
+- **Advanced Filtering**: Search and filter data with multiple criteria
+- **Security**: Role-based access control with Spring Security
+- **Real-time Balance Updates**: Automatic balance calculations
+
+## ✨ Features
+
+### 🏛️ Core Banking Features
+- ✅ Customer registration and profile management
+- ✅ Multiple account types (Savings & Current)
+- ✅ Secure money transfers between accounts
+- ✅ Transaction history with pagination
+- ✅ Real-time balance updates
+- ✅ Insufficient balance validation
+
+### 🔍 Advanced Filtering
+- ✅ Search customers by name or email
+- ✅ Filter accounts by type or minimum balance
+- ✅ Filter transactions by type, amount, or date range
+- ✅ Combined filters for complex queries
+
+### 🛡️ Security & Validation
+- ✅ Role-based access control (ADMIN/USER)
+- ✅ Input validation with custom error messages
+- ✅ Global exception handling
+- ✅ Secure password encoding
+
+### 📊 Additional Features
+- ✅ Pagination and sorting for all endpoints
+- ✅ Comprehensive API documentation
+- ✅ Swagger UI integration
+- ✅ H2 database with web console
+- ✅ RESTful API design
+
+## 🛠️ Technology Stack
+
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| **Java** | 21 | Programming Language |
+| **Spring Boot** | 3.5.4 | Application Framework |
+| **Spring Security** | 6.x | Authentication & Authorization |
+| **Spring Data JPA** | 3.x | Data Access Layer |
+| **H2 Database** | 2.x | In-Memory Database |
+| **Maven** | 3.6+ | Build Tool |
+| **Lombok** | 1.18.34 | Code Generation |
+| **Swagger/OpenAPI** | 2.7.0 | API Documentation |
+| **Bean Validation** | 3.x | Input Validation |
+
+## 🏗️ Architecture
+
+<div align="center">
+
+```mermaid
+graph TB
+    subgraph "🌐 Presentation Layer"
+        A[🎮 REST Controllers]
+        B[📝 DTOs & Validation]
+    end
+    
+    subgraph "⚙️ Business Layer"
+        C[🔧 Service Layer]
+        D[🛡️ Security Layer]
+    end
+    
+    subgraph "💾 Data Layer"
+        E[📊 Repository Layer]
+        F[🏛️ JPA Entities]
+        G[🗄️ H2 Database]
+    end
+    
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    
+    style A fill:#0277bd,stroke:#01579b,stroke-width:2px,color:#fff
+    style B fill:#7b1fa2,stroke:#4a148c,stroke-width:2px,color:#fff
+    style C fill:#388e3c,stroke:#1b5e20,stroke-width:2px,color:#fff
+    style D fill:#f57c00,stroke:#e65100,stroke-width:2px,color:#fff
+    style E fill:#c2185b,stroke:#880e4f,stroke-width:2px,color:#fff
+    style F fill:#689f38,stroke:#33691e,stroke-width:2px,color:#fff
+    style G fill:#1976d2,stroke:#0d47a1,stroke-width:2px,color:#fff
+```
+
+</div>
+
+### 🎯 Layer Responsibilities
+
+<table>
+<tr>
+<td width="50%">
+
+**🌐 Presentation Layer**
+- 🎮 **Controllers**: REST endpoints & HTTP handling
+- 📝 **DTOs**: Data transfer & validation
+- 🔒 **Security**: Authentication & authorization
+
+</td>
+<td width="50%">
+
+**⚙️ Business Layer**
+- 🔧 **Services**: Business logic & rules
+- 💳 **Transactions**: Money transfer operations
+- ✅ **Validation**: Data integrity checks
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+**💾 Data Layer**
+- 📊 **Repositories**: Data access operations
+- 🏛️ **Entities**: Domain models & relationships
+- 🗄️ **Database**: H2 in-memory storage
+
+</td>
+<td width="50%">
+
+**🔍 Additional Features**
+- 📄 **Pagination**: Large dataset handling
+- 🔎 **Filtering**: Advanced search capabilities
+- 📚 **Documentation**: Swagger/OpenAPI integration
+
+</td>
+</tr>
+</table>
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Java 21 or higher
+- Maven 3.6+
+- Git
+
+### Installation
+
+1. **Clone the repository**
+```bash
+git clone https://github.com/soundar-19/SpringBootTraining.git
+cd Assesments/week4/SpringBoot-Capstone-BankPro
+```
+
+2. **Build the project**
+```bash
+mvn clean install
+```
+
+3. **Run the application**
+```bash
+mvn spring-boot:run
+```
+
+4. **Access the application**
+- **API Base URL**: `http://localhost:8080/api`
+- **H2 Console**: `http://localhost:8080/h2-console`
+- **Swagger UI**: `http://localhost:8080/swagger-ui/index.html`
+
+### Default Credentials
+| Role | Username | Password |
+|------|----------|----------|
+| Admin | `admin` | `admin123` |
+| User | `user` | `user123` |
+
+## 📚 API Documentation
+
+### 👥 Customer Management APIs
+
+| Method | Endpoint | Description | Access |
+|--------|----------|-------------|---------|
+| `GET` | `/api/customers` | Get all customers (paginated) | ADMIN, USER |
+| `GET` | `/api/customers/{id}` | Get customer by ID | ADMIN, USER |
+| `GET` | `/api/customers/email/{email}` | Get customer by email | ADMIN, USER |
+| `GET` | `/api/customers/search/name?name={name}` | Search customers by name | ADMIN, USER |
+| `POST` | `/api/customers` | Create new customer | ADMIN |
+| `PUT` | `/api/customers/{id}` | Update customer | ADMIN |
+| `DELETE` | `/api/customers/{id}` | Delete customer | ADMIN |
+
+### 🏦 Account Management APIs
+
+| Method | Endpoint | Description | Access |
+|--------|----------|-------------|---------|
+| `GET` | `/api/accounts` | Get all accounts (paginated) | ADMIN, USER |
+| `GET` | `/api/accounts/{id}` | Get account by ID | ADMIN, USER |
+| `GET` | `/api/accounts/account/{accountNumber}` | Get account by number | ADMIN, USER |
+| `GET` | `/api/accounts/customer/{customerId}` | Get accounts by customer | ADMIN, USER |
+| `GET` | `/api/accounts/type/{accountType}` | Filter by account type | ADMIN, USER |
+| `GET` | `/api/accounts/balance?minBalance={amount}` | Filter by minimum balance | ADMIN, USER |
+| `POST` | `/api/accounts` | Create new account | ADMIN |
+| `PUT` | `/api/accounts/{id}` | Update account | ADMIN |
+| `DELETE` | `/api/accounts/{id}` | Delete account | ADMIN |
+
+### 💳 Transaction Management APIs
+
+| Method | Endpoint | Description | Access |
+|--------|----------|-------------|---------|
+| `GET` | `/api/transactions` | Get all transactions (paginated) | ADMIN, USER |
+| `GET` | `/api/transactions/{id}` | Get transaction by ID | ADMIN, USER |
+| `GET` | `/api/transactions/type/{transactionType}` | Filter by transaction type | ADMIN, USER |
+| `GET` | `/api/transactions/amount?minAmount={amount}` | Filter by minimum amount | ADMIN, USER |
+| `GET` | `/api/transactions/{accountNumber}/transactions` | Get account transactions | ADMIN, USER |
+| `GET` | `/api/transactions/{accountNumber}/transactions/daterange` | Filter by date range | ADMIN, USER |
+| `POST` | `/api/transactions/deposit` | Deposit money | ADMIN |
+| `POST` | `/api/transactions/withdraw` | Withdraw money | ADMIN |
+| `POST` | `/api/transactions/transfer` | Transfer money | ADMIN |
+| `DELETE` | `/api/transactions/{id}` | Delete transaction | ADMIN |
+
+### 📝 Request/Response Examples
+
+#### Create Customer
+```json
+POST /api/customers
+{
+  "name": "John Doe",
+  "email": "john.doe@email.com",
+  "phone": "1234567890"
+}
+```
+
+#### Create Account
+```json
+POST /api/accounts
+{
+  "accountNumber": "ACC001",
+  "accountType": "SAVINGS",
+  "balance": 1000.0,
+  "customerId": 1
+}
+```
+
+#### Transfer Money
+```json
+POST /api/transactions/transfer
+{
+  "senderAC": "ACC001",
+  "receiverAC": "ACC002",
+  "amount": 500.0
+}
+```
+
+## 🗄️ Database Schema
+
+### 🔗 Entity Relationships
+
+<div align="center">
+
+```mermaid
+erDiagram
+    CUSTOMER {
+        Long id PK
+        String name
+        String email
+        String phone
+    }
+    
+    ACCOUNT {
+        Long id PK
+        String accountNumber
+        AccountType accountType
+        Double balance
+        Long customer_id FK
+    }
+    
+    TRANSACTION {
+        Long id PK
+        LocalDateTime transactionDate
+        Double amount
+        TransactionType transactionType
+        Double balanceAfterTransaction
+        Long account_id FK
+    }
+    
+    CUSTOMER ||--o{ ACCOUNT : "has many"
+    ACCOUNT ||--o{ TRANSACTION : "has many"
+```
+
+</div>
+
+### 📋 Entity Details
+
+<details>
+<summary><b>👤 Customer Entity</b></summary>
+
+- **Primary Key**: `id` (Auto-generated)
+- **Fields**: `name`, `email`, `phone`
+- **Relationships**: One-to-Many with Account
+- **Validation**: Email format, phone pattern
+
+</details>
+
+<details>
+<summary><b>🏦 Account Entity</b></summary>
+
+- **Primary Key**: `id` (Auto-generated)
+- **Fields**: `accountNumber`, `accountType`, `balance`
+- **Foreign Key**: `customer_id`
+- **Types**: SAVINGS, CURRENT
+- **Validation**: Positive balance, unique account number
+
+</details>
+
+<details>
+<summary><b>💳 Transaction Entity</b></summary>
+
+- **Primary Key**: `id` (Auto-generated)
+- **Fields**: `transactionDate`, `amount`, `transactionType`, `balanceAfterTransaction`
+- **Foreign Key**: `account_id`
+- **Types**: CREDIT, DEBIT
+- **Features**: Auto timestamp, balance tracking
+
+</details>
+
+### H2 Database Configuration
+```properties
+# H2 Database Configuration
+spring.datasource.url=jdbc:h2:file:./data/bankpro
+spring.datasource.driver-class-name=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+
+# H2 Console (for development)
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2-console
+
+# JPA Configuration
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+```
+
+## 🔐 Security
+
+### Authentication
+- **Type**: HTTP Basic Authentication
+- **Roles**: ADMIN, USER
+- **Password Encoding**: BCrypt
+
+### 🛡️ Authorization Matrix
+
+<div align="center">
+
+| 🔐 **Operation** | 👑 **ADMIN** | 👤 **USER** | 📝 **Description** |
+|:---------------:|:------------:|:-----------:|:------------------|
+| 👀 **View Data** | ✅ | ✅ | Read customers, accounts, transactions |
+| ➕ **Create** | ✅ | ❌ | Add new customers, accounts |
+| ✏️ **Update** | ✅ | ❌ | Modify existing records |
+| 🗑️ **Delete** | ✅ | ❌ | Remove records from system |
+| 💸 **Transactions** | ✅ | ❌ | Deposit, withdraw, transfer money |
+| 🔍 **Filtering** | ✅ | ✅ | Search and filter data |
+
+</div>
+
+### Security Headers
+- CSRF Protection: Disabled for API
+- CORS: Configured for development
+- Frame Options: Disabled for H2 Console
+
+## 🧪 Testing with Postman
+
+### Import Collection
+1. Download Postman collection
+2. Import into Postman
+3. Set environment variables:
+   - `baseUrl`: `http://localhost:8080`
+   - `adminAuth`: `admin:admin123` (Base64 encoded)
+   - `userAuth`: `user:user123` (Base64 encoded)
+
+### Key Test Scenarios
+
+#### 1. Create Customer (Admin Only)
+<img width="1738" height="579" alt="image" src="https://github.com/user-attachments/assets/9b3417cc-76b4-4f2d-ac8d-66a0c992a475" />
+
+
+#### 2. Create Account (Admin Only)
+<img width="1753" height="599" alt="image" src="https://github.com/user-attachments/assets/2a9ba02c-60f6-49fd-88da-8f91e14d198e" />
+
+
+#### 3. Deposit Money (Admin Only)
+<img width="1752" height="603" alt="image" src="https://github.com/user-attachments/assets/3e9e33f7-9ae0-468e-8f56-858c4a4a47c1" />
+
+
+#### 4. Transfer Money (Admin Only)
+<img width="1759" height="473" alt="image" src="https://github.com/user-attachments/assets/a6f023e5-2b31-4198-8d39-e9525a552a4a" />
+
+
+#### 5. Get Transaction History (Admin/User)
+<img width="1747" height="622" alt="image" src="https://github.com/user-attachments/assets/1449f0cf-fe52-4ad3-97a2-88e6f5281306" />
+
+
+#### 6. Filter Accounts by Type (Admin/User)
+<img width="1749" height="821" alt="image" src="https://github.com/user-attachments/assets/a5c8aece-0a70-4ffa-a4b4-24669ee452bf" />
+
+### Authentication Setup
+Add to request headers:
+```
+Authorization: Basic YWRtaW46YWRtaW4xMjM=
+Content-Type: application/json
+```
+
+## 📖 Swagger UI
+
+Access comprehensive API documentation at: `http://localhost:8080/swagger-ui/index.html`
+
+### ✨ Swagger Features
+
+<div align="center">
+
+| 🎯 **Feature** | 📝 **Description** | 🚀 **Benefit** |
+|:-------------:|:------------------:|:---------------|
+| 🧪 **Interactive Testing** | Test APIs directly in browser | No external tools needed |
+| 📖 **Live Documentation** | Auto-generated from code | Always up-to-date |
+| 🔐 **Built-in Auth** | Authenticate within Swagger UI | Secure endpoint testing |
+| 📋 **Schema Explorer** | Detailed DTO/Entity schemas | Clear data structure |
+| 💡 **Examples** | Sample requests/responses | Easy implementation guide |
+| 🎨 **Visual Interface** | Clean, intuitive UI | Better developer experience |
+
+</div>
+
+### 🎮 How to Use Swagger
+
+1. **🌐 Access**: Navigate to `http://localhost:8080/swagger-ui/index.html`
+2. **🔐 Authenticate**: Click "Authorize" and enter credentials
+3. **🧪 Test**: Expand endpoints and click "Try it out"
+4. **📊 Explore**: View schemas and example responses
+5. **📋 Copy**: Use generated curl commands in your applications
+
+### Swagger Screenshot
+<img width="1838" height="715" alt="image" src="https://github.com/user-attachments/assets/08ad73d3-f71d-45a1-bf14-35b0c8347f51" />
+<img width="1820" height="621" alt="image" src="https://github.com/user-attachments/assets/912fd962-19cc-4e6c-88f2-0456c2736d93" />
+<img width="1821" height="696" alt="image" src="https://github.com/user-attachments/assets/8b17e516-9c7a-4dae-829a-bb5bb8607892" />
+<img width="1817" height="827" alt="image" src="https://github.com/user-attachments/assets/cd59bce1-3151-4d4a-a29c-6f21fa316245" />
+<img width="1203" height="874" alt="image" src="https://github.com/user-attachments/assets/5ecfd72c-3006-4d41-99ea-7f1a1564d03c" />
+
+---
+
+## 🤝 Contributing
+
+<div align="center">
+
+### 🚀 **Quick Start Guide**
+
+</div>
+
+```mermaid
+flowchart LR
+    A[🍴 Fork Repo] --> B[🌿 Create Branch]
+    B --> C[💻 Code Changes]
+    C --> D[✅ Add Tests]
+    D --> E[📝 Update Docs]
+    E --> F[🚀 Push Changes]
+    F --> G[📬 Pull Request]
+    
+    style A fill:#1976d2,stroke:#0d47a1,stroke-width:2px,color:#fff
+    style B fill:#388e3c,stroke:#1b5e20,stroke-width:2px,color:#fff
+    style C fill:#f57c00,stroke:#e65100,stroke-width:2px,color:#fff
+    style D fill:#c2185b,stroke:#880e4f,stroke-width:2px,color:#fff
+    style E fill:#7b1fa2,stroke:#4a148c,stroke-width:2px,color:#fff
+    style F fill:#0277bd,stroke:#01579b,stroke-width:2px,color:#fff
+    style G fill:#689f38,stroke:#33691e,stroke-width:2px,color:#fff
+```
+
+### 📋 **Development Guidelines**
+
+<table>
+<tr>
+<td width="50%">
+
+**🎯 Code Quality**
+- ✅ Follow Spring Boot best practices
+- 🧪 Write comprehensive unit tests
+- 📚 Update API documentation
+- 🔍 Use meaningful commit messages
+
+</td>
+<td width="50%">
+
+**🛠️ Technical Standards**
+- 🏗️ Maintain clean architecture
+- 🔒 Implement proper security
+- ⚡ Optimize for performance
+- 📖 Add inline code comments
+
+</td>
+</tr>
+</table>
+
+### 💡 **Contribution Ideas**
+
+- 🆕 **New Features**: Additional banking operations
+- 🐛 **Bug Fixes**: Report and fix issues
+- 📚 **Documentation**: Improve guides and examples
+- 🧪 **Testing**: Add more test coverage
+- 🎨 **UI/UX**: Enhance Swagger documentation
+
+## 👨‍💻 Author
+
+**Soundar Raja B**
+
+
+## 🙏 Acknowledgments
+
+- Spring Boot Team for the excellent framework
+- H2 Database for the lightweight database solution
+- Swagger/OpenAPI for API documentation
+- Lombok for reducing boilerplate code
+
+---
+
+<div align="center">
+  <p>⭐ Star this repository if you found it helpful!</p>
+</div>
+
+
+===============================================================================
+                              JAVA SOURCE FILES
+===============================================================================
+
+// File: SpringBootCapstoneBankProApplication.java
+package com.example.SpringBoot_Capstone_BankPro;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class SpringBootCapstoneBankProApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(SpringBootCapstoneBankProApplication.class, args);
+	}
+
+}
+
+===============================================================================
+
+// File: config/SecurityConfig.java
+package com.example.SpringBoot_Capstone_BankPro.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        UserDetails admin = User.builder()
+            .username("admin")
+            .password(passwordEncoder().encode("admin123"))
+            .roles("ADMIN")
+            .build();
+            
+        UserDetails user = User.builder()
+            .username("user")
+            .password(passwordEncoder().encode("user123"))
+            .roles("USER")
+            .build();
+            
+        return new InMemoryUserDetailsManager(admin, user);
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/h2-console/**").permitAll()
+                .requestMatchers("GET", "/api/customers/**").hasAnyRole("ADMIN", "USER")
+                .requestMatchers("POST", "/api/customers/**").hasRole("ADMIN")
+                .requestMatchers("PUT", "/api/customers/**").hasRole("ADMIN")
+                .requestMatchers("DELETE", "/api/customers/**").hasRole("ADMIN")
+                .requestMatchers("GET", "/api/accounts/**").hasAnyRole("ADMIN", "USER")
+                .requestMatchers("POST", "/api/accounts/**").hasRole("ADMIN")
+                .requestMatchers("PUT", "/api/accounts/**").hasRole("ADMIN")
+                .requestMatchers("DELETE", "/api/accounts/**").hasRole("ADMIN")
+                .requestMatchers("GET", "/api/transactions/**").hasAnyRole("ADMIN", "USER")
+                .requestMatchers("POST", "/api/transactions/**").hasRole("ADMIN")
+                .requestMatchers("DELETE", "/api/transactions/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
+            )
+            .httpBasic(basic -> {})
+            .headers(headers -> headers.frameOptions().disable());
+        
+        return http.build();
+    }
+}
+
+===============================================================================
+
+// File: config/OpenApiConfig.java
+package com.example.SpringBoot_Capstone_BankPro.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+
+@Configuration
+public class OpenApiConfig {
+
+    @Bean
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .info(new Info()
+                        .title("BankPro API")
+                        .version("1.0.0")
+                        .description("Banking System REST API"));
+    }
+}
+
+===============================================================================
+// File: domain/Customer.java
+package com.example.SpringBoot_Capstone_BankPro.domain;
+
+import java.util.List;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+
+@Entity
+@Table(name = "customers")
+public class Customer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long Id;
+    private String name;
+    private String email;
+    private String phone;
+    
+    @OneToMany(mappedBy = "customer")
+    private List<Account> accounts;
+
+}
+
+===============================================================================
+
+// File: domain/Account.java
+package com.example.SpringBoot_Capstone_BankPro.domain;
+
+import java.util.List;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+public class Account {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String accountNumber;
+    private AccountType accountType;
+
+    
+    private double balance;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+    
+    @OneToMany(mappedBy = "account")
+    private List<Transaction> transactions;
+    
+    public enum AccountType{
+        SAVINGS,CURRENT
+    }
+}
+
+===============================================================================
+
+// File: domain/Transaction.java
+package com.example.SpringBoot_Capstone_BankPro.domain;
+
+import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+
+@Entity
+public class Transaction {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private LocalDateTime transactionDate = LocalDateTime.now();
+    private TransactionType transactionType;
+    private double amount;
+    
+    @Column(name = "balance_after_transaction")
+    private Double balanceAfterTransaction;
+    
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
+
+    public enum TransactionType{
+        CREDIT,DEBIT
+    }
+}
+
+===============================================================================
+// File: dto/CustomerRequestDTO.java
+package com.example.SpringBoot_Capstone_BankPro.dto;
+
+import com.example.SpringBoot_Capstone_BankPro.domain.Customer;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class CustomerRequestDTO {
+    @NotBlank(message = "Name is required")
+    private String name;
+    
+    @NotBlank(message = "Email is required")
+    @Email(message = "Invalid email format")
+    private String email;
+    
+    @NotBlank(message = "Phone number is required")
+    @Pattern(regexp = "^\\d{10}$", message = "Phone number must be 10 digits")
+    private String phone;
+
+    public Customer toEntity() {
+        Customer customer = new Customer();
+        customer.setName(this.name);
+        customer.setEmail(this.email);
+        customer.setPhone(this.phone);
+        return customer;
+    }
+}
+
+===============================================================================
+
+// File: dto/CustomerResponseDTO.java
+package com.example.SpringBoot_Capstone_BankPro.dto;
+
+import com.example.SpringBoot_Capstone_BankPro.domain.Customer;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class CustomerResponseDTO {
+    private Long id;
+    private String name;
+    private String email;
+    private String phone;
+
+    public static CustomerResponseDTO toDTO(Customer customer) {
+        return new CustomerResponseDTO(customer.getId(), customer.getName(),customer.getEmail(), customer.getPhone());
+    }
+}
+
+===============================================================================
+
+// File: dto/AccountRequestDTO.java
+package com.example.SpringBoot_Capstone_BankPro.dto;
+
+import com.example.SpringBoot_Capstone_BankPro.domain.Account;
+import com.example.SpringBoot_Capstone_BankPro.domain.Account.AccountType;
+
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class AccountRequestDTO {
+    @NotBlank(message = "Account number is required")
+    private String accountNumber;
+    
+    @NotNull(message = "Account type is required")
+    private AccountType accountType;
+    
+    @NotNull(message = "Balance is required")
+    @Min(value = 0, message = "Balance cannot be negative")
+    private Double balance;
+    
+    @NotNull(message = "Customer ID is required")
+    private Long customerId;
+
+    public Account toEntity() {
+        Account account = new Account();
+        account.setAccountNumber(this.accountNumber);
+        account.setAccountType(this.accountType);
+        account.setBalance(this.balance);
+        return account;
+    }
+}
+
+===============================================================================
+// File: dto/AccountResponseDTO.java
+package com.example.SpringBoot_Capstone_BankPro.dto;
+
+import com.example.SpringBoot_Capstone_BankPro.domain.Account;
+import com.example.SpringBoot_Capstone_BankPro.domain.Account.AccountType;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class AccountResponseDTO {
+    private Long id;
+    private String accountNumber;
+    private AccountType accountType;
+    private double balance;
+    private Long customerId;
+
+    public static AccountResponseDTO toDTO(Account account) {
+        return new AccountResponseDTO(account.getId(), account.getAccountNumber(),
+                                    account.getAccountType(), account.getBalance(),
+                                    account.getCustomer() != null ? account.getCustomer().getId() : null);
+    }
+}
+
+===============================================================================
+
+// File: dto/TransactionRequestDTO.java
+package com.example.SpringBoot_Capstone_BankPro.dto;
+
+import com.example.SpringBoot_Capstone_BankPro.domain.Transaction;
+
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class TransactionRequestDTO {
+    
+    @NotNull(message = "Account number is required")
+    private String accountNumber;
+
+    @NotNull(message = "Amount is required")
+    @Positive(message = "Amount must be positive")
+    private Double amount;
+
+    public Transaction toEntity() {
+        Transaction transaction = new Transaction();
+        transaction.setAmount(this.amount);
+        return transaction;
+    }
+}
+
+===============================================================================
+
+// File: dto/TransactionResponseDTO.java
+package com.example.SpringBoot_Capstone_BankPro.dto;
+
+import java.time.LocalDateTime;
+
+import com.example.SpringBoot_Capstone_BankPro.domain.Transaction;
+import com.example.SpringBoot_Capstone_BankPro.domain.Transaction.TransactionType;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class TransactionResponseDTO {
+    private Long id;
+    private String accountNumber;
+    private LocalDateTime transactionDate;
+    private double amount;
+    private TransactionType transactionType;
+    private double balanceAfterTransaction;
+    public static TransactionResponseDTO toDTO(Transaction transaction) {
+        return new TransactionResponseDTO(transaction.getId(), 
+                                        transaction.getAccount() != null ? transaction.getAccount().getAccountNumber() : null,
+                                        transaction.getTransactionDate(),
+                                        transaction.getAmount(),
+                                        transaction.getTransactionType(),
+                                        transaction.getBalanceAfterTransaction()
+                                        );
+    }
+}
+
+===============================================================================
+// File: dto/TransferRequestDTO.java
+package com.example.SpringBoot_Capstone_BankPro.dto;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class TransferRequestDTO {
+    @NotBlank(message = "Sender's Account Number is required")
+    private String senderAC;
+    @NotBlank(message = "Receiver's Account Number is required")
+    private String receiverAC;
+    @NotNull(message = "Amount is required")
+    @Positive(message = "Amount can't be negative")
+    private double amount;
+}
+
+===============================================================================
+
+// File: repository/CustomerRepository.java
+package com.example.SpringBoot_Capstone_BankPro.repository;
+
+import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.example.SpringBoot_Capstone_BankPro.domain.Customer;
+@Repository
+public interface CustomerRepository extends JpaRepository<Customer, Long>{
+
+    Optional<Customer> findByEmail(String email);
+    Page<Customer> findByNameContainingIgnoreCase(String name, Pageable pageable);
+    Page<Customer> findByEmailContainingIgnoreCase(String email, Pageable pageable);
+} 
+
+===============================================================================
+
+// File: repository/AccountRepository.java
+package com.example.SpringBoot_Capstone_BankPro.repository;
+
+
+import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.example.SpringBoot_Capstone_BankPro.domain.Account;
+import com.example.SpringBoot_Capstone_BankPro.domain.Account.AccountType;
+import com.example.SpringBoot_Capstone_BankPro.domain.Customer;
+
+@Repository
+public interface AccountRepository extends JpaRepository<Account, Long> {
+
+    Optional<Account> findByAccountNumber(String accountNumber);
+    Page<Account> findByCustomer(Customer customer, Pageable pageable);
+    Page<Account> findByAccountType(AccountType accountType, Pageable pageable);
+    Page<Account> findByBalanceGreaterThan(Double balance, Pageable pageable);
+    
+    @Modifying
+    @Transactional
+    void deleteByAccountNumber(String accountNumber);
+}
+
+===============================================================================
+// File: repository/TransactionRepository.java
+package com.example.SpringBoot_Capstone_BankPro.repository;
+
+import java.time.LocalDateTime;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import com.example.SpringBoot_Capstone_BankPro.domain.Account;
+import com.example.SpringBoot_Capstone_BankPro.domain.Transaction;
+import com.example.SpringBoot_Capstone_BankPro.domain.Transaction.TransactionType;
+@Repository
+public interface TransactionRepository extends JpaRepository<Transaction, Long>{
+
+    Page<Transaction> findAllByAccount(Pageable pageable, Account account);
+    Page<Transaction> findByTransactionType(TransactionType transactionType, Pageable pageable);
+    Page<Transaction> findByAmountGreaterThan(Double amount, Pageable pageable);
+    Page<Transaction> findByAccountAndTransactionType(Account account, TransactionType transactionType, Pageable pageable);
+    
+    @Query("SELECT t FROM Transaction t WHERE t.account = :account AND t.transactionDate BETWEEN :startDate AND :endDate")
+    Page<Transaction> findByAccountAndDateRange(@Param("account") Account account, 
+                                               @Param("startDate") LocalDateTime startDate, 
+                                               @Param("endDate") LocalDateTime endDate, 
+                                               Pageable pageable);
+}
+
+===============================================================================
+
+## 2️⃣ **Debugging Challenge Answer** (10 marks)
+
+### Issues Identified in the Buggy Code:
+
+1. **Null Pointer Exception Risk**: No null checks for sender/receiver accounts
+2. **Missing Repository Save**: Changes to account balances are not persisted
+3. **Poor Exception Handling**: Generic RuntimeException instead of custom exceptions
+4. **Missing Transaction Records**: No transaction history is created
+5. **Insufficient Validation**: No validation for negative amounts or same account transfers
+
+### Fixed Code:
+
+```java
+@Transactional
+public void transferMoney(String fromAccount, String toAccount, double amount) {
+    // Input validation
+    if (amount <= 0) {
+        throw new InvalidTransactionException("Transfer amount must be positive");
+    }
+    
+    if (fromAccount.equals(toAccount)) {
+        throw new InvalidTransactionException("Cannot transfer to the same account");
+    }
+    
+    // Find accounts with proper error handling
+    Account sender = accountRepository.findByAccountNumber(fromAccount)
+        .orElseThrow(() -> new ResourceNotFoundException("Sender account not found: " + fromAccount));
+    
+    Account receiver = accountRepository.findByAccountNumber(toAccount)
+        .orElseThrow(() -> new ResourceNotFoundException("Receiver account not found: " + toAccount));
+
+    // Check sufficient balance
+    if (sender.getBalance() < amount) {
+        throw new InvalidTransactionException("Insufficient funds. Available: " + sender.getBalance());
+    }
+
+    // Update balances
+    sender.setBalance(sender.getBalance() - amount);
+    receiver.setBalance(receiver.getBalance() + amount);
+    
+    // Save updated accounts
+    accountRepository.save(sender);
+    accountRepository.save(receiver);
+    
+    // Create transaction records
+    Transaction debitTransaction = new Transaction();
+    debitTransaction.setAccount(sender);
+    debitTransaction.setAmount(amount);
+    debitTransaction.setTransactionType(TransactionType.DEBIT);
+    debitTransaction.setBalanceAfterTransaction(sender.getBalance());
+    debitTransaction.setTransactionDate(LocalDateTime.now());
+    
+    Transaction creditTransaction = new Transaction();
+    creditTransaction.setAccount(receiver);
+    creditTransaction.setAmount(amount);
+    creditTransaction.setTransactionType(TransactionType.CREDIT);
+    creditTransaction.setBalanceAfterTransaction(receiver.getBalance());
+    creditTransaction.setTransactionDate(LocalDateTime.now());
+    
+    transactionRepository.save(debitTransaction);
+    transactionRepository.save(creditTransaction);
+}
+```
+
+### Corrections Made:
+
+1. **Added Null Safety**: Proper Optional handling with meaningful error messages
+2. **Input Validation**: Check for positive amounts and different accounts
+3. **Custom Exceptions**: Use specific exceptions instead of generic RuntimeException
+4. **Data Persistence**: Save account changes to database
+5. **Transaction History**: Create proper transaction records for audit trail
+6. **Balance Tracking**: Record balance after each transaction
+7. **Atomic Operations**: @Transactional ensures all operations succeed or fail together
+
+===============================================================================
+// File: service/CustomerService.java
+package com.example.SpringBoot_Capstone_BankPro.service;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import com.example.SpringBoot_Capstone_BankPro.dto.CustomerRequestDTO;
+import com.example.SpringBoot_Capstone_BankPro.dto.CustomerResponseDTO;
+
+public interface CustomerService {
+    CustomerResponseDTO findById(Long id);
+    CustomerResponseDTO findByEmail(String email);
+    CustomerResponseDTO create(CustomerRequestDTO customerRequestDTO);
+    CustomerResponseDTO update(Long id, CustomerRequestDTO customerRequestDTO);
+    Page<CustomerResponseDTO> findAll(Pageable pageable);
+    Page<CustomerResponseDTO> findByName(String name, Pageable pageable);
+    Page<CustomerResponseDTO> findByEmailContaining(String email, Pageable pageable);
+    void delete(Long id);
+}
+
+===============================================================================
+
+// File: service/AccountService.java
+package com.example.SpringBoot_Capstone_BankPro.service;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import com.example.SpringBoot_Capstone_BankPro.domain.Account.AccountType;
+import com.example.SpringBoot_Capstone_BankPro.dto.AccountRequestDTO;
+import com.example.SpringBoot_Capstone_BankPro.dto.AccountResponseDTO;
+
+
+public interface AccountService {
+    AccountResponseDTO findById(Long id);
+    AccountResponseDTO findByAccountNumber(String accountNumber);
+    AccountResponseDTO create(AccountRequestDTO accountRequestDTO);
+    AccountResponseDTO update(Long id, AccountRequestDTO accountRequestDTO);
+    void delete(Long id);
+    void deleteByAccountNumber(String accountNumber);
+    Page<AccountResponseDTO> findAll(Pageable pageable);
+    Page<AccountResponseDTO> findByCustomerId(Long customerId, Pageable pageable);
+    Page<AccountResponseDTO> findByAccountType(AccountType accountType, Pageable pageable);
+    Page<AccountResponseDTO> findByMinBalance(Double minBalance, Pageable pageable);
+}
+
+===============================================================================
+
+// File: service/TransactionService.java
+package com.example.SpringBoot_Capstone_BankPro.service;
+
+import java.time.LocalDateTime;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import com.example.SpringBoot_Capstone_BankPro.domain.Transaction.TransactionType;
+import com.example.SpringBoot_Capstone_BankPro.dto.TransactionRequestDTO;
+import com.example.SpringBoot_Capstone_BankPro.dto.TransactionResponseDTO;
+
+public interface TransactionService {
+    TransactionResponseDTO findById(Long id);
+    TransactionResponseDTO Deposit(TransactionRequestDTO transactionRequestDTO);
+    TransactionResponseDTO Withdraw(TransactionRequestDTO transactionRequestDTO);
+    void Transfer(String senderAC, String receiverAC, Double amount);
+    Page<TransactionResponseDTO> findAll(Pageable pageable);
+    Page<TransactionResponseDTO> findAllByAccountNumber(Pageable pageable, String accountNumber);
+    Page<TransactionResponseDTO> findByAccountAndDateRange(String accountNumber, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
+    Page<TransactionResponseDTO> findByTransactionType(TransactionType transactionType, Pageable pageable);
+    Page<TransactionResponseDTO> findByMinAmount(Double minAmount, Pageable pageable);
+    Page<TransactionResponseDTO> findByAccountAndTransactionType(String accountNumber, TransactionType transactionType, Pageable pageable);
+    void delete(Long id);
+}
+
+===============================================================================
+// File: service/Impl/CustomerServiceImpl.java
+package com.example.SpringBoot_Capstone_BankPro.service.Impl;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import com.example.SpringBoot_Capstone_BankPro.domain.Customer;
+import com.example.SpringBoot_Capstone_BankPro.dto.CustomerRequestDTO;
+import com.example.SpringBoot_Capstone_BankPro.dto.CustomerResponseDTO;
+import com.example.SpringBoot_Capstone_BankPro.exception.ResourceNotFoundException;
+import com.example.SpringBoot_Capstone_BankPro.repository.CustomerRepository;
+import com.example.SpringBoot_Capstone_BankPro.service.CustomerService;
+@Service
+public class CustomerServiceImpl implements CustomerService{
+    private CustomerRepository customerRepository;
+
+    public CustomerServiceImpl(CustomerRepository customerRepository){
+        this.customerRepository = customerRepository;
+    }
+
+    @Override
+    public CustomerResponseDTO findById(Long id) {
+        Customer customer = customerRepository.findById(id).orElse(null);
+        if(customer == null) throw new ResourceNotFoundException("There is no customer with id: " + id);
+        return CustomerResponseDTO.toDTO(customer);
+    }
+
+    @Override
+    public CustomerResponseDTO create(CustomerRequestDTO customerRequestDTO) {
+        Customer customer = customerRequestDTO.toEntity();
+        return CustomerResponseDTO.toDTO(customerRepository.save(customer));
+    }
+
+    @Override
+    public CustomerResponseDTO update(Long id, CustomerRequestDTO customerRequestDTO) {
+        Customer customer = customerRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Customer not found with id: " + id));
+        
+        customer.setName(customerRequestDTO.getName());
+        customer.setEmail(customerRequestDTO.getEmail());
+        customer.setPhone(customerRequestDTO.getPhone());
+        
+        return CustomerResponseDTO.toDTO(customerRepository.save(customer));
+    }
+
+    @Override
+    public Page<CustomerResponseDTO> findAll(Pageable pageable) {
+        return customerRepository.findAll(pageable).map(CustomerResponseDTO::toDTO);
+    }
+
+    @Override
+    public void delete(Long id) {
+            customerRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Customer not found with id: " + id));
+        customerRepository.deleteById(id);
+    }
+
+    @Override
+    public CustomerResponseDTO findByEmail(String email) {
+        Customer customer = customerRepository.findByEmail(email)
+            .orElseThrow(() -> new ResourceNotFoundException("Customer not found with email: " + email));
+        return CustomerResponseDTO.toDTO(customer);
+    }
+
+    @Override
+    public Page<CustomerResponseDTO> findByName(String name, Pageable pageable) {
+        return customerRepository.findByNameContainingIgnoreCase(name, pageable)
+            .map(CustomerResponseDTO::toDTO);
+    }
+
+    @Override
+    public Page<CustomerResponseDTO> findByEmailContaining(String email, Pageable pageable) {
+        return customerRepository.findByEmailContainingIgnoreCase(email, pageable)
+            .map(CustomerResponseDTO::toDTO);
+    }
+    
+}
+
+===============================================================================
+// File: service/Impl/AccountServiceImpl.java
+package com.example.SpringBoot_Capstone_BankPro.service.Impl;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import com.example.SpringBoot_Capstone_BankPro.domain.Account;
+import com.example.SpringBoot_Capstone_BankPro.domain.Account.AccountType;
+import com.example.SpringBoot_Capstone_BankPro.domain.Customer;
+import com.example.SpringBoot_Capstone_BankPro.dto.AccountRequestDTO;
+import com.example.SpringBoot_Capstone_BankPro.dto.AccountResponseDTO;
+import com.example.SpringBoot_Capstone_BankPro.exception.ResourceNotFoundException;
+import com.example.SpringBoot_Capstone_BankPro.repository.AccountRepository;
+import com.example.SpringBoot_Capstone_BankPro.repository.CustomerRepository;
+import com.example.SpringBoot_Capstone_BankPro.service.AccountService;
+@Service
+public class AccountServiceImpl implements AccountService {
+
+    private final AccountRepository accountRepository;
+    private final CustomerRepository customerRepository;
+    public AccountServiceImpl(AccountRepository accountRepository,CustomerRepository customerRepository) {
+        this.accountRepository = accountRepository;
+        this.customerRepository = customerRepository;
+    }
+
+    @Override
+    public AccountResponseDTO findById(Long id) {
+        Account account = accountRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Account with id: " + id + " does not exist"));
+        return AccountResponseDTO.toDTO(account);
+    }
+
+    @Override
+    public AccountResponseDTO create(AccountRequestDTO accountRequestDTO) {
+        Account account = accountRequestDTO.toEntity();
+        Long customerId = accountRequestDTO.getCustomerId();
+        Customer customer = customerRepository.findById(customerId)
+            .orElseThrow(() -> new ResourceNotFoundException("Customer with id: " + customerId + " does not exist"));
+        account.setCustomer(customer);
+        Account savedAccount = accountRepository.save(account);
+        return AccountResponseDTO.toDTO(savedAccount);
+    }
+
+    @Override
+    public Page<AccountResponseDTO> findAll(Pageable pageable) {
+        return accountRepository.findAll(pageable).map(AccountResponseDTO::toDTO);
+    }
+
+    @Override
+    public void delete(Long id) {
+        Account account = accountRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Account with id: " + id + " does not exist"));
+        accountRepository.delete(account);
+    }
+
+    @Override
+    public AccountResponseDTO update(Long id, AccountRequestDTO accountRequestDTO) {
+        Account account = accountRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Account with id: " + id + " does not exist"));
+        account.setAccountNumber(accountRequestDTO.getAccountNumber());
+        account.setBalance(accountRequestDTO.getBalance());
+        Account updatedAccount = accountRepository.save(account);
+        return AccountResponseDTO.toDTO(updatedAccount);
+    }
+
+    @Override
+    public AccountResponseDTO findByAccountNumber(String accountNumber) {
+        Account account = accountRepository.findByAccountNumber(accountNumber)
+                .orElseThrow(() -> new ResourceNotFoundException("No account with account number: " + accountNumber));
+        return AccountResponseDTO.toDTO(account);
+    }
+
+    @Override
+    public void deleteByAccountNumber(String accountNumber) {
+        Account account = accountRepository.findByAccountNumber(accountNumber)
+            .orElseThrow(() -> new ResourceNotFoundException("Account with account number: " + accountNumber + " does not exist"));
+        accountRepository.deleteByAccountNumber(accountNumber);
+    }
+
+    @Override
+    public Page<AccountResponseDTO> findByCustomerId(Long customerId, Pageable pageable) {
+        Customer customer = customerRepository.findById(customerId)
+            .orElseThrow(() -> new ResourceNotFoundException("Customer with id: " + customerId + " does not exist"));
+        return accountRepository.findByCustomer(customer, pageable)
+            .map(AccountResponseDTO::toDTO);
+    }
+
+    @Override
+    public Page<AccountResponseDTO> findByAccountType(AccountType accountType, Pageable pageable) {
+        return accountRepository.findByAccountType(accountType, pageable)
+            .map(AccountResponseDTO::toDTO);
+    }
+
+    @Override
+    public Page<AccountResponseDTO> findByMinBalance(Double minBalance, Pageable pageable) {
+        return accountRepository.findByBalanceGreaterThan(minBalance, pageable)
+            .map(AccountResponseDTO::toDTO);
+    }
+    
+}
+
+===============================================================================
+// File: service/Impl/TransactionServiceImpl.java
+package com.example.SpringBoot_Capstone_BankPro.service.Impl;
+
+import java.time.LocalDateTime;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.example.SpringBoot_Capstone_BankPro.domain.Account;
+import com.example.SpringBoot_Capstone_BankPro.domain.Transaction;
+import com.example.SpringBoot_Capstone_BankPro.domain.Transaction.TransactionType;
+import com.example.SpringBoot_Capstone_BankPro.dto.TransactionRequestDTO;
+import com.example.SpringBoot_Capstone_BankPro.dto.TransactionResponseDTO;
+import com.example.SpringBoot_Capstone_BankPro.exception.InvalidTransactionException;
+import com.example.SpringBoot_Capstone_BankPro.exception.ResourceNotFoundException;
+import com.example.SpringBoot_Capstone_BankPro.repository.AccountRepository;
+import com.example.SpringBoot_Capstone_BankPro.repository.TransactionRepository;
+import com.example.SpringBoot_Capstone_BankPro.service.TransactionService;
+
+
+@Service
+public class TransactionServiceImpl implements TransactionService {
+    private final TransactionRepository transactionRepository;
+    private final AccountRepository accountRepository;
+
+    public TransactionServiceImpl(TransactionRepository transactionRepository,AccountRepository accountRepository){
+        this.transactionRepository = transactionRepository;
+        this.accountRepository = accountRepository;
+    }
+
+    @Override
+    public TransactionResponseDTO findById(Long id) {
+        Transaction transaction = transactionRepository.findById(id).orElse(null);
+        if(transaction == null) throw new ResourceNotFoundException("There is no transaction with id: " + id);
+        return TransactionResponseDTO.toDTO(transaction);
+    }
+
+
+    @Override
+    public Page<TransactionResponseDTO> findAll(Pageable pageable) {
+        return transactionRepository.findAll(pageable).map(TransactionResponseDTO::toDTO);
+    }
+
+    @Override
+    public void delete(Long id) {
+         transactionRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Transaction with id: " + id + " does not exist."));
+        transactionRepository.deleteById(id);
+    }
+
+    @Override
+    public TransactionResponseDTO Deposit(TransactionRequestDTO transactionRequestDTO) {
+        return createTransaction(transactionRequestDTO,TransactionType.CREDIT, 1);
+}
+    @Override
+    public TransactionResponseDTO Withdraw(TransactionRequestDTO transactionRequestDTO) {
+        return createTransaction(transactionRequestDTO,TransactionType.DEBIT, -1);
+    }
+
+    @Override
+    @Transactional
+    public void Transfer(String senderAC, String receiverAC, Double amount) {
+        createTransaction(new TransactionRequestDTO(senderAC,amount),TransactionType.DEBIT, -1);
+        createTransaction(new TransactionRequestDTO(receiverAC,amount), TransactionType.CREDIT,1);
+    }
+
+    @Override
+    public Page<TransactionResponseDTO> findAllByAccountNumber(Pageable pageable, String accountNumber) {
+        if (accountNumber == null || accountNumber.isEmpty()) {
+            throw new IllegalArgumentException("Account number cannot be null or empty");
+        }
+        
+        Account account = accountRepository.findByAccountNumber(accountNumber)
+            .orElseThrow(() -> new ResourceNotFoundException("Account with number: " + accountNumber + " does not exist."));
+            
+        return transactionRepository.findAllByAccount(pageable, account).map(TransactionResponseDTO::toDTO);
+    }
+
+    @Override
+    public Page<TransactionResponseDTO> findByAccountAndDateRange(String accountNumber, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
+        Account account = accountRepository.findByAccountNumber(accountNumber)
+            .orElseThrow(() -> new ResourceNotFoundException("Account with number: " + accountNumber + " does not exist."));
+            
+        return transactionRepository.findByAccountAndDateRange(account, startDate, endDate, pageable)
+            .map(TransactionResponseDTO::toDTO);
+    }
+
+    @Override
+    public Page<TransactionResponseDTO> findByTransactionType(TransactionType transactionType, Pageable pageable) {
+        return transactionRepository.findByTransactionType(transactionType, pageable)
+            .map(TransactionResponseDTO::toDTO);
+    }
+
+    @Override
+    public Page<TransactionResponseDTO> findByMinAmount(Double minAmount, Pageable pageable) {
+        return transactionRepository.findByAmountGreaterThan(minAmount, pageable)
+            .map(TransactionResponseDTO::toDTO);
+    }
+
+    @Override
+    public Page<TransactionResponseDTO> findByAccountAndTransactionType(String accountNumber, TransactionType transactionType, Pageable pageable) {
+        Account account = accountRepository.findByAccountNumber(accountNumber)
+            .orElseThrow(() -> new ResourceNotFoundException("Account with number: " + accountNumber + " does not exist."));
+        return transactionRepository.findByAccountAndTransactionType(account, transactionType, pageable)
+            .map(TransactionResponseDTO::toDTO);
+    }
+
+    private TransactionResponseDTO createTransaction(TransactionRequestDTO transactionRequestDTO,
+          TransactionType transactionType,  int multiplier) {
+        String accountNumber = transactionRequestDTO.getAccountNumber();
+        Account account = accountRepository.findByAccountNumber(accountNumber)
+            .orElseThrow(() -> new ResourceNotFoundException("Account with number: " + accountNumber + " does not exist."));
+        
+        Transaction transaction = transactionRequestDTO.toEntity();
+        transaction.setAccount(account);
+        transaction.setTransactionType(transactionType);
+        
+        double newBalance = account.getBalance() + multiplier * transaction.getAmount();
+        if(newBalance < 0) throw new InvalidTransactionException("Insufficient Balance");
+        
+        account.setBalance(newBalance);
+        transaction.setBalanceAfterTransaction(newBalance);
+        accountRepository.save(account);
+        
+        return TransactionResponseDTO.toDTO(transactionRepository.save(transaction));
+    }
+
+    
+    
+}
+
+===============================================================================
+// File: controller/CustomerController.java
+package com.example.SpringBoot_Capstone_BankPro.controller;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.SpringBoot_Capstone_BankPro.dto.CustomerRequestDTO;
+import com.example.SpringBoot_Capstone_BankPro.dto.CustomerResponseDTO;
+import com.example.SpringBoot_Capstone_BankPro.service.CustomerService;
+
+import jakarta.validation.Valid;
+
+@RestController
+@RequestMapping("/api/customers")
+public class CustomerController {
+    private final CustomerService customerService;
+    
+    public CustomerController(CustomerService customerService){
+        this.customerService = customerService;
+    }
+
+    @GetMapping
+    public Page<CustomerResponseDTO> findAll(@PageableDefault(size = 5, sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
+        return customerService.findAll(pageable);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<CustomerResponseDTO> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(customerService.findById(id));
+    }
+    
+    @PostMapping
+    public ResponseEntity<CustomerResponseDTO> create(@RequestBody @Valid CustomerRequestDTO customerRequestDTO) {
+        return ResponseEntity.ok(customerService.create(customerRequestDTO));
+    }
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<CustomerResponseDTO> update(@PathVariable Long id, @RequestBody @Valid CustomerRequestDTO customerRequestDTO) {
+        return ResponseEntity.ok(customerService.update(id, customerRequestDTO));
+    }
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id) {
+        customerService.delete(id);
+        return ResponseEntity.ok("Customer deleted successfully");
+    }
+    
+    @GetMapping("/email/{email}")
+    public ResponseEntity<CustomerResponseDTO> findByEmail(@PathVariable String email) {
+        return ResponseEntity.ok(customerService.findByEmail(email));
+    }
+    
+    @GetMapping("/search/name")
+    public Page<CustomerResponseDTO> findByName(@RequestParam String name, @PageableDefault(size = 5, sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
+        return customerService.findByName(name, pageable);
+    }
+    
+    @GetMapping("/search/email")
+    public Page<CustomerResponseDTO> findByEmailContaining(@RequestParam String email, @PageableDefault(size = 5, sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
+        return customerService.findByEmailContaining(email, pageable);
+    }
+}
+
+===============================================================================
+
+// File: exception/ResourceNotFoundException.java
+package com.example.SpringBoot_Capstone_BankPro.exception;
+
+public class ResourceNotFoundException extends RuntimeException {
+    public ResourceNotFoundException(String message){
+        super(message);
+    }
+}
+
+===============================================================================
+
+// File: exception/InvalidTransactionException.java
+package com.example.SpringBoot_Capstone_BankPro.exception;
+
+public class InvalidTransactionException extends RuntimeException {
+    public InvalidTransactionException(String message) {
+        super(message);
+    }
+}
+
+===============================================================================
+// File: controller/AccountController.java
+package com.example.SpringBoot_Capstone_BankPro.controller;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.SpringBoot_Capstone_BankPro.domain.Account.AccountType;
+import com.example.SpringBoot_Capstone_BankPro.dto.AccountRequestDTO;
+import com.example.SpringBoot_Capstone_BankPro.dto.AccountResponseDTO;
+import com.example.SpringBoot_Capstone_BankPro.service.AccountService;
+
+import jakarta.validation.Valid;
+
+@RestController
+@RequestMapping("/api/accounts")
+public class AccountController {
+    private final AccountService accountService;
+    
+    public AccountController(AccountService accountService) {
+        this.accountService = accountService;
+    }
+
+    @GetMapping
+    public Page<AccountResponseDTO> findAll(@PageableDefault(size = 10, sort = "accountNumber", direction = Sort.Direction.ASC) Pageable pageable) {
+        return accountService.findAll(pageable);
+    }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<AccountResponseDTO> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(accountService.findById(id));
+    }
+    
+    @GetMapping("/account/{accountNumber}")
+    public ResponseEntity<AccountResponseDTO> findByAccountNumber(@PathVariable String accountNumber) {
+        return ResponseEntity.ok(accountService.findByAccountNumber(accountNumber));
+    }
+    
+    @GetMapping("/customer/{customerId}")
+    public Page<AccountResponseDTO> findByCustomerId(@PathVariable Long customerId, @PageableDefault(size = 10, sort = "accountNumber", direction = Sort.Direction.ASC) Pageable pageable) {
+        return accountService.findByCustomerId(customerId, pageable);
+    }
+    
+    @GetMapping("/type/{accountType}")
+    public Page<AccountResponseDTO> findByAccountType(@PathVariable AccountType accountType, @PageableDefault(size = 10, sort = "accountNumber", direction = Sort.Direction.ASC) Pageable pageable) {
+        return accountService.findByAccountType(accountType, pageable);
+    }
+    
+    @GetMapping("/balance")
+    public Page<AccountResponseDTO> findByMinBalance(@RequestParam Double minBalance, @PageableDefault(size = 10, sort = "balance", direction = Sort.Direction.DESC) Pageable pageable) {
+        return accountService.findByMinBalance(minBalance, pageable);
+    }
+    
+    @PostMapping
+    public ResponseEntity<AccountResponseDTO> create(@RequestBody @Valid AccountRequestDTO accountRequestDTO) {
+        return ResponseEntity.ok(accountService.create(accountRequestDTO));
+    }
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<AccountResponseDTO> update(@PathVariable Long id, @RequestBody @Valid AccountRequestDTO accountRequestDTO) {
+        return ResponseEntity.ok(accountService.update(id, accountRequestDTO));
+    }
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id) {
+        accountService.delete(id);
+        return ResponseEntity.ok("Account deleted successfully");
+    }
+}
+
+===============================================================================
+
+// File: controller/TransactionController.java
+package com.example.SpringBoot_Capstone_BankPro.controller;
+
+import java.time.LocalDateTime;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.SpringBoot_Capstone_BankPro.domain.Transaction.TransactionType;
+import com.example.SpringBoot_Capstone_BankPro.dto.TransactionRequestDTO;
+import com.example.SpringBoot_Capstone_BankPro.dto.TransactionResponseDTO;
+import com.example.SpringBoot_Capstone_BankPro.dto.TransferRequestDTO;
+import com.example.SpringBoot_Capstone_BankPro.service.TransactionService;
+
+import jakarta.validation.Valid;
+
+@RestController
+@RequestMapping("/api/transactions")
+public class TransactionController {
+    private final TransactionService transactionService;
+    
+    public TransactionController(TransactionService transactionService) {
+        this.transactionService = transactionService;
+    }
+
+    @GetMapping
+    public Page<TransactionResponseDTO> findAll(@PageableDefault(size = 10, sort = "transactionDate", direction = Sort.Direction.DESC) Pageable pageable) {
+        return transactionService.findAll(pageable);
+    }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<TransactionResponseDTO> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(transactionService.findById(id));
+    }
+    
+    @PostMapping("/deposit")
+    public ResponseEntity<TransactionResponseDTO> deposit(@RequestBody @Valid TransactionRequestDTO transactionRequestDTO) {
+        return ResponseEntity.ok(transactionService.Deposit(transactionRequestDTO));
+    }
+    
+    @PostMapping("/withdraw")
+    public ResponseEntity<TransactionResponseDTO> withdraw(@RequestBody @Valid TransactionRequestDTO transactionRequestDTO) {
+        return ResponseEntity.ok(transactionService.Withdraw(transactionRequestDTO));
+    }
+    @PostMapping("/transfer")
+    public ResponseEntity<String> transfer(@RequestBody @Valid TransferRequestDTO transferRequestDTO) {
+        transactionService.Transfer(transferRequestDTO.getSenderAC(),transferRequestDTO.getReceiverAC(),transferRequestDTO.getAmount());
+        return ResponseEntity.ok("Transfer Successful");
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id) {
+        transactionService.delete(id);
+        return ResponseEntity.ok("Transaction deleted successfully");
+    }
+    @GetMapping("/{accountNumber}/transactions")
+    public Page<TransactionResponseDTO> findTransactionsByAccountNumber(@PathVariable String accountNumber, @PageableDefault(size = 10,sort = "transactionDate", direction = Sort.Direction.DESC) Pageable pageable) {
+        return transactionService.findAllByAccountNumber(pageable,accountNumber);
+    }
+    
+    @GetMapping("/{accountNumber}/transactions/daterange")
+    public Page<TransactionResponseDTO> findTransactionsByAccountAndDateRange(
+            @PathVariable String accountNumber,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
+            @PageableDefault(size = 10, sort = "transactionDate", direction = Sort.Direction.DESC) Pageable pageable) {
+        return transactionService.findByAccountAndDateRange(accountNumber, startDate, endDate, pageable);
+    }
+    
+    @GetMapping("/type/{transactionType}")
+    public Page<TransactionResponseDTO> findByTransactionType(@PathVariable TransactionType transactionType, @PageableDefault(size = 10, sort = "transactionDate", direction = Sort.Direction.DESC) Pageable pageable) {
+        return transactionService.findByTransactionType(transactionType, pageable);
+    }
+    
+    @GetMapping("/amount")
+    public Page<TransactionResponseDTO> findByMinAmount(@RequestParam Double minAmount, @PageableDefault(size = 10, sort = "amount", direction = Sort.Direction.DESC) Pageable pageable) {
+        return transactionService.findByMinAmount(minAmount, pageable);
+    }
+    
+    @GetMapping("/{accountNumber}/type/{transactionType}")
+    public Page<TransactionResponseDTO> findByAccountAndTransactionType(@PathVariable String accountNumber, @PathVariable TransactionType transactionType, @PageableDefault(size = 10, sort = "transactionDate", direction = Sort.Direction.DESC) Pageable pageable) {
+        return transactionService.findByAccountAndTransactionType(accountNumber, transactionType, pageable);
+    }
+
+}
+
+===============================================================================
+// File: exception/GlobalExceptionHandler.java
+package com.example.SpringBoot_Capstone_BankPro.exception;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.ErrorResponse;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+@ControllerAdvice
+public class GlobalExceptionHandler {
+    @ExceptionHandler(InvalidTransactionException.class)
+    public ErrorResponse handleInvalidTransaction(InvalidTransactionException e) {
+        return ErrorResponse.create(e, HttpStatus.BAD_REQUEST, e.getMessage());
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ErrorResponse handleResourceNotFoundException(ResourceNotFoundException ex){
+        return ErrorResponse.create(ex, HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+    
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<String> handleValidationException(MethodArgumentNotValidException ex) {
+        String errorMessage = ex.getBindingResult().getFieldErrors().stream()
+            .map(error -> error.getField() + ": " + error.getDefaultMessage())
+            .reduce((msg1, msg2) -> msg1 + ", " + msg2)
+            .orElse("Validation failed");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+    }
+    
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleGeneralException(Exception ex){
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
+    }
+}
+// File: domain/Customer.java
+package com.example.SpringBoot_Capstone_BankPro.domain;
+
+import java.util.List;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+
+@Entity
+@Table(name = "customers")
+public class Customer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long Id;
+    private String name;
+    private String email;
+    private String phone;
+    
+    @OneToMany(mappedBy = "customer")
+    private List<Account> accounts;
+
+}
+
+===============================================================================
+
+// File: domain/Account.java
+package com.example.SpringBoot_Capstone_BankPro.domain;
+
+import java.util.List;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+public class Account {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String accountNumber;
+    private AccountType accountType;
+
+    
+    private double balance;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+    
+    @OneToMany(mappedBy = "account")
+    private List<Transaction> transactions;
+    
+    public enum AccountType{
+        SAVINGS,CURRENT
+    }
+}
+
+===============================================================================
+
+// File: domain/Transaction.java
+package com.example.SpringBoot_Capstone_BankPro.domain;
+
+import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+
+@Entity
+public class Transaction {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private LocalDateTime transactionDate = LocalDateTime.now();
+    private TransactionType transactionType;
+    private double amount;
+    
+    @Column(name = "balance_after_transaction")
+    private Double balanceAfterTransaction;
+    
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
+
+    public enum TransactionType{
+        CREDIT,DEBIT
+    }
+}
+
+===============================================================================
+
+// File: dto/CustomerRequestDTO.java
+package com.example.SpringBoot_Capstone_BankPro.dto;
+
+import com.example.SpringBoot_Capstone_BankPro.domain.Customer;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class CustomerRequestDTO {
+    @NotBlank(message = "Name is required")
+    private String name;
+    
+    @NotBlank(message = "Email is required")
+    @Email(message = "Invalid email format")
+    private String email;
+    
+    @NotBlank(message = "Phone number is required")
+    @Pattern(regexp = "^\\d{10}$", message = "Phone number must be 10 digits")
+    private String phone;
+
+    public Customer toEntity() {
+        Customer customer = new Customer();
+        customer.setName(this.name);
+        customer.setEmail(this.email);
+        customer.setPhone(this.phone);
+        return customer;
+    }
+}
+
+===============================================================================
+
+// File: dto/CustomerResponseDTO.java
+package com.example.SpringBoot_Capstone_BankPro.dto;
+
+import com.example.SpringBoot_Capstone_BankPro.domain.Customer;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class CustomerResponseDTO {
+    private Long id;
+    private String name;
+    private String email;
+    private String phone;
+
+    public static CustomerResponseDTO toDTO(Customer customer) {
+        return new CustomerResponseDTO(customer.getId(), customer.getName(),customer.getEmail(), customer.getPhone());
+    }
+}
+
+===============================================================================
+
+// File: dto/AccountRequestDTO.java
+package com.example.SpringBoot_Capstone_BankPro.dto;
+
+import com.example.SpringBoot_Capstone_BankPro.domain.Account;
+import com.example.SpringBoot_Capstone_BankPro.domain.Account.AccountType;
+
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class AccountRequestDTO {
+    @NotBlank(message = "Account number is required")
+    private String accountNumber;
+    
+    @NotNull(message = "Account type is required")
+    private AccountType accountType;
+    
+    @NotNull(message = "Balance is required")
+    @Min(value = 0, message = "Balance cannot be negative")
+    private Double balance;
+    
+    @NotNull(message = "Customer ID is required")
+    private Long customerId;
+
+    public Account toEntity() {
+        Account account = new Account();
+        account.setAccountNumber(this.accountNumber);
+        account.setAccountType(this.accountType);
+        account.setBalance(this.balance);
+        return account;
+    }
+}
+
+===============================================================================
+
+## 2️⃣ **Debugging Challenge** (10 marks)
+
+### Issues Identified in the Buggy Code:
+
+```java
+@Transactional
+public void transferMoney(String fromAccount, String toAccount, double amount) {
+    Account sender = accountRepository.findByAccountNumber(fromAccount);
+    Account receiver = accountRepository.findByAccountNumber(toAccount);
+
+    if(sender.getBalance() < amount) {
+        throw new RuntimeException("Insufficient funds");
+    }
+
+    sender.setBalance(sender.getBalance() - amount);
+    receiver.setBalance(receiver.getBalance() + amount);
+}
+```
+
+### 🐛 **Issues Found:**
+
+1. **Null Pointer Exception Risk**: No null checks for sender/receiver accounts
+2. **Generic Exception**: Using RuntimeException instead of custom exception
+3. **No Persistence**: Changes not saved to database
+4. **Missing Validation**: No amount validation (negative/zero amounts)
+5. **No Transaction Records**: No audit trail of the transfer
+6. **Same Account Transfer**: No check if sender and receiver are the same
+
+### ✅ **Fixed Code:**
+
+```java
+@Transactional
+public void transferMoney(String fromAccount, String toAccount, double amount) {
+    // Input validation
+    if (amount <= 0) {
+        throw new InvalidTransactionException("Transfer amount must be positive");
+    }
+    
+    if (fromAccount.equals(toAccount)) {
+        throw new InvalidTransactionException("Cannot transfer to the same account");
+    }
+    
+    // Find accounts with null checks
+    Account sender = accountRepository.findByAccountNumber(fromAccount)
+        .orElseThrow(() -> new ResourceNotFoundException("Sender account not found: " + fromAccount));
+    Account receiver = accountRepository.findByAccountNumber(toAccount)
+        .orElseThrow(() -> new ResourceNotFoundException("Receiver account not found: " + toAccount));
+
+    // Check sufficient balance
+    if (sender.getBalance() < amount) {
+        throw new InvalidTransactionException("Insufficient funds");
+    }
+
+    // Update balances
+    sender.setBalance(sender.getBalance() - amount);
+    receiver.setBalance(receiver.getBalance() + amount);
+    
+    // Save changes to database
+    accountRepository.save(sender);
+    accountRepository.save(receiver);
+    
+    // Create transaction records for audit trail
+    Transaction debitTransaction = new Transaction();
+    debitTransaction.setAccount(sender);
+    debitTransaction.setAmount(amount);
+    debitTransaction.setTransactionType(TransactionType.DEBIT);
+    debitTransaction.setBalanceAfterTransaction(sender.getBalance());
+    transactionRepository.save(debitTransaction);
+    
+    Transaction creditTransaction = new Transaction();
+    creditTransaction.setAccount(receiver);
+    creditTransaction.setAmount(amount);
+    creditTransaction.setTransactionType(TransactionType.CREDIT);
+    creditTransaction.setBalanceAfterTransaction(receiver.getBalance());
+    transactionRepository.save(creditTransaction);
+}
+```
+
+### 📝 **Corrections Explained:**
+
+1. **Added Input Validation**: Check for positive amount and different accounts
+2. **Null Safety**: Used Optional.orElseThrow() for safe account retrieval
+3. **Custom Exceptions**: Used specific exceptions for better error handling
+4. **Database Persistence**: Added accountRepository.save() calls
+5. **Transaction Audit**: Created transaction records for both debit and credit
+6. **Better Error Messages**: More descriptive exception messages
+7. **Atomic Operation**: @Transactional ensures all operations succeed or rollback
+
+### 🎯 **Benefits of Fixed Code:**
+- **Robust Error Handling**: Prevents runtime crashes
+- **Data Integrity**: Ensures consistent database state
+- **Audit Trail**: Complete transaction history
+- **Better UX**: Clear error messages for users
+- **Maintainable**: Clean, readable code structure
+
+===============================================================================
+===============================================================================
+
+                              END OF JAVA FILES
+===============================================================================
