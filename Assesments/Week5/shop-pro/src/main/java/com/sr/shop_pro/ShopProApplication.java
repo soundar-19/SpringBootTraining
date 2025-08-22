@@ -1,0 +1,13 @@
+package com.sr.shop_pro;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class ShopProApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(ShopProApplication.class, args);
+	}
+
+}
