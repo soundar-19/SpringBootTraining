@@ -54,7 +54,7 @@
 
 <div align="center">
 
-### 🌈 **Feature Rainbow**
+
 
 ```mermaid
 flowchart LR
@@ -138,7 +138,7 @@ graph TB
 
 ---
 
-## 🚀 **Tech Stack Powerhouse**
+## 🚀 **Tech Stack PowerHouse**
 
 <div align="center">
 
@@ -403,7 +403,7 @@ stateDiagram-v2
 
 ---
 
-## 🌈 **API Endpoints Gallery**
+##  **API Endpoints Gallery**
 
 <div align="center">
 
@@ -804,6 +804,7 @@ mvn jacoco:report
 ### 🎨 **Swagger UI Interface**
 
 </div>
+
 ![Swagger UI Dashboard](postman-tests/image.png)
 
 <div align="center">
